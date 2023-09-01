@@ -1,0 +1,211 @@
+$alfred-color-black: #22292f;
+$alfred-color-light-grey: #f4f5f6;
+$alfred-color-turquoise: #319c8e;
+
+.alfred {
+    @apply fixed left-0 right-0 my-0 mx-auto rounded-lg p-1 z-50;
+
+    background: rgba($alfred-color-black, 0.75);
+    top: 20%;
+    width: 600px;
+    box-shadow: 0 0 2rem 2rem rgba($alfred-color-black, 0.03), 0 5px 25px -5px rgba($alfred-color-black, 0.25);
+
+    &__container {
+        @apply bg-white p-4 rounded-lg;
+    }
+
+    &__title {
+        @apply bg-grey-lightest cursor-default rounded-t-lg text-black text-sm;
+
+        padding: 12px 15px 10px;
+
+        &:not(.hidden) + .alfred__container {
+            @apply rounded-t-none;
+        }
+    }
+
+    &__search {
+        @apply relative;
+
+        input[type=text], textarea {
+            @apply border-0 leading-none outline-none rounded-none text-3xl w-full;
+
+            background: rgba($alfred-color-light-grey, 0.75);
+            padding: 8px 46px 10px 10px;
+
+            &:focus {
+                @apply shadow-none;
+            }
+        }
+
+        textarea {
+            @apply h-48 resize-none text-base;
+
+            padding: 10px;
+        }
+
+        &__loader {
+            @apply absolute;
+
+            top: 15px;
+            right: 10px;
+        }
+
+        &__extended {
+            @apply flex items-center justify-end;
+
+            &__loader {
+                @apply mx-2 static;
+            }
+        }
+    }
+
+    &__loader {
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        border-top: 3px solid rgba($alfred-color-turquoise, 0.2);
+        border-right: 3px solid rgba($alfred-color-turquoise, 0.2);
+        border-bottom: 3px solid rgba($alfred-color-turquoise, 0.2);
+        border-left: 3px solid $alfred-color-turquoise;
+        transform: translateZ(0);
+        animation: alfredLoader 1.1s infinite linear;
+
+        &:after {
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+        }
+
+        @-webkit-keyframes alfredLoader {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes alfredLoader {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    }
+
+    &__items {
+        > ul {
+            @apply overflow-auto mt-4 p-0;
+
+            max-height: 400px;
+
+            > li {
+                @apply border-grey-lightest border-solid border-t flex px-2 py-2 text-lg;
+
+                &:hover {
+                    @apply cursor-pointer;
+
+                    background: rgba($alfred-color-light-grey, 0.75);
+                }
+
+                &.alfred__item--focus {
+                    @apply border-turquoise;
+
+                    background: rgba($alfred-color-light-grey, 0.5);
+
+                    & .alfred__item__info {
+                        @apply text-grey-dark;
+                    }
+
+                    & + li {
+                        @apply border-turquoise;
+                    }
+
+                    &:only-child, &:last-child {
+                        @apply border-b;
+                    }
+                }
+            }
+        }
+    }
+
+    &__item {
+        &__icon {
+            @apply text-black text-center text-3xl;
+
+            flex: 0 0 50px;
+            padding: 0 10px 4px 0;
+        }
+
+        &__content {
+            @apply m-auto;
+
+            flex: 1;
+        }
+
+        &__name {
+            @apply block text-black;
+
+            font-size: 100%;
+        }
+
+        &__usage {
+            @apply align-top text-grey-dark ml-1;
+
+            font-size: 9px;
+        }
+
+        &__info {
+            @apply block text-grey;
+
+            font-size: 80%;
+            margin-top: 5px;
+        }
+
+        &__details {
+            @apply text-right;
+
+            flex: 0 0 80px;
+            padding: 0 0 0 5px;
+
+            > ul {
+                @apply block p-0;
+
+                > li {
+                    @apply border border-grey border-solid capitalize inline-block p-1 rounded;
+
+                    margin: 0 1px;
+                    font-size: 50%;
+                }
+            }
+        }
+
+        &__prefix {
+            @apply border border-black border-solid p-1 rounded;
+
+            font-size: 50%;
+        }
+    }
+
+    &__messages {
+        > ul {
+            @apply block mt-4 p-0;
+
+            > li {
+                @apply flex py-1 px-2 rounded text-white;
+
+                margin: 3px 0;
+
+                &.alfred__message--error {
+                    @apply bg-danger;
+                }
+
+                &.alfred__message--success {
+                    @apply bg-green;
+                }
+            }
+        }
+    }
+}

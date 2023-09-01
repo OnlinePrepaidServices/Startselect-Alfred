@@ -1,0 +1,30 @@
+{
+  "name": "startselect/alfred",
+  "description": "Alfred for Laravel",
+  "keywords": [
+    "Startselect",
+    "library",
+    "laravel",
+    "alfred"
+  ],
+  "license" : "MIT",
+  "require": {
+    "illuminate/console": "^9.0|^10.0",
+    "illuminate/http": "^9.0|^10.0",
+    "illuminate/routing": "^9.0|^10.0",
+    "illuminate/support": "^9.0|^10.0",
+    "illuminate/view": "^9.0|^10.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Startselect\\Alfred\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Startselect\\Alfred\\Providers\\AlfredServiceProvider"
+      ]
+    }
+  }
+}
