@@ -26,5 +26,7 @@
         "Startselect\\Alfred\\Providers\\AlfredServiceProvider"
       ]
     }
-  }
+  },
+  "minimum-stability" : "dev",
+  "prefer-stable" : true
 }
