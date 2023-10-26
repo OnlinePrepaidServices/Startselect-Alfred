@@ -3,7 +3,7 @@
 namespace Startselect\Alfred\Preparations;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\App;
 use Startselect\Alfred\Contracts\PermissionChecker;
 use Startselect\Alfred\Contracts\Preparation as PreparationInterface;
 
@@ -75,7 +75,7 @@ abstract class AbstractPreparation implements PreparationInterface
     public function isValid(): bool
     {
         /** @var PermissionChecker $permissionChecker */
-        $permissionChecker = app(PermissionChecker::class);
+        $permissionChecker = App::make(PermissionChecker::class);
 
         // Specific permission required?
         if (!$permissionChecker->hasPermission($this->requiredPermission)) {

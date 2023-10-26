@@ -4,6 +4,7 @@ namespace Startselect\Alfred\WorkflowSteps\Routing;
 
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route as RouteFacade;
 use Illuminate\Support\Str;
 use Startselect\Alfred\Contracts\PermissionChecker;
@@ -24,7 +25,7 @@ class BasicRoutes extends AbstractWorkflowStep
     public function register(): Item|array|null
     {
         /** @var PermissionChecker $permissionChecker */
-        $permissionChecker = app(PermissionChecker::class);
+        $permissionChecker = App::make(PermissionChecker::class);
 
         // Keep track of certain types of routes
         $routeItemsByActionMethod = [

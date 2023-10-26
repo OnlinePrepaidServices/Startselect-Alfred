@@ -2,6 +2,7 @@
 
 namespace Startselect\Alfred\WorkflowSteps;
 
+use Illuminate\Support\Facades\App;
 use Startselect\Alfred\Contracts\PermissionChecker;
 use Startselect\Alfred\Contracts\WorkflowStep;
 use Startselect\Alfred\Preparations\Core\Item;
@@ -127,7 +128,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     final public function isAllowed(): bool
     {
         /** @var PermissionChecker $permissionChecker */
-        $permissionChecker = app(PermissionChecker::class);
+        $permissionChecker = App::make(PermissionChecker::class);
 
         return $permissionChecker->hasPermission($this->requiredPermission);
     }
