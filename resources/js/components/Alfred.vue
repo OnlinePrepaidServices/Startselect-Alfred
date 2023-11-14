@@ -2,7 +2,7 @@
     import axios from "axios";
     import fuzzysort from "fuzzysort";
     import Swal from 'sweetalert2';
-    import settings from './../helpers/settings';
+    import settingsMap from './../helpers/settings';
 
     export default {
         props: {
@@ -172,14 +172,13 @@
             /**
              * Get a setting value.
              *
+             * @param {string} key
+             * @param {*} defaultValue
+             *
              * @return {*}
              */
-            getSetting(key) {
-                if (!this.settings.length) {
-                    return null;
-                }
-
-                return this.settings[key] || null;
+            getSetting(key, defaultValue = null) {
+                return this.settings?.[key] ?? defaultValue;
             },
 
             /**
@@ -653,11 +652,11 @@
              * @return {Array}
              */
             getPageFocusableFields() {
-                if (!this.getSetting(settings.FOCUSABLE_FIELDS_CLASS)) {
+                if (!this.getSetting(settingsMap.FOCUSABLE_FIELDS_CLASS)) {
                     return [];
                 }
 
-                const fields = document.getElementsByClassName(this.getSetting(settings.FOCUSABLE_FIELDS_CLASS));
+                const fields = document.getElementsByClassName(this.getSetting(settingsMap.FOCUSABLE_FIELDS_CLASS));
 
                 return Array.from(fields).map(formGroup => {
                     for (let child of formGroup.children) {
@@ -957,10 +956,10 @@
                 }
 
                 // No filtered items, empty phrase and the registered set of items? Display popular item usages.
-                if (!this.items.saved.length && !filtered.length && !this.getPhrase() && this.getSetting(settings.REMEMBER_POPULAR_ITEMS)) {
+                if (!this.items.saved.length && !filtered.length && !this.getPhrase() && this.getSetting(settingsMap.REMEMBER_POPULAR_ITEMS, false)) {
                     // Get current item usages
                     const itemUsages = this.getLocalStorageData('item-usages') ?? {};
-                    const maxItems = this.getSetting(settings.MAX_POPULAR_ITEMS_ON_INIT) ?? 5;
+                    const maxItems = this.getSetting(settingsMap.MAX_POPULAR_ITEMS_ON_INIT, 5);
 
                     let popularItems = this.items.current.filter(item => {
                         return item.name in itemUsages;
@@ -1422,7 +1421,7 @@
              * @param {boolean} storeItemUsage
              */
             handleItemTrigger(item, event, storeItemUsage) {
-                if (storeItemUsage && this.getSetting(settings.REMEMBER_POPULAR_ITEMS)) {
+                if (storeItemUsage && this.getSetting(settingsMap.REMEMBER_POPULAR_ITEMS, false)) {
                     this.addItemUsage(item);
                 }
 
