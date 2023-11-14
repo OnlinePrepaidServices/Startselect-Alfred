@@ -19,7 +19,7 @@ To keep the assets up-to-date and avoid issues in future updates, please add the
 {
     "scripts": {
         "post-autoload-dump": [
-            "@php artisan alfred:publish --ansi"
+            "@php artisan vendor:publish --tag=alfred-assets --ansi --force"
         ]
     }
 }
@@ -43,4 +43,9 @@ Vue.use(Alfred);
 
 ```html
 <alfred></alfred>
+```
+
+With settings:
+```html
+<alfred :settings="@json(config('alfred.settings')"></alfred>
 ```

@@ -2,8 +2,17 @@
     import axios from "axios";
     import fuzzysort from "fuzzysort";
     import Swal from 'sweetalert2';
+    import settings from './../helpers/settings';
 
     export default {
+        props: {
+            settings: {
+                type: Array,
+                default: [],
+                required: false,
+            },
+        },
+
         data() {
             return {
                 action: {
@@ -161,6 +170,19 @@
 
         methods: {
             /**
+             * Get a setting value.
+             *
+             * @return {*}
+             */
+            getSetting(key) {
+                if (!this.settings.length) {
+                    return null;
+                }
+
+                return this.settings[key] || null;
+            },
+
+            /**
              * Initiate Alfred.
              */
             initiateAlfred() {
@@ -277,7 +299,7 @@
                     // First shift is pressed
                     this.alfred.doubleShift = true;
                     setTimeout(() => {
-                        // Not fast enough..
+                        // Not fast enough.
                         this.alfred.doubleShift = false;
                     }, 300);
                 }
@@ -631,11 +653,15 @@
              * @return {Array}
              */
             getPageFocusableFields() {
-                const fields = document.getElementsByClassName('form-group');
+                if (!this.getSetting(settings.FOCUSABLE_FIELDS_CLASS)) {
+                    return [];
+                }
+
+                const fields = document.getElementsByClassName(this.getSetting(settings.FOCUSABLE_FIELDS_CLASS));
 
                 return Array.from(fields).map(formGroup => {
                     for (let child of formGroup.children) {
-                        // Only add fields from a form-group that have a label and a field
+                        // Only add fields from this container, that have a label and a field
                         if (child.tagName === 'LABEL' && child.htmlFor && child.innerText) {
                             return {
                                 id: child.htmlFor,
@@ -931,16 +957,17 @@
                 }
 
                 // No filtered items, empty phrase and the registered set of items? Display popular item usages.
-                if (!this.items.saved.length && !filtered.length && !this.getPhrase()) {
+                if (!this.items.saved.length && !filtered.length && !this.getPhrase() && this.getSetting(settings.REMEMBER_POPULAR_ITEMS)) {
                     // Get current item usages
                     const itemUsages = this.getLocalStorageData('item-usages') ?? {};
+                    const maxItems = this.getSetting(settings.MAX_POPULAR_ITEMS_ON_INIT) ?? 5;
 
                     let popularItems = this.items.current.filter(item => {
                         return item.name in itemUsages;
                     }).sort((a, b) => {
                         return itemUsages[b.name] - itemUsages[a.name];
                     }).filter((item, index) => {
-                        return index < 5; // Maximum amount of popular items
+                        return index < maxItems; // Maximum amount of popular items
                     });
 
                     this.renderItems(popularItems, false, itemUsages);
@@ -1395,7 +1422,7 @@
              * @param {boolean} storeItemUsage
              */
             handleItemTrigger(item, event, storeItemUsage) {
-                if (storeItemUsage) {
+                if (storeItemUsage && this.getSetting(settings.REMEMBER_POPULAR_ITEMS)) {
                     this.addItemUsage(item);
                 }
 

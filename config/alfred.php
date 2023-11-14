@@ -19,4 +19,14 @@ return [
 
     // The permission checker that'll be used when handling preparations and workflow steps required permissions
     'permissionChecker' => Startselect\Alfred\Support\DefaultPermissionChecker::class,
+
+    'settings' => [
+        // Which class in the HTML contains inputs that can be focused.
+        // Note: needs to contain a label and form input within the given class name.
+        'focusableFieldsClass' => '',
+
+        // Keep track of which items are popular and display those when opening Alfred sorted on most popular.
+        'rememberPopularItems' => true,
+        'maxPopularItemsOnInit' => 5,
+    ],
 ];
