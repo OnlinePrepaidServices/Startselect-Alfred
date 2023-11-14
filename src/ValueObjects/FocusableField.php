@@ -13,4 +13,9 @@ class FocusableField extends AbstractValueObject
     {
         return $this->get('name');
     }
+
+    public function getLabel(): string
+    {
+        return $this->get('label');
+    }
 }

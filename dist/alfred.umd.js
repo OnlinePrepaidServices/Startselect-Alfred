@@ -5414,7 +5414,7 @@ module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
 
 var hasOwn = __webpack_require__(6812);
 var ownKeys = __webpack_require__(9152);
-var getOwnPropertyDescriptorModule = __webpack_require__(6616);
+var getOwnPropertyDescriptorModule = __webpack_require__(2474);
 var definePropertyModule = __webpack_require__(2560);
 
 module.exports = function (target, source, exceptions) {
@@ -5760,7 +5760,7 @@ module.exports = function (stack, dropEntries) {
 "use strict";
 
 var global = __webpack_require__(9037);
-var getOwnPropertyDescriptor = (__webpack_require__(6616).f);
+var getOwnPropertyDescriptor = (__webpack_require__(2474).f);
 var createNonEnumerableProperty = __webpack_require__(5773);
 var defineBuiltIn = __webpack_require__(1880);
 var defineGlobalProperty = __webpack_require__(5014);
@@ -6505,7 +6505,7 @@ exports.f = DESCRIPTORS ? V8_PROTOTYPE_DEFINE_BUG ? function defineProperty(O, P
 
 /***/ }),
 
-/***/ 6616:
+/***/ 2474:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -7626,7 +7626,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=9ba9ba5a
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=fd085e46
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10834,7 +10834,7 @@ var sweetalert2_all = __webpack_require__(8587);
 var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all);
 ;// CONCATENATED MODULE: ./resources/js/helpers/settings.js
 /* harmony default export */ var settings = ({
-  FOCUSABLE_FIELDS_CLASS: 'focusableFieldsClass',
+  FOCUSABLE_FIELDS_CLASSES: 'focusableFieldsClasses',
   REMEMBER_POPULAR_ITEMS: 'rememberPopularItems',
   MAX_POPULAR_ITEMS_ON_INIT: 'maxPopularItemsOnInit'
 });
@@ -11428,31 +11428,44 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
      * @return {Array}
      */
     getPageFocusableFields() {
-      if (!this.getSetting(settings.FOCUSABLE_FIELDS_CLASS)) {
+      if (!this.getSetting(settings.FOCUSABLE_FIELDS_CLASSES)) {
         return [];
       }
-      const fields = document.getElementsByClassName(this.getSetting(settings.FOCUSABLE_FIELDS_CLASS));
-      return Array.from(fields).map(formGroup => {
-        for (let child of formGroup.children) {
-          // Only add fields from this container, that have a label and a field
-          if (child.tagName === 'LABEL' && child.htmlFor && child.innerText) {
+      let focusableFields = [];
+      for (const fieldClass of this.getSetting(settings.FOCUSABLE_FIELDS_CLASSES)) {
+        let fields = Array.from(document.getElementsByClassName(fieldClass)).map(htmlElement => {
+          if ((htmlElement instanceof HTMLInputElement || htmlElement instanceof HTMLSelectElement || htmlElement instanceof HTMLTextAreaElement) && htmlElement.name) {
+            const htmlElementName = htmlElement.name.replaceAll('_', ' ');
             return {
-              id: child.htmlFor,
-              name: child.innerText
+              id: htmlElement.id,
+              name: htmlElement.name,
+              label: htmlElement?.placeholder ?? htmlElementName.charAt(0).toUpperCase() + htmlElementName.slice(1)
             };
           }
-        }
-        return null;
-      }).filter(fieldFocus => {
-        // Remove the fields that didn't have a label
-        if (fieldFocus === null) {
-          return false;
-        }
+          for (let child of htmlElement.children) {
+            // Only add fields from this container, that have a label and a field
+            if (child.tagName === 'LABEL' && child.htmlFor && child.innerText) {
+              return {
+                id: child.htmlFor,
+                name: child.innerText,
+                label: child.innerText
+              };
+            }
+          }
+          return null;
+        }).filter(focusableField => {
+          // Remove the fields that didn't have a label
+          if (focusableField === null) {
+            return false;
+          }
 
-        // Check if field is visible
-        const element = document.getElementById(fieldFocus.id);
-        return element ? element.offsetParent !== null : false;
-      });
+          // Check if field is visible
+          const element = focusableField.id ? document.getElementById(focusableField.id) : document.getElementsByName(focusableField.name)?.[0];
+          return element ? element.offsetParent !== null : false;
+        });
+        focusableFields = [...focusableFields, ...fields];
+      }
+      return focusableFields;
     },
     /**
      * Get Alfred's local storage data.
@@ -11860,7 +11873,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
      * @param {MouseEvent|KeyboardEvent|null} event
      */
     triggerFieldFocus(field, event) {
-      let element = document.getElementById(field.id);
+      let element = field.id ? document.getElementById(field.id) : document.getElementsByName(field.name)?.[0];
 
       // Do we have the element?
       if (!element) {
@@ -12293,10 +12306,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// CONCATENATED MODULE: ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=9ba9ba5a&prod&lang=css
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=fd085e46&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=9ba9ba5a&prod&lang=css
+;// CONCATENATED MODULE: ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=fd085e46&prod&lang=css
 
 ;// CONCATENATED MODULE: ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */

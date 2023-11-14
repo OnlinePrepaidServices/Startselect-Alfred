@@ -651,35 +651,61 @@
              * @return {Array}
              */
             getPageFocusableFields() {
-                if (!this.getSetting(settingsMap.FOCUSABLE_FIELDS_CLASS)) {
+                if (!this.getSetting(settingsMap.FOCUSABLE_FIELDS_CLASSES)) {
                     return [];
                 }
 
-                const fields = document.getElementsByClassName(this.getSetting(settingsMap.FOCUSABLE_FIELDS_CLASS));
+                let focusableFields = [];
 
-                return Array.from(fields).map(formGroup => {
-                    for (let child of formGroup.children) {
-                        // Only add fields from this container, that have a label and a field
-                        if (child.tagName === 'LABEL' && child.htmlFor && child.innerText) {
+                for (const fieldClass of this.getSetting(settingsMap.FOCUSABLE_FIELDS_CLASSES)) {
+                    let fields = Array.from(document.getElementsByClassName(fieldClass)).map(htmlElement => {
+                        if (
+                            (
+                                htmlElement instanceof HTMLInputElement
+                                || htmlElement instanceof HTMLSelectElement
+                                || htmlElement instanceof HTMLTextAreaElement
+                            )
+                            && htmlElement.name
+                        ) {
+                            const htmlElementName = htmlElement.name.replaceAll('_', ' ');
+
                             return {
-                                id: child.htmlFor,
-                                name: child.innerText
+                                id: htmlElement.id,
+                                name: htmlElement.name,
+                                label: htmlElement?.placeholder ?? htmlElementName.charAt(0).toUpperCase() + htmlElementName.slice(1),
+                            };
+                        }
+
+                        for (let child of htmlElement.children) {
+                            // Only add fields from this container, that have a label and a field
+                            if (child.tagName === 'LABEL' && child.htmlFor && child.innerText) {
+                                return {
+                                    id: child.htmlFor,
+                                    name: child.innerText,
+                                    label: child.innerText,
+                                };
                             }
                         }
-                    }
 
-                    return null;
-                }).filter(fieldFocus => {
-                    // Remove the fields that didn't have a label
-                    if (fieldFocus === null) {
-                        return false;
-                    }
+                        return null;
+                    }).filter(focusableField => {
+                        // Remove the fields that didn't have a label
+                        if (focusableField === null) {
+                            return false;
+                        }
 
-                    // Check if field is visible
-                    const element = document.getElementById(fieldFocus.id);
+                        // Check if field is visible
+                        const element = focusableField.id
+                            ? document.getElementById(focusableField.id)
+                            : document.getElementsByName(focusableField.name)?.[0];
 
-                    return element ? element.offsetParent !== null : false;
-                })
+                        return element ? element.offsetParent !== null : false;
+                    });
+
+                    focusableFields = [...focusableFields, ...fields];
+                }
+
+                return focusableFields;
             },
 
             /**
@@ -1120,7 +1146,9 @@
              * @param {MouseEvent|KeyboardEvent|null} event
              */
             triggerFieldFocus(field, event) {
-                let element = document.getElementById(field.id);
+                let element = field.id
+                    ? document.getElementById(field.id)
+                    : document.getElementsByName(field.name)?.[0];
 
                 // Do we have the element?
                 if (!element) {

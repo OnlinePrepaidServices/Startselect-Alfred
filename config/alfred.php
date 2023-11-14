@@ -23,9 +23,9 @@ return [
 
     // Alfred's JavaScript settings
     'settings' => [
-        // Which class in the HTML contains inputs that can be focused.
-        // Note: needs to contain a label and form input within the given class name.
-        'focusableFieldsClass' => '',
+        // List of classes in the HTML, which contains inputs that can be focused.
+        // Note: either needs to be inputs containing that class or a container with a label and form input.
+        'focusableFieldsClasses' => [],
 
         // Keep track of which items are popular and display those when opening Alfred sorted on most popular.
         'rememberPopularItems' => true,

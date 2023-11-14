@@ -32,11 +32,13 @@ class FocusableFields extends AbstractWorkflowStep
 
         foreach ($this->pageData->getFocusableFields() as $focusableField) {
             $items[] = (new Item())
-                ->name("Field: {$focusableField->getName()}")
+                ->name("Field: {$focusableField->getLabel()}")
                 ->info('Focus this HTML input field on this page.')
                 ->icon('keyboard')
                 ->trigger(
-                    (new FieldFocus())->id($focusableField->getId())
+                    (new FieldFocus())
+                        ->id($focusableField->getId())
+                        ->name($focusableField->getName())
                 );
         }
 
