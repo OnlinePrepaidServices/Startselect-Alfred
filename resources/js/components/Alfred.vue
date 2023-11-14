@@ -8,7 +8,6 @@
         props: {
             settings: {
                 type: Array,
-                default: [],
                 required: false,
             },
         },
