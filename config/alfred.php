@@ -6,6 +6,7 @@ return [
     // List of workflow steps that will add one or more items to the opening response of Alfred
     'registerWorkflowSteps' => [
         CoreWorkflowSteps\Auth\Logout::class,
+        CoreWorkflowSteps\Generic\FocusableFields::class,
         CoreWorkflowSteps\Routing\BasicRoutes::class,
         CoreWorkflowSteps\Routing\History::class,
         CoreWorkflowSteps\Snippets\CreateSnippet::class,
