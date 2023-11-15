@@ -7,7 +7,7 @@
     export default {
         props: {
             settings: {
-                type: Array,
+                type: Object,
                 required: false,
             },
         },
@@ -667,7 +667,7 @@
                             )
                             && htmlElement.name
                         ) {
-                            const htmlElementName = htmlElement.name.replaceAll('_', ' ');
+                            const htmlElementName = htmlElement.name.replaceAll('_', ' ').replaceAll('[', '').replaceAll(']', '');
 
                             return {
                                 id: htmlElement.id,
