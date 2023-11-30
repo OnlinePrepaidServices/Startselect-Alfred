@@ -1437,6 +1437,9 @@
 
                 // Alfred is initiated globally!
                 this.alfred.initiatedGlobally = true;
+                if (this.getSetting(settingsMap.REMEMBER_POPULAR_ITEMS, false)) {
+                    this.filterItems();
+                }
 
                 // Make sure Alfred is open and STAYS open!
                 this.alfred.closePrevention = true;
