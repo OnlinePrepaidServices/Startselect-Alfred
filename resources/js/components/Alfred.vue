@@ -980,8 +980,14 @@
                     return;
                 }
 
-                // No filtered items, empty phrase and the registered set of items? Display popular item usages.
-                if (!this.items.saved.length && !filtered.length && !this.getPhrase() && this.getSetting(settingsMap.REMEMBER_POPULAR_ITEMS, false)) {
+                // No filtered items, empty phrase, not triggering a specific item and the registered set of items? Display popular item usages.
+                if (
+                    !this.items.saved.length
+                    && !filtered.length
+                    && !this.getPhrase()
+                    && !this.alfred.initiatedGlobally
+                    && this.getSetting(settingsMap.REMEMBER_POPULAR_ITEMS, false)
+                ) {
                     // Get current item usages
                     const itemUsages = this.getLocalStorageData('item-usages') ?? {};
                     const maxItems = this.getSetting(settingsMap.MAX_POPULAR_ITEMS_ON_INIT, 5);
