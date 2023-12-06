@@ -1616,7 +1616,11 @@
                 }
 
                 // Did our trigger succeed?
-                if (!response.success) {
+                if (!response.success && this.alfred.initiatedGlobally) {
+                    this.resetAlfred();
+
+                    return;
+                } else if (!response.success) {
                     return;
                 }
 

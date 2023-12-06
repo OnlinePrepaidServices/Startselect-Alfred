@@ -2,6 +2,7 @@
 
 namespace Startselect\Alfred;
 
+use Illuminate\Support\Str;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
 use Startselect\Alfred\ValueObjects\AlfredData;
@@ -54,7 +55,9 @@ class Alfred
                 $class = $bootableClass;
             } else {
                 // We really don't have this class..
-                return $response;
+                return $response
+                    ->success(false)
+                    ->notification("Could not find workflow step `{$class}`.");
             }
         }
 
@@ -62,12 +65,23 @@ class Alfred
 
         // Did we get an allowed workflow step?
         if (!$workflowStep->isAllowed()) {
-            return $response;
+            return $response
+                ->success(false)
+                ->notification(sprintf(
+                    'You have no permission for `%s`.',
+                    Str::afterLast($class, '\\')
+                ));
         }
 
         // Did we get a valid method?
         if (!method_exists($workflowStep, $method)) {
-            return $response;
+            return $response
+                ->success(false)
+                ->notification(sprintf(
+                    'Could not find method `%s` on `%s`.',
+                    $method,
+                    Str::afterLast($class, '\\')
+                ));
         }
 
         // Prepare the workflow step with given data
