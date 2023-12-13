@@ -11,8 +11,6 @@ interface WorkflowStep
      * Register workflow step.
      *
      * This will add one or more items to the opening response of Alfred.
-     *
-     * @return Item|array|null
      */
     public function register(): Item|array|null;
 
@@ -20,8 +18,6 @@ interface WorkflowStep
      * Initialize workflow step.
      *
      * This will return a response to be initialized, once called upon by Alfred.
-     *
-     * @return Response
      */
     public function init(): Response;
 
@@ -29,8 +25,6 @@ interface WorkflowStep
      * Handle triggered workflow step.
      *
      * This will return a response to be handled, once called upon by Alfred.
-     *
-     * @return Response
      */
     public function handle(): Response;
 }

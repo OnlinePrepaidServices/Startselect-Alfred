@@ -11,7 +11,7 @@ class DefaultPermissionChecker implements PermissionChecker
         return [];
     }
 
-    public function findPermission(string $searchString): ?string
+    public function findPermission(string $searchString): mixed
     {
         return null;
     }

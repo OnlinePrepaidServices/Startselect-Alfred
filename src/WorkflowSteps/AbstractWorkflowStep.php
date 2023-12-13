@@ -18,7 +18,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     /**
      * Required permission that will be used by the isCallable function.
      */
-    protected string|array|null $requiredPermission = null;
+    protected mixed $requiredPermission = null;
 
     /**
      * Blacklist of URL paths.
@@ -79,10 +79,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
      * Set this workflow step's Alfred data.
      *
      * This prepares the workflow step, so it has easy access to required and optional data.
-     *
-     * @param AlfredData $alfredData
-     *
-     * @return void
      */
     final public function setAlfredData(AlfredData $alfredData): void
     {
@@ -110,10 +106,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
 
     /**
      * Set this workflow step's page data.
-     *
-     * @param PageData $pageData
-     *
-     * @return void
      */
     final public function setPageData(PageData $pageData): void
     {
@@ -122,8 +114,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
 
     /**
      * Whether this workflow step is allowed to be handled.
-     *
-     * @return bool
      */
     final public function isAllowed(): bool
     {
@@ -135,8 +125,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
 
     /**
      * Whether this workflow step is registrable based on the current page data.
-     *
-     * @return bool
      */
     final public function isRegistrable(): bool
     {
@@ -165,10 +153,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
 
     /**
      * Workflow step failed somewhere.
-     *
-     * @param string $message
-     *
-     * @return Response
      */
     protected function failure(string $message = ''): Response
     {
@@ -187,8 +171,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
 
     /**
      * Get the current response.
-     *
-     * @return Response
      */
     protected function getResponse(): Response
     {
@@ -197,10 +179,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
 
     /**
      * Get a parameter from the URL path that was accepted by the whitelist.
-     *
-     * @param string $name
-     *
-     * @return string|null
      */
     protected function getParameterFromUrlPath(string $name): ?string
     {
@@ -269,11 +247,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
 
     /**
      * Whether the URL path is found in the given list.
-     *
-     * @param string $path
-     * @param array $pathsToCheck
-     *
-     * @return bool
      */
     private function isUrlPathInList(string $path, array $pathsToCheck): bool
     {

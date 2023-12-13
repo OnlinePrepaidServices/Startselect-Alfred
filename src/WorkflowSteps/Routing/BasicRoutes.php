@@ -72,7 +72,7 @@ class BasicRoutes extends AbstractWorkflowStep
                             ->name($singular ? Str::singular($itemName) : $itemName)
                             ->when(
                                 $this->findPermissionForRouteItem($route, $itemName, $permissionChecker),
-                                function (Item $item, string $permission) {
+                                function (Item $item, mixed $permission) {
                                     $item->requiresPermission($permission);
                                 }
                             );
@@ -89,7 +89,7 @@ class BasicRoutes extends AbstractWorkflowStep
                         ->name($singular ? Str::singular($itemName) : $itemName)
                         ->when(
                             $this->findPermissionForRouteItem($route, $itemName, $permissionChecker),
-                            function (Item $item, string $permission) {
+                            function (Item $item, mixed $permission) {
                                 $item->requiresPermission($permission);
                             }
                         );
@@ -101,7 +101,7 @@ class BasicRoutes extends AbstractWorkflowStep
         return null;
     }
 
-    protected function findPermissionForRouteItem(Route $route, string $itemName, PermissionChecker $checker): ?string
+    protected function findPermissionForRouteItem(Route $route, string $itemName, PermissionChecker $checker): mixed
     {
         $searchStrings = array_unique(array_filter([
             $route->getName(),
@@ -109,7 +109,8 @@ class BasicRoutes extends AbstractWorkflowStep
         ]));
 
         foreach ($searchStrings as $searchString) {
-            if ($permission = $checker->findPermission($searchString)) {
+            $permission = $checker->findPermission($searchString);
+            if ($permission) {
                 return $permission;
             }
         }
