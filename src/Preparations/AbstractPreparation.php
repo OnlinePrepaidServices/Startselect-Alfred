@@ -12,7 +12,7 @@ abstract class AbstractPreparation implements PreparationInterface
     /**
      * Required permission that will be used by the isValid function.
      */
-    protected string|array|null $requiredPermission = null;
+    protected mixed $requiredPermission = null;
 
     /**
      * Properties that will be used by the isValid function.
@@ -37,7 +37,7 @@ abstract class AbstractPreparation implements PreparationInterface
     /**
      * The required permission that is checked when validating the preparation.
      */
-    public function requiresPermission(array|string $requiredPermission): self
+    public function requiresPermission(mixed $requiredPermission): self
     {
         $this->requiredPermission = $requiredPermission;
 

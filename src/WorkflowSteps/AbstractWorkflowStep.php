@@ -18,7 +18,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     /**
      * Required permission that will be used by the isCallable function.
      */
-    protected string|array|null $requiredPermission = null;
+    protected mixed $requiredPermission = null;
 
     /**
      * Blacklist of URL paths.
