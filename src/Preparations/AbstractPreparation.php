@@ -28,10 +28,6 @@ abstract class AbstractPreparation implements PreparationInterface
 
     /**
      * Get a property.
-     *
-     * @param string $property
-     *
-     * @return mixed
      */
     protected function getProperty(string $property): mixed
     {
@@ -40,10 +36,6 @@ abstract class AbstractPreparation implements PreparationInterface
 
     /**
      * The required permission that is checked when validating the preparation.
-     *
-     * @param array|string $requiredPermission
-     *
-     * @return $this
      */
     public function requiresPermission(array|string $requiredPermission): self
     {
@@ -54,12 +46,6 @@ abstract class AbstractPreparation implements PreparationInterface
 
     /**
      * Apply the callback if the value is truthy.
-     *
-     * @param mixed $value
-     * @param callable|null $callback
-     * @param callable|null $default
-     *
-     * @return $this
      */
     public function when(mixed $value, callable $callback = null, callable $default = null): self
     {

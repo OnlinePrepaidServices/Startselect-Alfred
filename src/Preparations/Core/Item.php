@@ -25,10 +25,6 @@ class Item extends AbstractPreparation
 
     /**
      * The name of the item.
-     *
-     * @param string $name
-     *
-     * @return $this
      */
     public function name(string $name): self
     {
@@ -39,10 +35,6 @@ class Item extends AbstractPreparation
 
     /**
      * The information / description of the item.
-     *
-     * @param string $info
-     *
-     * @return $this
      */
     public function info(string $info): self
     {
@@ -55,10 +47,6 @@ class Item extends AbstractPreparation
      * The icon of the item.
      *
      * This is a Font Awesome class after the fa-* part; Just replace the asterisk.
-     *
-     * @param string $icon
-     *
-     * @return $this
      */
     public function icon(string $icon): self
     {
@@ -69,10 +57,6 @@ class Item extends AbstractPreparation
 
     /**
      * Whether the item could be triggered by a prefix while typing in the phrase field.
-     *
-     * @param string $prefix
-     *
-     * @return $this
      */
     public function prefix(string $prefix): self
     {
@@ -85,10 +69,6 @@ class Item extends AbstractPreparation
      * The keyboard shortcut of the item.
      *
      * Note: Use capital letters.
-     *
-     * @param array $shortcut
-     *
-     * @return $this
      */
     public function shortcut(array $shortcut): self
     {
@@ -99,10 +79,6 @@ class Item extends AbstractPreparation
 
     /**
      * Warn the user before triggering the item.
-     *
-     * @param bool $warn
-     *
-     * @return $this
      */
     public function showWarning(bool $warn): self
     {
@@ -113,10 +89,6 @@ class Item extends AbstractPreparation
 
     /**
      * The preparation to execute when the item is triggered.
-     *
-     * @param AbstractPreparation $preparation
-     *
-     * @return $this
      */
     public function trigger(AbstractPreparation $preparation): self
     {

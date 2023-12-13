@@ -16,10 +16,6 @@ class Response extends AbstractPreparation
 
     /**
      * Whether the response is executed successfully.
-     *
-     * @param bool $success
-     *
-     * @return $this
      */
     public function success(bool $success): self
     {
@@ -30,10 +26,6 @@ class Response extends AbstractPreparation
 
     /**
      * Set a message that'll be shown to the user.
-     *
-     * @param string $message
-     *
-     * @return $this
      */
     public function message(string $message): self
     {
@@ -44,10 +36,6 @@ class Response extends AbstractPreparation
 
     /**
      * Set a notification that'll be shown to the user.
-     *
-     * @param string $notification
-     *
-     * @return $this
      */
     public function notification(string $notification): self
     {
@@ -58,10 +46,6 @@ class Response extends AbstractPreparation
 
     /**
      * The preparation trigger when Alfred receives the response.
-     *
-     * @param AbstractPreparation $preparation
-     *
-     * @return $this
      */
     public function trigger(AbstractPreparation $preparation): self
     {
