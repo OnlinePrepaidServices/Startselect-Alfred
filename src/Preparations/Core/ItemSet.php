@@ -19,10 +19,6 @@ class ItemSet extends AbstractPreparation
 
     /**
      * Add an item that'll be used by Alfred.
-     *
-     * @param Item $item
-     *
-     * @return $this
      */
     public function addItem(Item $item): self
     {
@@ -38,9 +34,7 @@ class ItemSet extends AbstractPreparation
     /**
      * Add multiple items that'll be used by Alfred.
      *
-     * @param Item[] $items
-     *
-     * @return $this
+     * @param array<Item> $items
      */
     public function addItems(array $items): self
     {
@@ -56,9 +50,7 @@ class ItemSet extends AbstractPreparation
     /**
      * The items that'll be used by Alfred.
      *
-     * @param Item[] $items
-     *
-     * @return $this
+     * @param array<Item> $items
      */
     public function items(array $items): self
     {
@@ -69,11 +61,6 @@ class ItemSet extends AbstractPreparation
 
     /**
      * Whether Alfred should sort the items.
-     *
-     * @param bool $sortItems
-     * @param bool $reverseSorting [Optional] Whether to reverse the sorting.
-     *
-     * @return $this
      */
     public function sort(bool $sortItems, bool $reverseSorting = false): self
     {
@@ -86,9 +73,7 @@ class ItemSet extends AbstractPreparation
     /**
      * Get the items.
      *
-     * @param bool $toArray
-     *
-     * @return Item[]|null
+     * @return array<Item>|null
      */
     protected function getItems(bool $toArray = false): ?array
     {
@@ -114,7 +99,7 @@ class ItemSet extends AbstractPreparation
     /**
      * Get the sorted items.
      *
-     * @return array|null
+     * @return array<Item>|null
      */
     protected function getSortedItems(): ?array
     {

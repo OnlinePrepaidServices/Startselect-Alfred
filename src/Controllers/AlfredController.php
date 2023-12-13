@@ -15,11 +15,6 @@ class AlfredController extends Controller
 {
     /**
      * Initiate Alfred.
-     *
-     * @param Alfred $alfred
-     * @param Request $request
-     *
-     * @return JsonResponse
      */
     public function initiate(Alfred $alfred, Request $request): JsonResponse
     {
@@ -32,11 +27,6 @@ class AlfredController extends Controller
 
     /**
      * Handle a workflow step.
-     *
-     * @param Alfred $alfred
-     * @param Request $request
-     *
-     * @return JsonResponse
      */
     public function handleWorkflowStep(Alfred $alfred, Request $request): JsonResponse
     {

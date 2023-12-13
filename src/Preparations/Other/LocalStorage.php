@@ -22,10 +22,6 @@ class LocalStorage extends AbstractPreparation
 
     /**
      * Key for browser's local storage.
-     *
-     * @param string $key
-     *
-     * @return $this
      */
     public function key(string $key): self
     {
@@ -36,10 +32,6 @@ class LocalStorage extends AbstractPreparation
 
     /**
      * Data for browser's local storage.
-     *
-     * @param array $data
-     *
-     * @return $this
      */
     public function data(array $data): self
     {
@@ -50,10 +42,6 @@ class LocalStorage extends AbstractPreparation
 
     /**
      * Whether to merge existing data for given key in browser's local storage.
-     *
-     * @param bool $merge
-     *
-     * @return $this
      */
     public function merge(bool $merge): self
     {
@@ -64,10 +52,6 @@ class LocalStorage extends AbstractPreparation
 
     /**
      * Expiration date for browser's local storage.
-     *
-     * @param int $ttl
-     *
-     * @return $this
      */
     public function ttl(int $ttl): self
     {
@@ -78,10 +62,6 @@ class LocalStorage extends AbstractPreparation
 
     /**
      * The notification that is displayed once the local storage has been updated.
-     *
-     * @param string $notification
-     *
-     * @return $this
      */
     public function notification(string $notification): self
     {

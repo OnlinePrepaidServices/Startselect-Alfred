@@ -16,7 +16,7 @@ class PageData extends AbstractValueObject
     }
 
     /**
-     * @return FocusableField[]
+     * @return array<FocusableField>
      */
     public function getFocusableFields(): array
     {

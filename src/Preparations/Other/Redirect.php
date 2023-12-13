@@ -33,9 +33,7 @@ class Redirect extends AbstractPreparation
     ];
 
     /**
-     * @param string $url
-     *
-     * @return $this
+     * URL to redirect to.
      */
     public function url(string $url): self
     {
@@ -46,10 +44,6 @@ class Redirect extends AbstractPreparation
 
     /**
      * The type of the redirect.
-     *
-     * @param string $type
-     *
-     * @return $this
      */
     public function type(string $type): self
     {
@@ -62,10 +56,6 @@ class Redirect extends AbstractPreparation
 
     /**
      * The window where the redirect will take place.
-     *
-     * @param string $window
-     *
-     * @return $this
      */
     public function window(string $window): self
     {

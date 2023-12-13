@@ -186,11 +186,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     }
 
     /**
-     * Get the value of optional data.
-     *
-     * @param string|null $key [Optional] When no key is given, return all optional data.
-     *
-     * @return mixed
+     * Get the value of optional data; or all data.
      */
     protected function getOptionalData(?string $key = null): mixed
     {
@@ -203,11 +199,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     }
 
     /**
-     * Get the value of required data.
-     *
-     * @param string|null $key [Optional] When no key is given, return all required data.
-     *
-     * @return mixed
+     * Get the value of required data; or all data.
      */
     protected function getRequiredData(?string $key = null): mixed
     {
@@ -221,10 +213,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
 
     /**
      * Whether all required data is available.
-     *
-     * @param string $method Which method constant to check for.
-     *
-     * @return bool
      */
     protected function isRequiredDataPresent(string $method): bool
     {

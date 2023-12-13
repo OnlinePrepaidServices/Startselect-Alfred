@@ -16,10 +16,6 @@ class StatusItem extends Item
 
     /**
      * Status switch(ed).
-     *
-     * @param bool $switched
-     *
-     * @return $this
      */
     public function switched(bool $switched): self
     {

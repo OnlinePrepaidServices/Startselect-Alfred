@@ -16,10 +16,6 @@ class Clipboard extends AbstractPreparation
 
     /**
      * Text for browser's clipboard.
-     *
-     * @param string $text
-     *
-     * @return $this
      */
     public function text(string $text): self
     {
@@ -30,10 +26,6 @@ class Clipboard extends AbstractPreparation
 
     /**
      * The notification that is displayed once the clipboard has been altered.
-     *
-     * @param string $notification
-     *
-     * @return $this
      */
     public function notification(string $notification): self
     {

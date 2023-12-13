@@ -19,10 +19,6 @@ class Action extends AbstractPreparation
 
     /**
      * Whether the phrase input should be extended (larger / bigger).
-     *
-     * @param bool $extendedPhrase
-     *
-     * @return static
      */
     public function extendedPhrase(bool $extendedPhrase): static
     {
@@ -33,10 +29,6 @@ class Action extends AbstractPreparation
 
     /**
      * Whether the action should be submitted while typing in the phrase field.
-     *
-     * @param bool $realtime
-     *
-     * @return $this
      */
     public function realtime(bool $realtime): self
     {
@@ -47,10 +39,6 @@ class Action extends AbstractPreparation
 
     /**
      * The preparation trigger of this action.
-     *
-     * @param AbstractPreparation $preparation
-     *
-     * @return $this
      */
     public function trigger(AbstractPreparation $preparation): self
     {

@@ -18,10 +18,6 @@ class FillFieldValue extends AbstractPreparation
 
     /**
      * The ID of the HTML input.
-     *
-     * @param string $id
-     *
-     * @return $this
      */
     public function id(string $id): self
     {
@@ -32,10 +28,6 @@ class FillFieldValue extends AbstractPreparation
 
     /**
      * The value of the HTML input.
-     *
-     * @param mixed $value
-     *
-     * @return $this
      */
     public function value(mixed $value): self
     {
@@ -46,10 +38,6 @@ class FillFieldValue extends AbstractPreparation
 
     /**
      * The notification that is displayed once the value of the HTML input is filled.
-     *
-     * @param string $notification
-     *
-     * @return $this
      */
     public function notification(string $notification): self
     {

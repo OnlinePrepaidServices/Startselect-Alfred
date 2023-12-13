@@ -18,7 +18,7 @@ class WorkflowStepProvider
     /**
      * Register Alfred workflow steps.
      *
-     * @return AbstractWorkflowStep[]
+     * @return array<AbstractWorkflowStep>
      */
     public function register(): array
     {
@@ -31,10 +31,6 @@ class WorkflowStepProvider
 
     /**
      * Bootstrap a workflow step.
-     *
-     * @param string $className
-     *
-     * @return AbstractWorkflowStep
      */
     public function boot(string $className): AbstractWorkflowStep
     {
@@ -43,10 +39,6 @@ class WorkflowStepProvider
 
     /**
      * Whether a workflow step is bootable.
-     *
-     * @param string $className
-     *
-     * @return bool
      */
     public function isBootable(string $className): bool
     {
@@ -55,10 +47,6 @@ class WorkflowStepProvider
 
     /**
      * Get a bootable class by a partial class name.
-     *
-     * @param string $className
-     *
-     * @return string|null
      */
     public function getBootableClassByPartialName(string $className): ?string
     {

@@ -20,10 +20,6 @@ class WorkflowStep extends AbstractPreparation
 
     /**
      * The class of the workflow step.
-     *
-     * @param string $class
-     *
-     * @return $this
      */
     public function class(string $class): self
     {
@@ -34,10 +30,6 @@ class WorkflowStep extends AbstractPreparation
 
     /**
      * The method call of the workflow step.
-     *
-     * @param string $method
-     *
-     * @return $this
      */
     public function method(string $method): self
     {
@@ -48,10 +40,6 @@ class WorkflowStep extends AbstractPreparation
 
     /**
      * The data that will be given to the workflow step.
-     *
-     * @param array $data
-     *
-     * @return $this
      */
     public function data(array $data): self
     {
@@ -62,10 +50,6 @@ class WorkflowStep extends AbstractPreparation
 
     /**
      * The local storage data by giving keys that should be included when triggering the workflow step.
-     *
-     * @param array $includeLocalStorageKeys
-     *
-     * @return $this
      */
     public function includeLocalStorageKeys(array $includeLocalStorageKeys): self
     {

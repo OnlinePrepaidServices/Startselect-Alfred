@@ -17,10 +17,6 @@ class ReloadState extends AbstractPreparation
 
     /**
      * The amount of steps to go back to, before reloading the state.
-     *
-     * @param int $steps
-     *
-     * @return $this
      */
     public function steps(int $steps): self
     {

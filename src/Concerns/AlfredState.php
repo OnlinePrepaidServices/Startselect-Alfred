@@ -10,10 +10,6 @@ trait AlfredState
 
     /**
      * Set Alfred's title.
-     *
-     * @param string $title
-     *
-     * @return static
      */
     public function title(string $title): static
     {
@@ -24,10 +20,6 @@ trait AlfredState
 
     /**
      * Set Alfred's phrase.
-     *
-     * @param string $phrase
-     *
-     * @return static
      */
     public function phrase(string $phrase): static
     {
@@ -38,10 +30,6 @@ trait AlfredState
 
     /**
      * Set Alfred's phrase placeholder.
-     *
-     * @param string $placeholder
-     *
-     * @return static
      */
     public function placeholder(string $placeholder): static
     {

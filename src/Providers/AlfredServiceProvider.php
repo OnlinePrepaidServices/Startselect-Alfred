@@ -10,9 +10,6 @@ use Startselect\Alfred\WorkflowStepProvider;
 
 class AlfredServiceProvider extends ServiceProvider
 {
-    /**
-     * @return void
-     */
     public function boot(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/alfred.php', 'alfred');
@@ -24,9 +21,6 @@ class AlfredServiceProvider extends ServiceProvider
         ], 'alfred-assets');
     }
 
-    /**
-     * @return void
-     */
     public function register(): void
     {
         $this->app->singleton(WorkflowStepProvider::class, function () {

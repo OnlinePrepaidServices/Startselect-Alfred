@@ -16,10 +16,6 @@ class FieldFocus extends AbstractPreparation
 
     /**
      * The ID of the HTML input.
-     *
-     * @param string $id
-     *
-     * @return $this
      */
     public function id(string $id): self
     {
@@ -30,10 +26,6 @@ class FieldFocus extends AbstractPreparation
 
     /**
      * The name of the HTML input.
-     *
-     * @param string $name
-     *
-     * @return $this
      */
     public function name(string $name): self
     {
