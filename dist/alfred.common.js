@@ -7616,7 +7616,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=050af918
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=5f3975d3
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -7624,7 +7624,15 @@ var render = function render() {
     staticClass: "alfred"
   }, [_vm.alfred.title ? _c('div', {
     staticClass: "alfred__title"
-  }, [_vm._v(_vm._s(_vm.alfred.title))]) : _vm._e(), _c('div', {
+  }, [_c('span', [_vm._v(_vm._s(_vm.alfred.title))]), _vm.alfred.help ? _c('span', {
+    on: {
+      "click": function ($event) {
+        return _vm.displayHelp();
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fas fa-question-circle"
+  })]) : _vm._e()]) : _vm._e(), _c('div', {
     staticClass: "alfred__container"
   }, [_c('div', {
     staticClass: "alfred__search"
@@ -10855,6 +10863,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       alfred: {
         closePrevention: false,
         doubleShift: false,
+        help: '',
         initiated: false,
         initiatedGlobally: false,
         initiating: true,
@@ -11206,6 +11215,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
           trigger: this.action.trigger
         },
         alfred: {
+          help: this.alfred.help,
           phrase: this.alfred.phrase,
           placeholder: this.alfred.placeholder,
           prefixed: this.alfred.prefixed,
@@ -11290,6 +11300,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
             this.alfred.phraseOverridePrevention = false;
           }
         }
+        this.alfred.help = state.alfred.help;
         this.alfred.placeholder = state.alfred.placeholder;
         this.alfred.prefixed = state.alfred.prefixed;
         this.alfred.title = state.alfred.title;
@@ -11328,6 +11339,22 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       this.items.current = items || [];
       this.items.filtered = [];
       this.filterItems();
+    },
+    /**
+     * Display the current help information.
+     */
+    displayHelp() {
+      sweetalert2_all_default().fire({
+        html: this.alfred.help,
+        icon: 'info',
+        confirmButtonColor: '#CC3E29',
+        didOpen: () => {
+          this.alfred.closePrevention = true;
+        },
+        didClose: () => {
+          this.alfred.closePrevention = false;
+        }
+      });
     },
     /**
      * Display a message.
@@ -12302,10 +12329,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// CONCATENATED MODULE: ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=050af918&prod&lang=css
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=5f3975d3&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=050af918&prod&lang=css
+;// CONCATENATED MODULE: ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=5f3975d3&prod&lang=css
 
 ;// CONCATENATED MODULE: ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */

@@ -4,16 +4,18 @@ namespace Startselect\Alfred\Concerns;
 
 trait AlfredState
 {
+    protected ?string $help = null;
     protected ?string $title = null;
     protected string $phrase = '';
     protected string $placeholder = '';
 
     /**
-     * Set Alfred's title.
+     * Set Alfred's title and possible help information.
      */
-    public function title(string $title): static
+    public function title(string $title, ?string $help = null): static
     {
         $this->title = $title;
+        $this->help = $help;
 
         return $this;
     }

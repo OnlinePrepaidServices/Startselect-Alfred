@@ -26,6 +26,7 @@
                 alfred: {
                     closePrevention: false,
                     doubleShift: false,
+                    help: '',
                     initiated: false,
                     initiatedGlobally: false,
                     initiating: true,
@@ -418,6 +419,7 @@
                         trigger: this.action.trigger,
                     },
                     alfred: {
+                        help: this.alfred.help,
                         phrase: this.alfred.phrase,
                         placeholder: this.alfred.placeholder,
                         prefixed: this.alfred.prefixed,
@@ -508,6 +510,7 @@
                         }
                     }
 
+                    this.alfred.help = state.alfred.help;
                     this.alfred.placeholder = state.alfred.placeholder;
                     this.alfred.prefixed = state.alfred.prefixed;
                     this.alfred.title = state.alfred.title;
@@ -549,6 +552,23 @@
                 this.items.filtered = [];
 
                 this.filterItems();
+            },
+
+            /**
+             * Display the current help information.
+             */
+            displayHelp() {
+                Swal.fire({
+                    html: this.alfred.help,
+                    icon: 'info',
+                    confirmButtonColor: '#CC3E29',
+                    didOpen: () => {
+                        this.alfred.closePrevention = true;
+                    },
+                    didClose: () => {
+                        this.alfred.closePrevention = false;
+                    }
+                });
             },
 
             /**
@@ -1644,7 +1664,12 @@
 
 <template>
     <div class="alfred" v-if="alfred.visible">
-        <div class="alfred__title" v-if="alfred.title">{{ alfred.title }}</div>
+        <div class="alfred__title" v-if="alfred.title">
+            <span>{{ alfred.title }}</span>
+            <span @click="displayHelp()" v-if="alfred.help">
+                <i class="fas fa-question-circle"></i>
+            </span>
+        </div>
         <div class="alfred__container">
             <div class="alfred__search">
                 <div v-if="action.active && action.extendedPhrase">

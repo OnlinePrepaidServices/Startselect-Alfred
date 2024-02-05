@@ -59,6 +59,7 @@ class Response extends AbstractPreparation
         return array_merge(parent::toArray(), [
             'success' => $this->success,
             'alfred' => [
+                'help' => $this->help,
                 'title' => $this->title,
                 'phrase' => $this->phrase,
                 'placeholder' => $this->placeholder,
