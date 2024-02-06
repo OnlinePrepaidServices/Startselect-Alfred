@@ -153,7 +153,7 @@
                     icon: 'warning',
                     showCloseButton: true,
                     showCancelButton: true,
-                    confirmButtonColor: '#CC3E29',
+                    confirmButtonColor: '#33ac79',
                     didOpen: () => {
                         this.alfred.closePrevention = true;
                     },
@@ -560,7 +560,6 @@
             displayHelp() {
                 Swal.fire({
                     html: this.alfred.help,
-                    icon: 'info',
                     confirmButtonColor: '#CC3E29',
                     didOpen: () => {
                         this.alfred.closePrevention = true;
@@ -1751,6 +1750,7 @@
 }
 .alfred__title {
   cursor: default;
+  display: flex;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   --tw-bg-opacity: 1;
@@ -1760,10 +1760,10 @@
   color: rgb(34 41 47 / var(--tw-text-opacity));
   padding: 12px 15px 10px;
 }
-.alfred__title:first-child {
+.alfred__title span:first-child {
   flex: 1;
 }
-.alfred__title:last-child {
+.alfred__title span:last-child {
   cursor: pointer;
   flex: 0 0 30px;
   text-align: right;
