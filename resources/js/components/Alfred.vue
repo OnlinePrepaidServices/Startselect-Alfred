@@ -566,6 +566,10 @@
                     },
                     didClose: () => {
                         this.alfred.closePrevention = false;
+
+                        this.$nextTick(() => {
+                            this.$refs.phraseInput.focus();
+                        });
                     }
                 });
             },
@@ -1251,6 +1255,10 @@
                         },
                         didClose: () => {
                             this.alfred.closePrevention = false;
+
+                            this.$nextTick(() => {
+                                this.$refs.phraseInput.focus();
+                            });
                         }
                     }).then((result) => {
                         if (result.value || null) {
@@ -1765,7 +1773,7 @@
 }
 .alfred__title span:nth-child(2) {
   cursor: pointer;
-  flex: 0 0 30px;
+  flex: 0 0 22px;
   text-align: right;
 }
 .alfred__title:not(.hidden) + .alfred__container {
