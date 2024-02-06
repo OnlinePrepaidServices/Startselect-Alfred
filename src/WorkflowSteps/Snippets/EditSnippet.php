@@ -81,7 +81,10 @@ class EditSnippet extends AbstractWorkflowStep
         }
 
         return $this->getResponse()
-            ->title("Edit snippet: {$this->getRequiredData('keyword')}")
+            ->title(
+                title: "Edit snippet: {$this->getRequiredData('keyword')}",
+                help: CreateSnippet::HELP,
+            )
             ->phrase($snippet)
             ->trigger(
                 (new Action())

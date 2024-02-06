@@ -11,6 +11,18 @@ use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
 class CreateSnippet extends AbstractWorkflowStep
 {
+    public const HELP =
+        'You are able to use placeholders, which can be replaced automatically when you use the
+        <strong>Execute snippet</strong> workflow.
+        <br><br>
+        Create a placeholder using <strong>[]</strong>.
+        <br><br>
+        <strong>E.g.</strong>: [name]<br>
+        <strong>E.g. snippet</strong>: This is a test by [name].
+        <br><br>
+        When you execute the snippet, you will be asked to give a value to the placeholders you created.
+        Once filled out, the complete text will be available on your clipboard.';
+
     protected array $requiredData = [
         self::METHOD_HANDLE => [
             'keyword' => 'Missing keyword.',
@@ -90,7 +102,10 @@ class CreateSnippet extends AbstractWorkflowStep
         }
 
         return $this->getResponse()
-            ->title('Snippet text')
+            ->title(
+                title: 'Snippet text',
+                help: CreateSnippet::HELP,
+            )
             ->placeholder(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis tempus eros, eu ultrices ligula.'
             )
