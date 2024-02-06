@@ -1760,6 +1760,14 @@
   color: rgb(34 41 47 / var(--tw-text-opacity));
   padding: 12px 15px 10px;
 }
+.alfred__title:first-child {
+  flex: 1;
+}
+.alfred__title:last-child {
+  cursor: pointer;
+  flex: 0 0 30px;
+  text-align: right;
+}
 .alfred__title:not(.hidden) + .alfred__container {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
