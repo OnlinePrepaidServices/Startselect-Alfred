@@ -153,7 +153,7 @@
                     icon: 'warning',
                     showCloseButton: true,
                     showCancelButton: true,
-                    confirmButtonColor: '#33ac79',
+                    confirmButtonColor: '#CC3E29',
                     didOpen: () => {
                         this.alfred.closePrevention = true;
                     },
@@ -560,7 +560,7 @@
             displayHelp() {
                 Swal.fire({
                     html: this.alfred.help,
-                    confirmButtonColor: '#CC3E29',
+                    confirmButtonColor: '#33ac79',
                     didOpen: () => {
                         this.alfred.closePrevention = true;
                     },
@@ -1763,7 +1763,7 @@
 .alfred__title span:first-child {
   flex: 1;
 }
-.alfred__title span:last-child {
+.alfred__title span:nth-child(2) {
   cursor: pointer;
   flex: 0 0 30px;
   text-align: right;
