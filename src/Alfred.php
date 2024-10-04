@@ -74,7 +74,10 @@ class Alfred
         }
 
         // Did we get a valid method?
-        if (!method_exists($workflowStep, $method)) {
+        if (
+            !method_exists($workflowStep, $method)
+            || (new \ReflectionMethod($workflowStep, $method))->class !== $workflowStep::class
+        ) {
             return $response
                 ->success(false)
                 ->notification(sprintf(
