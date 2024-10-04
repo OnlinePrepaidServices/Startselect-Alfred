@@ -4,6 +4,7 @@ namespace Startselect\Alfred\WorkflowSteps\Routing;
 
 use Startselect\Alfred\Preparations\Core\Item;
 use Startselect\Alfred\Preparations\Core\ItemSet;
+use Startselect\Alfred\Preparations\Core\Response;
 use Startselect\Alfred\Preparations\Other\Redirect;
 use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
@@ -21,6 +22,14 @@ class History extends AbstractWorkflowStep
                 Item::KEY_CONTROL,
                 'H',
             ])
+            ->trigger($this->getHistory());
+    }
+
+    public function handle(): Response
+    {
+        return $this->getResponse()
+            ->title('History')
+            ->placeholder('Filter by navigated pages..')
             ->trigger($this->getHistory());
     }
 
