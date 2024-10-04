@@ -7,6 +7,7 @@ use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
 use Startselect\Alfred\ValueObjects\AlfredData;
 use Startselect\Alfred\ValueObjects\PageData;
+use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
 class Alfred
 {
@@ -76,7 +77,7 @@ class Alfred
         // Did we get a valid method?
         if (
             !method_exists($workflowStep, $method)
-            || (new \ReflectionMethod($workflowStep, $method))->class !== $workflowStep::class
+            || (new \ReflectionMethod($workflowStep, $method))->class === AbstractWorkflowStep::class
         ) {
             return $response
                 ->success(false)
