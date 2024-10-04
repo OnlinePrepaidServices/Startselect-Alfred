@@ -154,11 +154,16 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     /**
      * Workflow step failed somewhere.
      */
-    protected function failure(string $message = ''): Response
+    protected function failure(string $message = '', string $notification = ''): Response
     {
         // Did we receive a message?
         if ($message) {
             $this->getResponse()->message($message);
+        }
+
+        // Did we receive a notification?
+        if ($notification) {
+            $this->getResponse()->notification($notification);
         }
 
         // Did we get a required data failure message?
