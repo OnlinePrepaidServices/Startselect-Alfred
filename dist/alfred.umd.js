@@ -7626,7 +7626,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=4d644726
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=12fb493a
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -7644,7 +7644,18 @@ var render = function render() {
     staticClass: "fas fa-question-circle"
   })]) : _vm._e()]) : _vm._e(), _c('div', {
     staticClass: "alfred__container"
-  }, [_c('div', {
+  }, [_vm.alfred.template ? _c('div', {
+    staticClass: "alfred__template",
+    domProps: {
+      "innerHTML": _vm._s(_vm.alfred.template)
+    }
+  }) : _vm._e(), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: !_vm.alfred.template,
+      expression: "!alfred.template"
+    }],
     staticClass: "alfred__search"
   }, [_vm.action.active && _vm.action.extendedPhrase ? _c('div', [_c('textarea', {
     directives: [{
@@ -10884,6 +10895,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         placeholder: '',
         prefix: null,
         prefixed: false,
+        template: '',
         title: '',
         triggered: null,
         visible: false
@@ -11229,6 +11241,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
           phrase: this.alfred.phrase,
           placeholder: this.alfred.placeholder,
           prefixed: this.alfred.prefixed,
+          template: this.alfred.template,
           title: this.alfred.title,
           triggered: this.alfred.triggered
         },
@@ -11313,6 +11326,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         this.alfred.help = state.alfred.help;
         this.alfred.placeholder = state.alfred.placeholder;
         this.alfred.prefixed = state.alfred.prefixed;
+        this.alfred.template = state.alfred.template;
         this.alfred.title = state.alfred.title;
         this.alfred.triggered = state.alfred.triggered;
       } else if (!this.alfred.prefixed) {
@@ -12129,6 +12143,19 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       }
     },
     /**
+     * Trigger a template.
+     *
+     * @param {Object} template
+     * @param {MouseEvent|KeyboardEvent} event
+     */
+    triggerTemplate(template, event) {
+      // Make sure we don't trigger other event based stuff
+      if (event) {
+        event.preventDefault();
+      }
+      this.alfred.template = template.html;
+    },
+    /**
      * Trigger a workflow step.
      *
      * @param {Object} workflowStep
@@ -12261,6 +12288,13 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         return this.triggerReloadState(trigger.properties, event);
       }
 
+      // Do we want to trigger a template?
+      if (trigger.type === 'Template') {
+        this.saveState();
+        this.updateAlfredState(alfredState);
+        return this.triggerTemplate(trigger.properties, event);
+      }
+
       // Do we want to trigger a workflow step?
       if (trigger.type === 'WorkflowStep') {
         return this.triggerWorkflowStep(trigger.properties, event);
@@ -12344,10 +12378,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// CONCATENATED MODULE: ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=4d644726&prod&lang=css
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=12fb493a&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=4d644726&prod&lang=css
+;// CONCATENATED MODULE: ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=12fb493a&prod&lang=css
 
 ;// CONCATENATED MODULE: ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
