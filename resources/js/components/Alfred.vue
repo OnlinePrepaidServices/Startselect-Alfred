@@ -1703,7 +1703,7 @@
                 <i class="fas fa-question-circle"></i>
             </span>
         </div>
-        <div class="alfred__container">
+        <div :class="['alfred__container', alfred.template ? '' : 'alfred__container--fixed']">
             <div class="alfred__template" v-if="alfred.template" v-html="alfred.template"></div>
             <div class="alfred__search" v-show="!alfred.template">
                 <div v-if="action.active && action.extendedPhrase">
@@ -1774,7 +1774,7 @@
   padding: 0.25rem;
   background: rgba(34, 41, 47, 0.75);
   top: 20%;
-  width: 600px;
+  width: fit-content;
   box-shadow: 0 0 2rem 2rem rgba(34, 41, 47, 0.03), 0 5px 25px -5px rgba(34, 41, 47, 0.25);
 }
 .alfred__container {
@@ -1782,6 +1782,9 @@
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
   padding: 1rem;
+}
+.alfred__container--fixed {
+  width: 592px;
 }
 .alfred__title {
   cursor: default;
