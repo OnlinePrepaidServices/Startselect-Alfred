@@ -182,12 +182,8 @@
             getSetting(key, defaultValue = null) {
                 let settings = this.settings ?? [];
 
-                if (!settings.length) {
-                    return defaultValue;
-                }
-
-                if (!(key in settings)) {
-                    return defaultValue;
+                if ((key in settings)) {
+                    return settings[key];
                 }
 
                 if (!key.includes('.')) {
@@ -195,7 +191,7 @@
                 }
 
                 for (let subKey of key.split('.')) {
-                    if ((subKey in settings)) {
+                    if (subKey in settings) {
                         settings = settings[subKey];
                     } else {
                         return defaultValue;
