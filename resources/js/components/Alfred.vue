@@ -1937,7 +1937,7 @@
     transform: rotate(360deg);
   }
 }
-.alfred__items > alfred__items__title {
+.alfred__items > .alfred__items__title {
   display: block;
   margin: 0.5rem;
   font-size: 0.9rem;
