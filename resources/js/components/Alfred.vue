@@ -1046,21 +1046,21 @@
              * Render the items to be displayed.
              *
              * @param {Object[]} filteredItems
-             * @param {boolean} fallbacked
+             * @param {boolean} fallback
              * @param {string[]} itemUsages
              */
-            renderItems(filteredItems, fallbacked, itemUsages) {
+            renderItems(filteredItems, fallback, itemUsages) {
                 let counter = -1;
 
                 // Reset filtered items
                 this.items.filtered = [];
 
                 for (let filteredItem of filteredItems) {
-                    let item = fallbacked ? JSON.parse(JSON.stringify(filteredItem)) : filteredItem,
+                    let item = fallback ? JSON.parse(JSON.stringify(filteredItem)) : filteredItem,
                         name = item.name,
                         info = item.info;
 
-                    if (fallbacked) {
+                    if (fallback) {
                         // Overwrite in fallback state
                         name = item.name + " '" + this.alfred.phrase + "'";
                         info = '';
