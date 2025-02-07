@@ -1945,7 +1945,6 @@
   color: rgb(148 164 181 / var(--tw-text-opacity));
 }
 .alfred__items > ul {
-  margin-top: 1rem;
   overflow: auto;
   padding: 0;
   max-height: 400px;
