@@ -30,5 +30,13 @@ return [
         // Keep track of which items are popular and display those when opening Alfred sorted on most popular.
         'rememberPopularItems' => true,
         'maxPopularItemsOnInit' => 5,
+
+        // Alfred's default values
+        'defaultValues' => [
+            'placeholder' => 'Find actions..',
+            'itemsTitleFallback' => 'Use [phrase] with..',
+            'itemsTitlePopular' => 'Recent searches',
+            'itemsTitleResults' => 'Results',
+        ],
     ],
 ];

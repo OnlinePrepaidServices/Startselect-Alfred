@@ -43,6 +43,7 @@
                     visible: false,
                 },
                 items: {
+                    title: '',
                     current: [],
                     filtered: [],
                     saved: [],
@@ -179,7 +180,29 @@
              * @return {*}
              */
             getSetting(key, defaultValue = null) {
-                return this.settings?.[key] ?? defaultValue;
+                let settings = this.settings ?? [];
+
+                if (!settings.length) {
+                    return defaultValue;
+                }
+
+                if (!(key in settings)) {
+                    return defaultValue;
+                }
+
+                if (!key.includes('.')) {
+                    return settings[key] ?? defaultValue;
+                }
+
+                for (let subKey of key.split('.')) {
+                    if ((subKey in settings)) {
+                        settings = settings[subKey];
+                    } else {
+                        return defaultValue;
+                    }
+                }
+
+                return settings;
             },
 
             /**
@@ -1002,6 +1025,7 @@
                     });
 
                     this.renderItems(fallbackItems, true, []);
+                    this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_FALLBACK, 'Use [phrase] with..').replace('[phrase]', this.alfred.phrase);
 
                     return;
                 }
@@ -1027,6 +1051,7 @@
                     });
 
                     this.renderItems(popularItems, false, itemUsages);
+                    this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_POPULAR, 'Recent searches');
 
                     return;
                 }
@@ -1034,12 +1059,14 @@
                 // No filtered items, empty phrase and not the registered set of items? Only then display all available items.
                 if (this.items.saved.length && !filtered.length && !this.getPhrase()) {
                     this.renderItems(this.items.current, false, []);
+                    this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_RESULTS, 'Results');
 
                     return;
                 }
 
                 // Render fuzzy filtered items
                 this.renderItems(filtered, false, []);
+                this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_RESULTS, 'Results');
             },
 
             /**
@@ -1726,6 +1753,7 @@
                 </ul>
             </div>
             <div class="alfred__items">
+                <span class="alfred__items__title" v-show="items.filtered.length">{{ items.title }}</span>
                 <ul ref="items" v-show="items.filtered.length">
                     <li :class="item.focus ? 'alfred__item--focus' : ''" v-for="item in items.filtered" @click="triggerItem(item, $event)" @click.middle="triggerItem(item, $event)">
                         <span class="alfred__item__icon" v-if="item.icon">
@@ -1912,6 +1940,13 @@
   100% {
     transform: rotate(360deg);
   }
+}
+.alfred__items > alfred__items__title {
+  display: block;
+  margin: 0.5rem;
+  font-size: 0.9rem;
+  --tw-text-opacity: 1;
+  color: rgb(148 164 181 / var(--tw-text-opacity));
 }
 .alfred__items > ul {
   margin-top: 1rem;

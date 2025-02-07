@@ -2,6 +2,7 @@
 
 namespace Startselect\Alfred;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
@@ -38,7 +39,7 @@ class Alfred
         }
 
         return (new Response())
-            ->placeholder('Find actions..')
+            ->placeholder(Config::get('alfred.settings.defaultValues.placeholder', 'Find actions..'))
             ->trigger($itemSet);
     }
 

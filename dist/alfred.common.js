@@ -9882,7 +9882,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=11838f97
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=f87428ae
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10002,7 +10002,15 @@ var render = function render() {
     });
   }), 0)]), _c('div', {
     staticClass: "alfred__items"
-  }, [_c('ul', {
+  }, [_c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.items.filtered.length,
+      expression: "items.filtered.length"
+    }],
+    staticClass: "alfred__items__title"
+  }, [_vm._v(_vm._s(_vm.items.title))]), _c('ul', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -13618,7 +13626,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 /* harmony default export */ var settings = ({
   FOCUSABLE_FIELDS_CLASSES: 'focusableFieldsClasses',
   REMEMBER_POPULAR_ITEMS: 'rememberPopularItems',
-  MAX_POPULAR_ITEMS_ON_INIT: 'maxPopularItemsOnInit'
+  MAX_POPULAR_ITEMS_ON_INIT: 'maxPopularItemsOnInit',
+  ITEMS_TITLE_FALLBACK: 'defaultValues.itemsTitleFallback',
+  ITEMS_TITLE_POPULAR: 'defaultValues.itemsTitlePopular',
+  ITEMS_TITLE_RESULTS: 'defaultValues.itemsTitleResults'
 });
 ;// ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=script&lang=js
 
@@ -13667,6 +13678,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         visible: false
       },
       items: {
+        title: '',
         current: [],
         filtered: [],
         saved: []
@@ -13794,7 +13806,24 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
      * @return {*}
      */
     getSetting(key, defaultValue = null) {
-      return this.settings?.[key] ?? defaultValue;
+      let settings = this.settings ?? [];
+      if (!settings.length) {
+        return defaultValue;
+      }
+      if (!(key in settings)) {
+        return defaultValue;
+      }
+      if (!key.includes('.')) {
+        return settings[key] ?? defaultValue;
+      }
+      for (let subKey of key.split('.')) {
+        if (subKey in settings) {
+          settings = settings[subKey];
+        } else {
+          return defaultValue;
+        }
+      }
+      return settings;
     },
     /**
      * Initiate Alfred.
@@ -14521,6 +14550,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
           return item.type === 'FallbackItem';
         });
         this.renderItems(fallbackItems, true, []);
+        this.items.title = this.getSetting(settings.ITEMS_TITLE_FALLBACK, 'Use [phrase] with..').replace('[phrase]', this.alfred.phrase);
         return;
       }
 
@@ -14537,35 +14567,38 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
           return index < maxItems; // Maximum amount of popular items
         });
         this.renderItems(popularItems, false, itemUsages);
+        this.items.title = this.getSetting(settings.ITEMS_TITLE_POPULAR, 'Recent searches');
         return;
       }
 
       // No filtered items, empty phrase and not the registered set of items? Only then display all available items.
       if (this.items.saved.length && !filtered.length && !this.getPhrase()) {
         this.renderItems(this.items.current, false, []);
+        this.items.title = this.getSetting(settings.ITEMS_TITLE_RESULTS, 'Results');
         return;
       }
 
       // Render fuzzy filtered items
       this.renderItems(filtered, false, []);
+      this.items.title = this.getSetting(settings.ITEMS_TITLE_RESULTS, 'Results');
     },
     /**
      * Render the items to be displayed.
      *
      * @param {Object[]} filteredItems
-     * @param {boolean} fallbacked
+     * @param {boolean} fallback
      * @param {string[]} itemUsages
      */
-    renderItems(filteredItems, fallbacked, itemUsages) {
+    renderItems(filteredItems, fallback, itemUsages) {
       let counter = -1;
 
       // Reset filtered items
       this.items.filtered = [];
       for (let filteredItem of filteredItems) {
-        let item = fallbacked ? JSON.parse(JSON.stringify(filteredItem)) : filteredItem,
+        let item = fallback ? JSON.parse(JSON.stringify(filteredItem)) : filteredItem,
           name = item.name,
           info = item.info;
-        if (fallbacked) {
+        if (fallback) {
           // Overwrite in fallback state
           name = item.name + " '" + this.alfred.phrase + "'";
           info = '';
@@ -15143,10 +15176,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=11838f97&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=f87428ae&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=11838f97&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=f87428ae&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
