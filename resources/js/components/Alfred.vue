@@ -1939,7 +1939,7 @@
 }
 .alfred__items > .alfred__items__title {
   display: block;
-  margin: 0.5rem;
+  margin: 0.5rem 0;
   font-size: 0.9rem;
   --tw-text-opacity: 1;
   color: rgb(148 164 181 / var(--tw-text-opacity));
