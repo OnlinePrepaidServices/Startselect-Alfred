@@ -40,7 +40,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     /**
      * Required data with indexes and failure messages.
      *
-     * Pseudo code:
+     * Pseudocode:
      * [
      *   'id' => 'Missing ID.',
      *   'label' => 'Missing label.',
