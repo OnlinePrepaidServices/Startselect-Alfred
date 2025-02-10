@@ -1849,6 +1849,7 @@
   height: 12rem;
   resize: none;
   font-size: 0.95rem;
+  padding: 0.8rem;
 }
 .alfred__search__loader {
   position: absolute;
