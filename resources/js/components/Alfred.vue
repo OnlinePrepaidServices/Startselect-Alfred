@@ -1830,7 +1830,7 @@
 .alfred__search {
   position: relative;
 }
-.alfred__search input[type=text],  .alfred__search textarea {
+.alfred__search input[type=text], .alfred__search textarea {
   width: 100%;
   border-radius: 0.5rem 0.5rem 0 0;
   border-width: 0;
