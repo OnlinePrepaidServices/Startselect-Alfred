@@ -1939,16 +1939,13 @@
 }
 .alfred__items > ul > li:hover {
   cursor: pointer;
-  background: rgba(244, 245, 246, 0.75);
+  background: #f3f5f7;
 }
 .alfred__items > ul > li.alfred__item--focus {
-  background: rgba(244, 245, 246, 0.5);
+  background: #F5F5F5;
 }
 .alfred__items > ul > li.alfred__item--focus .alfred__item__info {
   color: #94a4b5;
-}
-.alfred__items > ul > li.alfred__item--focus + li {
-  border-color: #319c8e;
 }
 .alfred__item__icon {
   align-self: center;
