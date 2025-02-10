@@ -1021,7 +1021,7 @@
                     });
 
                     this.renderItems(fallbackItems, true, []);
-                    this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_FALLBACK, 'Use [phrase] with..').replace('[phrase]', this.alfred.phrase);
+                    this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_FALLBACK, 'Use [phrase] with..').replace('[phrase]', '`' + this.alfred.phrase + '`');
 
                     return;
                 }
