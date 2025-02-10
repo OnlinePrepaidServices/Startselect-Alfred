@@ -1939,10 +1939,10 @@
 }
 .alfred__items > ul > li:hover {
   cursor: pointer;
-  background: #f3f5f7;
+  background: #f3f5f7a1;
 }
 .alfred__items > ul > li.alfred__item--focus {
-  background: #F5F5F5;
+  background: #f3f5f7;
 }
 .alfred__items > ul > li.alfred__item--focus .alfred__item__info {
   color: #94a4b5;
