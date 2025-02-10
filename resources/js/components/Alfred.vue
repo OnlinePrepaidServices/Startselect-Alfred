@@ -2018,7 +2018,7 @@
   font-size: 0.55rem;
 }
 .alfred__messages > ul {
-  margin-top: 1rem;
+  margin: 0.5rem 0.8rem 0 0.8rem;
   display: block;
   padding: 0;
 }
@@ -2027,7 +2027,7 @@
   border-radius: 0.25rem;
   padding: 0.25rem 0.5rem;
   color: #ffffff;
-  margin: 3px 0;
+  margin: 0.2rem 0;
 }
 .alfred__messages > ul > li.alfred__message--error {
   background-color: #cc3e29;
