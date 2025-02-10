@@ -1837,7 +1837,6 @@
   font-size: 1.2rem;
   outline: 2px solid transparent;
   outline-offset: 2px;
-  background: rgba(244, 245, 246, 0.75);
   padding: 0.8rem 2.8rem 0.8rem 0.8rem;
 }
 .alfred__search input[type=text] {
@@ -1928,7 +1927,7 @@
 .alfred__items > .alfred__items__title {
   display: block;
   margin: 0.5rem 0.8rem;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #94a4b5;
 }
 .alfred__items > ul {
