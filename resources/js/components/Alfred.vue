@@ -1935,7 +1935,7 @@
 }
 .alfred__items > ul > li {
   display: flex;
-  padding: 0.5rem;
+  padding: 0.5rem 0.8rem;
 }
 .alfred__items > ul > li:hover {
   cursor: pointer;
@@ -1952,8 +1952,8 @@
   text-align: center;
   font-size: 1.5rem;
   color: #22292f;
-  flex: 0 0 50px;
-  padding: 0 10px 4px 0;
+  flex: 0 0 45px;
+  padding-right: 0.2rem;
 }
 .alfred__item__content {
   margin: auto;
