@@ -1021,7 +1021,7 @@
                     });
 
                     this.renderItems(fallbackItems, true, []);
-                    this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_FALLBACK, 'Use [phrase] with..').replace('[phrase]', '`' + this.alfred.phrase + '`');
+                    this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_FALLBACK, 'Use [phrase] with..').replace('[phrase]', "'" + this.alfred.phrase + "'");
 
                     return;
                 }
@@ -1800,8 +1800,7 @@
 }
 .alfred__container {
   border-radius: 0.5rem;
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  background-color: #ffffff;
 }
 .alfred__container--fixed {
   width: 592px;
@@ -1811,11 +1810,9 @@
   display: flex;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 245 247 / var(--tw-bg-opacity));
+  background-color: #f3f5f7;
   font-size: 0.8rem;
-  --tw-text-opacity: 1;
-  color: rgb(34 41 47 / var(--tw-text-opacity));
+  color: #22292f;
   padding: 0.5rem 0.9rem 0.5rem;
 }
 .alfred__title span:first-child {
@@ -1832,10 +1829,6 @@
 }
 .alfred__search {
   position: relative;
-  border-bottom-width: 1px;
-  border-style: solid;
-  --tw-border-opacity: 1;
-  border-color: rgb(204 211 219 / var(--tw-border-opacity));
 }
 .alfred__search input[type=text],  .alfred__search textarea {
   width: 100%;
@@ -1847,16 +1840,15 @@
   background: rgba(244, 245, 246, 0.75);
   padding: 0.8rem 2.8rem 0.8rem 0.8rem;
 }
-.alfred__search input[type=text]:focus,  .alfred__search textarea:focus {
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+.alfred__search input[type=text] {
+  border-bottom-width: 1px;
+  border-style: solid;
+  border-color: #ccd3db;
 }
 .alfred__search textarea {
   height: 12rem;
   resize: none;
   font-size: 0.95rem;
-  padding: 10px;
 }
 .alfred__search__loader {
   position: absolute;
@@ -1867,41 +1859,33 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  padding: 0.5rem;
+  border-top-width: 1px;
+  border-style: solid;
+  border-color: #ccd3db;
 }
 .alfred__search__extended > button {
-    position: relative;
-    display: inline-block;
-    width: auto;
-    cursor: pointer;
-    overflow: hidden;
-    border-radius: 0.25rem;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    border-width: 1px;
-    border-style: solid;
-    --tw-border-opacity: 1;
-    border-color: rgb(46 179 124 / var(--tw-border-opacity));
-    --tw-bg-opacity: 1;
-    background-color: rgb(46 179 124 / var(--tw-bg-opacity));
-    --tw-text-opacity: 1;
-    color: rgb(255 255 255 / var(--tw-text-opacity));
-    --tw-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-    --tw-shadow-colored: inset 0 2px 4px 0 var(--tw-shadow-color);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-    min-width: 5rem;
-    transition: all 200ms ease;
-    height: auto;
-    padding: 0.25rem 0.5rem;
-    line-height: 1.5;
+  position: relative;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #2eb37c;
+  color: #ffffff;
+  min-width: 5rem;
+  transition: all 200ms ease;
+  padding: 0.25rem 0.5rem;
 }
 .alfred__search__extended > button:hover {
-    --tw-bg-opacity: 1;
-    background-color: rgb(49 193 133 / var(--tw-bg-opacity));
-    --tw-text-opacity: 1;
-    color: rgb(255 255 255 / var(--tw-text-opacity));
+    background-color: #31c185;
+    color: #ffffff;
 }
 .alfred__search__extended > button > i {
   font-size: 0.875rem;
@@ -1944,18 +1928,13 @@
   display: block;
   margin: 0.5rem 0.8rem;
   font-size: 0.95rem;
-  --tw-text-opacity: 1;
-  color: rgb(148 164 181 / var(--tw-text-opacity));
+  color: #94a4b5;
 }
 .alfred__items > ul {
   padding: 0;
 }
 .alfred__items > ul > li {
   display: flex;
-  border-top-width: 1px;
-  border-style: solid;
-  --tw-border-opacity: 1;
-  border-color: rgb(243 245 247 / var(--tw-border-opacity));
   padding: 0.5rem;
 }
 .alfred__items > ul > li:hover {
@@ -1963,27 +1942,19 @@
   background: rgba(244, 245, 246, 0.75);
 }
 .alfred__items > ul > li.alfred__item--focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(49 156 142 / var(--tw-border-opacity));
   background: rgba(244, 245, 246, 0.5);
 }
 .alfred__items > ul > li.alfred__item--focus .alfred__item__info {
-  --tw-text-opacity: 1;
-  color: rgb(148 164 181 / var(--tw-text-opacity));
+  color: #94a4b5;
 }
 .alfred__items > ul > li.alfred__item--focus + li {
-  --tw-border-opacity: 1;
-  border-color: rgb(49 156 142 / var(--tw-border-opacity));
-}
-.alfred__items > ul > li.alfred__item--focus:only-child,  .alfred__items > ul > li.alfred__item--focus:last-child {
-  border-bottom-width: 1px;
+  border-color: #319c8e;
 }
 .alfred__item__icon {
   align-self: center;
   text-align: center;
   font-size: 1.5rem;
-  --tw-text-opacity: 1;
-  color: rgb(34 41 47 / var(--tw-text-opacity));
+  color: #22292f;
   flex: 0 0 50px;
   padding: 0 10px 4px 0;
 }
@@ -1993,26 +1964,22 @@
 }
 .alfred__item__name {
   display: block;
-  --tw-text-opacity: 1;
-  color: rgb(34 41 47 / var(--tw-text-opacity));
+  color: #22292f;
   font-size: 0.95rem;
 }
 .alfred__item__name > i {
-  --tw-text-opacity: 1;
-  color: rgb(204 62 41 / var(--tw-text-opacity));
+  color: #cc3e29;
   margin-left: 0.25rem;
 }
 .alfred__item__usage {
   margin-left: 0.25rem;
   vertical-align: top;
-  --tw-text-opacity: 1;
-  color: rgb(148 164 181 / var(--tw-text-opacity));
+  color: #94a4b5;
   font-size: 8px;
 }
 .alfred__item__info {
   display: block;
-  --tw-text-opacity: 1;
-  color: rgb(204 211 219 / var(--tw-text-opacity));
+  color: #ccd3db;
   font-size: 0.8rem;
 }
 .alfred__item__details {
@@ -2024,12 +1991,10 @@
   font-weight: 700;
 }
 .alfred__item__details__status--on {
-  --tw-text-opacity: 1;
-  color: rgb(46 179 124 / var(--tw-text-opacity));
+  color: #2eb37c;
 }
 .alfred__item__details__status--off {
-  --tw-text-opacity: 1;
-  color: rgb(148 164 181 / var(--tw-text-opacity));
+  color: #94a4b5;
 }
 .alfred__item__details > ul {
   display: block;
@@ -2041,8 +2006,7 @@
   border-radius: 0.25rem;
   border-width: 1px;
   border-style: solid;
-  --tw-border-opacity: 1;
-  border-color: rgb(204 211 219 / var(--tw-border-opacity));
+  border-color: #ccd3db;
   padding: 0.25rem;
   text-transform: capitalize;
   margin: 0 1px;
@@ -2052,8 +2016,7 @@
   border-radius: 0.25rem;
   border-width: 1px;
   border-style: solid;
-  --tw-border-opacity: 1;
-  border-color: rgb(34 41 47 / var(--tw-border-opacity));
+  border-color: #22292f;
   padding: 0.25rem;
   font-size: 0.55rem;
 }
@@ -2066,17 +2029,14 @@
   display: flex;
   border-radius: 0.25rem;
   padding: 0.25rem 0.5rem;
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+  color: #ffffff;
   margin: 3px 0;
 }
 .alfred__messages > ul > li.alfred__message--error {
-  --tw-bg-opacity: 1;
-  background-color: rgb(204 62 41 / var(--tw-bg-opacity));
+  background-color: #cc3e29;
 }
 .alfred__messages > ul > li.alfred__message--success {
-  --tw-bg-opacity: 1;
-  background-color: rgb(46 179 124 / var(--tw-bg-opacity));
+  background-color: #2eb37c;
 }
 .alfred .fa, .alfred .fas {
   font-size: inherit !important;
