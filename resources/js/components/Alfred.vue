@@ -1937,6 +1937,10 @@
   display: flex;
   padding: 0.5rem 0.8rem;
 }
+.alfred__items > ul > li:last-child {
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
 .alfred__items > ul > li:hover {
   cursor: pointer;
   background: #f3f5f7a1;
