@@ -1790,10 +1790,7 @@
   left: 0;
   right: 0;
   z-index: 50;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   border-radius: 0.5rem;
   padding: 0.25rem;
   background: rgba(34, 41, 47, 0.75);
@@ -1805,7 +1802,6 @@
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  padding: 1rem;
 }
 .alfred__container--fixed {
   width: 592px;
@@ -1817,10 +1813,10 @@
   border-top-right-radius: 0.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(243 245 247 / var(--tw-bg-opacity));
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   --tw-text-opacity: 1;
   color: rgb(34 41 47 / var(--tw-text-opacity));
-  padding: 12px 15px 10px;
+  padding: 0.5rem 0.9rem 0.5rem;
 }
 .alfred__title span:first-child {
   flex: 1;
@@ -1836,17 +1832,20 @@
 }
 .alfred__search {
   position: relative;
+  border-bottom-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(204 211 219 / var(--tw-border-opacity));
 }
 .alfred__search input[type=text],  .alfred__search textarea {
   width: 100%;
-  border-radius: 0;
+  border-radius: 0.5rem 0.5rem 0 0;
   border-width: 0;
-  font-size: 1.875rem;
-  line-height: 1;
+  font-size: 1.2rem;
   outline: 2px solid transparent;
   outline-offset: 2px;
   background: rgba(244, 245, 246, 0.75);
-  padding: 8px 46px 10px 10px;
+  padding: 0.8rem 2.8rem 0.8rem 0.8rem;
 }
 .alfred__search input[type=text]:focus,  .alfred__search textarea:focus {
   --tw-shadow: 0 0 #0000;
@@ -1856,7 +1855,7 @@
 .alfred__search textarea {
   height: 12rem;
   resize: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
   padding: 10px;
 }
 .alfred__search__loader {
@@ -1937,17 +1936,19 @@
     transform: rotate(360deg);
   }
 }
+.alfred__items {
+  overflow: auto;
+  max-height: 400px;
+}
 .alfred__items > .alfred__items__title {
   display: block;
-  margin: 0.5rem 0;
-  font-size: 0.9rem;
+  margin: 0.5rem 0.8rem;
+  font-size: 0.95rem;
   --tw-text-opacity: 1;
   color: rgb(148 164 181 / var(--tw-text-opacity));
 }
 .alfred__items > ul {
-  overflow: auto;
   padding: 0;
-  max-height: 400px;
 }
 .alfred__items > ul > li {
   display: flex;
@@ -1955,11 +1956,7 @@
   border-style: solid;
   --tw-border-opacity: 1;
   border-color: rgb(243 245 247 / var(--tw-border-opacity));
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  font-size: 1.125rem;
+  padding: 0.5rem;
 }
 .alfred__items > ul > li:hover {
   cursor: pointer;
@@ -1984,7 +1981,7 @@
 .alfred__item__icon {
   align-self: center;
   text-align: center;
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   --tw-text-opacity: 1;
   color: rgb(34 41 47 / var(--tw-text-opacity));
   flex: 0 0 50px;
@@ -1998,7 +1995,7 @@
   display: block;
   --tw-text-opacity: 1;
   color: rgb(34 41 47 / var(--tw-text-opacity));
-  font-size: 100%;
+  font-size: 0.95rem;
 }
 .alfred__item__name > i {
   --tw-text-opacity: 1;
@@ -2010,14 +2007,13 @@
   vertical-align: top;
   --tw-text-opacity: 1;
   color: rgb(148 164 181 / var(--tw-text-opacity));
-  font-size: 9px;
+  font-size: 8px;
 }
 .alfred__item__info {
   display: block;
   --tw-text-opacity: 1;
   color: rgb(204 211 219 / var(--tw-text-opacity));
-  font-size: 80%;
-  margin-top: 5px;
+  font-size: 0.8rem;
 }
 .alfred__item__details {
   text-align: right;
@@ -2050,7 +2046,7 @@
   padding: 0.25rem;
   text-transform: capitalize;
   margin: 0 1px;
-  font-size: 50%;
+  font-size: 0.55rem;
 }
 .alfred__item__prefix {
   border-radius: 0.25rem;
@@ -2059,7 +2055,7 @@
   --tw-border-opacity: 1;
   border-color: rgb(34 41 47 / var(--tw-border-opacity));
   padding: 0.25rem;
-  font-size: 50%;
+  font-size: 0.55rem;
 }
 .alfred__messages > ul {
   margin-top: 1rem;
@@ -2069,10 +2065,7 @@
 .alfred__messages > ul > li {
   display: flex;
   border-radius: 0.25rem;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding: 0.25rem 0.5rem;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
   margin: 3px 0;
