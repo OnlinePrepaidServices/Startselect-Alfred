@@ -1964,9 +1964,10 @@
 .alfred__tips > ul > li {
   display: flex;
   padding: 0.2rem 0.8rem;
+  cursor: pointer;
 }
 .alfred__tip__icon {
-  padding-right: 0.2rem;
+  padding-right: 0.4rem;
 }
 .alfred__items {
   overflow: auto;
@@ -1977,6 +1978,7 @@
   margin: 0.5rem 0.8rem;
   font-size: 0.9rem;
   color: #94a4b5;
+  cursor: default;
 }
 .alfred__items > ul, .alfred__tips > ul {
   padding: 0;
