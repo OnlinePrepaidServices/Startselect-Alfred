@@ -1310,25 +1310,6 @@
             },
 
             /**
-             * Trigger a tip.
-             *
-             * @param {Object} tip
-             * @param {MouseEvent|KeyboardEvent} event
-             */
-            triggerTip(tip, event) {
-                // Make sure we don't trigger other event based stuff
-                if (event) {
-                    event.preventDefault();
-                }
-
-                this.alfred.phrase = tip;
-
-                this.$nextTick(() => {
-                    this.$refs.phraseInput.focus();
-                });
-            },
-
-            /**
              * Trigger a prefixed item.
              *
              * @param {Object} item
@@ -1781,7 +1762,7 @@
             <div class="alfred__tips" v-if="tips.current.length && !alfred.phrase.length">
                 <span class="alfred__tips__title">{{ tips.title }}</span>
                 <ul>
-                    <li v-for="tip in tips.current" @click="triggerTip(tip, $event)">
+                    <li v-for="tip in tips.current">
                         <span class="alfred__tip__icon">
                             <i class="fas fa-search"></i>
                         </span>
