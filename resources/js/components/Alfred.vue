@@ -470,6 +470,9 @@
                 // Reset items
                 this.items.current = [];
                 this.items.filtered = [];
+
+                // Reset tips
+                this.tips.current = [];
             },
 
             /**
@@ -1945,10 +1948,13 @@
 .alfred__tips > ul > li {
   display: flex;
   padding: 0.2rem 0.8rem;
-  cursor: pointer;
+  cursor: default;
 }
 .alfred__tip__icon {
   padding-right: 0.4rem;
+}
+.alfred__tips, .alfred__items {
+  user-select: none;
 }
 .alfred__items {
   overflow: auto;
