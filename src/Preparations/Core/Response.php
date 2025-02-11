@@ -66,6 +66,7 @@ class Response extends AbstractPreparation
             ],
             'message' => $this->message,
             'notification' => $this->notification,
+            'tips' => $this->tips,
             'trigger' => $this->trigger?->toArray(),
         ]);
     }

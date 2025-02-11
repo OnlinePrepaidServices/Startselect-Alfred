@@ -8,6 +8,7 @@ trait AlfredState
     protected ?string $title = null;
     protected string $phrase = '';
     protected string $placeholder = '';
+    protected array $tips = [];
 
     /**
      * Set Alfred's title and possible help information.
@@ -36,6 +37,16 @@ trait AlfredState
     public function placeholder(string $placeholder): static
     {
         $this->placeholder = $placeholder;
+
+        return $this;
+    }
+
+    /**
+     * Set Alfred's tips to display.
+     */
+    public function tips(array $tips): static
+    {
+        $this->tips = $tips;
 
         return $this;
     }

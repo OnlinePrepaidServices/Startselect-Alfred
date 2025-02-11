@@ -48,6 +48,10 @@
                     filtered: [],
                     saved: [],
                 },
+                tips: {
+                    title: '',
+                    current: [],
+                },
                 messages: {
                     current: [],
                     timeout: 2200,
@@ -138,6 +142,7 @@
 
         mounted() {
             this.initiateAlfred();
+            this.tips.title = this.getSetting(settingsMap.TITLE_TIPS, 'Narrow your search');
 
             /**
              * Listen to global Alfred workflow step triggers.
@@ -448,6 +453,7 @@
                         triggered: this.alfred.triggered,
                     },
                     items: this.items.current,
+                    tips: this.tips.current,
                 });
 
                 // Reset action
@@ -549,6 +555,11 @@
                 // Items state available?
                 if (state.items || null) {
                     this.setItems(state.items);
+                }
+
+                // Tips state available?
+                if (state.tips || null) {
+                    this.tips.current = state.tips;
                 }
             },
 
@@ -1021,7 +1032,7 @@
                     });
 
                     this.renderItems(fallbackItems, true, []);
-                    this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_FALLBACK, 'Use [phrase] with..').replace('[phrase]', "'" + this.alfred.phrase + "'");
+                    this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_FALLBACK, 'Use [phrase] with..').replace('[phrase]', "'" + this.alfred.phrase + "'");
 
                     return;
                 }
@@ -1047,7 +1058,7 @@
                     });
 
                     this.renderItems(popularItems, false, itemUsages);
-                    this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_POPULAR, 'Recent searches');
+                    this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_POPULAR, 'Recent searches');
 
                     return;
                 }
@@ -1055,14 +1066,14 @@
                 // No filtered items, empty phrase and not the registered set of items? Only then display all available items.
                 if (this.items.saved.length && !filtered.length && !this.getPhrase()) {
                     this.renderItems(this.items.current, false, []);
-                    this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_RESULTS, 'Results');
+                    this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_RESULTS, 'Results');
 
                     return;
                 }
 
                 // Render fuzzy filtered items
                 this.renderItems(filtered, false, []);
-                this.items.title = this.getSetting(settingsMap.ITEMS_TITLE_RESULTS, 'Results');
+                this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_RESULTS, 'Results');
             },
 
             /**
@@ -1296,6 +1307,21 @@
                 }
 
                 this.handleItemTrigger(item, event, true);
+            },
+
+            /**
+             * Trigger a tip.
+             *
+             * @param {Object} tip
+             * @param {MouseEvent|KeyboardEvent} event
+             */
+            triggerTip(tip, event) {
+                // Make sure we don't trigger other event based stuff
+                if (event) {
+                    event.preventDefault();
+                }
+
+                this.alfred.phrase = tip;
             },
 
             /**
@@ -1748,6 +1774,17 @@
                     <li :class="message.type === 'success' ? 'alfred__message--success' : 'alfred__message--error'" v-for="message in messages.current" v-html="message.text"></li>
                 </ul>
             </div>
+            <div class="alfred__tips">
+                <span class="alfred__tips__title" v-show="!alfred.phrase.length">{{ tips.title }}</span>
+                <ul v-show="tips.current.length">
+                    <li v-for="tip in tips.current" @click="triggerTip(tip, $event)">
+                        <span>
+                            <i class="fas fa-wand-sparkles"></i>
+                        </span>
+                        <span class="alfred__tip__name" v-html="tip"></span>
+                    </li>
+                </ul>
+            </div>
             <div class="alfred__items">
                 <span class="alfred__items__title" v-show="items.filtered.length">{{ items.title }}</span>
                 <ul ref="items" v-show="items.filtered.length">
@@ -1924,7 +1961,7 @@
   overflow: auto;
   max-height: 400px;
 }
-.alfred__items > .alfred__items__title {
+.alfred__items > .alfred__items__title, .alfred__tips > .alfred__tips__title {
   display: block;
   margin: 0.5rem 0.8rem;
   font-size: 0.9rem;
@@ -1963,7 +2000,7 @@
   margin: auto;
   flex: 1;
 }
-.alfred__item__name {
+.alfred__item__name, .alfred__tip__name {
   display: block;
   color: #22292f;
   font-size: 0.95rem;

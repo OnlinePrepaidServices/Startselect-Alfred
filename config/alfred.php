@@ -34,9 +34,10 @@ return [
         // Alfred's default values
         'defaultValues' => [
             'placeholder' => 'Find actions..',
-            'itemsTitleFallback' => 'Use [phrase] with..',
-            'itemsTitlePopular' => 'Recent searches',
-            'itemsTitleResults' => 'Results',
+            'titleItemsFallback' => 'Use [phrase] with..',
+            'titleItemsPopular' => 'Recent searches',
+            'titleItemsResults' => 'Results',
+            'titleTips' => 'Narrow your search',
         ],
     ],
 ];
