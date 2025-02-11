@@ -9892,7 +9892,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=2d904b94
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=53b5e66f
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10015,13 +10015,7 @@ var render = function render() {
   }, [_c('span', {
     staticClass: "alfred__tips__title"
   }, [_vm._v(_vm._s(_vm.tips.title))]), _c('ul', _vm._l(_vm.tips.current, function (tip) {
-    return _c('li', {
-      on: {
-        "click": function ($event) {
-          return _vm.triggerTip(tip, $event);
-        }
-      }
-    }, [_vm._m(0, true), _c('span', {
+    return _c('li', [_vm._m(0, true), _c('span', {
       staticClass: "alfred__tip__name",
       domProps: {
         "innerHTML": _vm._s(tip)
@@ -10106,7 +10100,7 @@ var staticRenderFns = [function () {
   })]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=2d904b94
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=53b5e66f
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -14848,22 +14842,6 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       this.handleItemTrigger(item, event, true);
     },
     /**
-     * Trigger a tip.
-     *
-     * @param {Object} tip
-     * @param {MouseEvent|KeyboardEvent} event
-     */
-    triggerTip(tip, event) {
-      // Make sure we don't trigger other event based stuff
-      if (event) {
-        event.preventDefault();
-      }
-      this.alfred.phrase = tip;
-      this.$nextTick(() => {
-        this.$refs.phraseInput.focus();
-      });
-    },
-    /**
      * Trigger a prefixed item.
      *
      * @param {Object} item
@@ -15238,10 +15216,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=2d904b94&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=53b5e66f&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=2d904b94&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=53b5e66f&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
