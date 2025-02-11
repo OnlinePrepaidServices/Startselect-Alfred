@@ -9892,7 +9892,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=57820e93
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=b86bbd4c
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10010,24 +10010,11 @@ var render = function render() {
         "innerHTML": _vm._s(message.text)
       }
     });
-  }), 0)]), _c('div', {
+  }), 0)]), _vm.tips.current.length && !_vm.alfred.phrase.length ? _c('div', {
     staticClass: "alfred__tips"
   }, [_c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: !_vm.alfred.phrase.length,
-      expression: "!alfred.phrase.length"
-    }],
     staticClass: "alfred__tips__title"
-  }, [_vm._v(_vm._s(_vm.tips.title))]), _c('ul', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.tips.current.length,
-      expression: "tips.current.length"
-    }]
-  }, _vm._l(_vm.tips.current, function (tip) {
+  }, [_vm._v(_vm._s(_vm.tips.title))]), _c('ul', _vm._l(_vm.tips.current, function (tip) {
     return _c('li', {
       on: {
         "click": function ($event) {
@@ -10040,7 +10027,7 @@ var render = function render() {
         "innerHTML": _vm._s(tip)
       }
     })]);
-  }), 0)]), _c('div', {
+  }), 0)]) : _vm._e(), _c('div', {
     staticClass: "alfred__items"
   }, [_c('span', {
     directives: [{
@@ -10112,12 +10099,14 @@ var render = function render() {
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c('span', [_c('i', {
-    staticClass: "fas fa-wand-sparkles"
+  return _c('span', {
+    staticClass: "alfred__tip__icon"
+  }, [_c('i', {
+    staticClass: "fas fa-search"
   })]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=57820e93
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=b86bbd4c
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -14870,6 +14859,9 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         event.preventDefault();
       }
       this.alfred.phrase = tip;
+      this.$nextTick(() => {
+        this.$refs.phraseInput.focus();
+      });
     },
     /**
      * Trigger a prefixed item.
@@ -15246,10 +15238,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=57820e93&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=b86bbd4c&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=57820e93&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=b86bbd4c&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */

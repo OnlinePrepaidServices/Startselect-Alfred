@@ -1322,6 +1322,10 @@
                 }
 
                 this.alfred.phrase = tip;
+
+                this.$nextTick(() => {
+                    this.$refs.phraseInput.focus();
+                });
             },
 
             /**
@@ -1774,12 +1778,12 @@
                     <li :class="message.type === 'success' ? 'alfred__message--success' : 'alfred__message--error'" v-for="message in messages.current" v-html="message.text"></li>
                 </ul>
             </div>
-            <div class="alfred__tips">
-                <span class="alfred__tips__title" v-show="!alfred.phrase.length">{{ tips.title }}</span>
-                <ul v-show="tips.current.length">
+            <div class="alfred__tips" v-if="tips.current.length && !alfred.phrase.length">
+                <span class="alfred__tips__title">{{ tips.title }}</span>
+                <ul>
                     <li v-for="tip in tips.current" @click="triggerTip(tip, $event)">
-                        <span>
-                            <i class="fas fa-wand-sparkles"></i>
+                        <span class="alfred__tip__icon">
+                            <i class="fas fa-search"></i>
                         </span>
                         <span class="alfred__tip__name" v-html="tip"></span>
                     </li>
@@ -1957,6 +1961,9 @@
     transform: rotate(360deg);
   }
 }
+.alfred__tip__icon {
+  padding-right: 0.2rem;
+}
 .alfred__items {
   overflow: auto;
   max-height: 400px;
@@ -1967,7 +1974,7 @@
   font-size: 0.9rem;
   color: #94a4b5;
 }
-.alfred__items > ul {
+.alfred__items > ul, .alfred__tips > ul {
   padding: 0;
 }
 .alfred__items > ul > li {
