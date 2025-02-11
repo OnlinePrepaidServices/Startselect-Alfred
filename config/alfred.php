@@ -21,6 +21,9 @@ return [
     // The permission checker that'll be used when handling preparations and workflow steps required permissions
     'permissionChecker' => Startselect\Alfred\Support\DefaultPermissionChecker::class,
 
+    // Alfred's initial tips
+    'tips' => [],
+
     // Alfred's JavaScript settings
     'settings' => [
         // List of classes in the HTML, which contains inputs that can be focused.

@@ -40,6 +40,7 @@ class Alfred
 
         return (new Response())
             ->placeholder(Config::get('alfred.settings.defaultValues.placeholder', 'Find actions..'))
+            ->tips(Config::get('alfred.tips', []))
             ->trigger($itemSet);
     }
 
