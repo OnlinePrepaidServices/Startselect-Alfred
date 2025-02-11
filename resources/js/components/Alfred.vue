@@ -1961,6 +1961,10 @@
     transform: rotate(360deg);
   }
 }
+.alfred__tips > ul > li {
+  display: flex;
+  padding: 0.2rem 0.8rem;
+}
 .alfred__tip__icon {
   padding-right: 0.2rem;
 }
