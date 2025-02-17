@@ -1547,6 +1547,11 @@
              * @param {Object} item
              */
             handleItemAutocomplete(item) {
+                // Make sure we have the correct item
+                if ('obj' in item) {
+                   item = item.obj;
+                }
+
                 // Autocomplete to prefix, when the current phrase has the characters within the prefix
                 if ((item.prefix || null) && item.prefix.includes(this.alfred.phrase)) {
                     this.alfred.phrase = item.prefix;
@@ -1556,9 +1561,9 @@
 
                 let newPhrase = [];
 
-                for (let itemNamePart in item.name.toLowerCase().replace(/[-_:]/g,'').split(' ')) {
-                    for (let alfredPhrasePart in this.alfred.phrase.split(' ')) {
-                        if (itemNamePart.includes(alfredPhrasePart)) {
+                for (let itemNamePart of item.name.toLowerCase().replace(/[-_:]/g,'').split(' ')) {
+                    for (let alfredPhrasePart of this.alfred.phrase.split(' ')) {
+                        if (itemNamePart.includes(alfredPhrasePart) && !newPhrase.includes(itemNamePart)) {
                             newPhrase.push(itemNamePart);
                         }
                     }
