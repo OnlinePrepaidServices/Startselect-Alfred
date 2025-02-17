@@ -131,7 +131,8 @@ class ItemSet extends AbstractPreparation
                 ],
                 'items' => $this->getItems()
                     ? ($this->sortItems ? $this->getSortedItems() : $this->getItems(true))
-                    : null
+                    : null,
+                'tips' => $this->tips,
             ],
         ]);
     }

@@ -59,6 +59,7 @@ class Action extends AbstractPreparation
                 'active' => true,
                 'extendedPhrase' => $this->extendedPhrase,
                 'realtime' => $this->realtime,
+                'tips' => $this->tips,
                 'trigger' => $this->trigger?->toArray(),
             ],
         ]);

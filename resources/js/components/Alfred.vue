@@ -1762,7 +1762,7 @@
                     <li :class="message.type === 'success' ? 'alfred__message--success' : 'alfred__message--error'" v-for="message in messages.current" v-html="message.text"></li>
                 </ul>
             </div>
-            <div class="alfred__tips" v-if="tips.current.length && !alfred.phrase.length">
+            <div class="alfred__tips" v-if="tips.current.length && !getPhrase().length">
                 <span class="alfred__tips__title">{{ tips.title }}</span>
                 <ul>
                     <li v-for="tip in tips.current">
