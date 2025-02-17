@@ -1955,6 +1955,12 @@
 }
 .alfred__tip__icon {
   padding-right: 0.4rem;
+  font-size: 0.85rem;
+}
+.alfred__tip__name {
+  display: block;
+  color: #22292f;
+  font-size: 0.85rem;
 }
 .alfred__tips, .alfred__items {
   user-select: none;
@@ -2003,7 +2009,7 @@
   margin: auto;
   flex: 1;
 }
-.alfred__item__name, .alfred__tip__name {
+.alfred__item__name {
   display: block;
   color: #22292f;
   font-size: 0.95rem;
