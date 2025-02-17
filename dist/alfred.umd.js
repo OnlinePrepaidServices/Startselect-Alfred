@@ -9892,7 +9892,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=4d333390
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=29aa4630
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10100,7 +10100,7 @@ var staticRenderFns = [function () {
   })]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=4d333390
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=29aa4630
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -14006,6 +14006,13 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         event.preventDefault();
         return this.moveItemFocus(event.key === 'ArrowUp' ? 'up' : 'down');
       }
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        let item = this.getFocusedItem();
+        if (item) {
+          this.handleItemAutocomplete(item);
+        }
+      }
       if (event.key === 'Enter') {
         let item = this.getFocusedItem();
         if (item) {
@@ -15039,6 +15046,29 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       this.triggerWorkflowStep(workflowStep, null);
     },
     /**
+     * Handle item autocomplete.
+     *
+     * @param {Object} item
+     */
+    handleItemAutocomplete(item) {
+      // Autocomplete to prefix, when the current phrase has the characters within the prefix
+      if ((item.prefix || null) && item.prefix.includes(this.alfred.phrase)) {
+        this.alfred.phrase = item.prefix;
+        return;
+      }
+      let newPhrase = [];
+      for (let itemNamePart in item.name.toLowerCase().replace(/[-_:]/g, '').split(' ')) {
+        for (let alfredPhrasePart in this.alfred.phrase.split(' ')) {
+          if (itemNamePart.includes(alfredPhrasePart)) {
+            newPhrase.push(itemNamePart);
+          }
+        }
+      }
+      if (newPhrase.length) {
+        this.alfred.phrase = newPhrase.join(' ');
+      }
+    },
+    /**
      * Handle item trigger.
      *
      * @param {Object} item
@@ -15219,10 +15249,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=4d333390&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=29aa4630&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=4d333390&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=29aa4630&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
