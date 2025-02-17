@@ -16,7 +16,7 @@ class FocusableFields extends AbstractWorkflowStep
                 ->name('Focus a field')
                 ->info('Focus a HTML input field on this page.')
                 ->icon('keyboard')
-                ->prefix('fld')
+                ->prefix('field')
                 ->trigger(
                     (new ItemSet())
                         ->title('Focus a field')
