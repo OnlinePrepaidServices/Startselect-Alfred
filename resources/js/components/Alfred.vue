@@ -375,6 +375,16 @@
                     return this.moveItemFocus(event.key === 'ArrowUp' ? 'up' : 'down');
                 }
 
+                if (event.key === 'Tab') {
+                    event.preventDefault();
+
+                    let item = this.getFocusedItem();
+
+                    if (item) {
+                        this.handleItemAutocomplete(item);
+                    }
+                }
+
                 if (event.key === 'Enter') {
                     let item = this.getFocusedItem();
 
@@ -1529,6 +1539,34 @@
 
                 // Initiate Alfred with given trigger
                 this.triggerWorkflowStep(workflowStep, null);
+            },
+
+            /**
+             * Handle item autocomplete.
+             *
+             * @param {Object} item
+             */
+            handleItemAutocomplete(item) {
+                // Autocomplete to prefix, when the current phrase has the characters within the prefix
+                if ((item.prefix || null) && item.prefix.includes(this.alfred.phrase)) {
+                    this.alfred.phrase = item.prefix;
+
+                    return;
+                }
+
+                let newPhrase = [];
+
+                for (let itemNamePart in item.name.toLowerCase().replace(/[-_:]/g,'').split(' ')) {
+                    for (let alfredPhrasePart in this.alfred.phrase.split(' ')) {
+                        if (itemNamePart.includes(alfredPhrasePart)) {
+                            newPhrase.push(itemNamePart);
+                        }
+                    }
+                }
+
+                if (newPhrase.length) {
+                    this.alfred.phrase = newPhrase.join(' ');
+                }
             },
 
             /**
