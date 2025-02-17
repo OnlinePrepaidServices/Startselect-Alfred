@@ -1945,6 +1945,9 @@
     transform: rotate(360deg);
   }
 }
+.alfred__tips > ul {
+  column-width: 15rem;
+}
 .alfred__tips > ul > li {
   display: flex;
   padding: 0.2rem 0.8rem;
