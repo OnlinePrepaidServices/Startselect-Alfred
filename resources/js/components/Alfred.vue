@@ -1554,7 +1554,7 @@
 
                 // Autocomplete to prefix, when the current phrase has the characters within the prefix
                 if ((item.prefix || null) && item.prefix.includes(this.alfred.phrase)) {
-                    this.alfred.phrase = item.prefix;
+                    this.alfred.phrase = item.prefix + ' '; // Also trigger the prefix immediately
 
                     return;
                 }
