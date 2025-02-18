@@ -1570,7 +1570,9 @@
                 }
 
                 if (newPhrase.length) {
-                    this.alfred.phrase = newPhrase.join(' ');
+                    this.alfred.phrase = this.alfred.prefixed && this.alfred.prefix
+                        ? this.alfred.prefix + ' ' + newPhrase.join(' ')
+                        : newPhrase.join(' ');
                 }
             },
 
