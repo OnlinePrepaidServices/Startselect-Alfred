@@ -5,5 +5,6 @@ export default {
     TITLE_ITEMS_FALLBACK: 'defaultValues.titleItemsFallback',
     TITLE_ITEMS_POPULAR: 'defaultValues.titleItemsPopular',
     TITLE_ITEMS_RESULTS: 'defaultValues.titleItemsResults',
+    TITLE_ITEMS_UNFILTERED: 'defaultValues.titleItemsUnfiltered',
     TITLE_TIPS: 'defaultValues.titleTips',
 }

@@ -1079,7 +1079,7 @@
                 // No filtered items, empty phrase and not the registered set of items? Only then display all available items.
                 if (this.items.saved.length && !filtered.length && !this.getPhrase()) {
                     this.renderItems(this.items.current, false, []);
-                    this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_RESULTS, 'Results');
+                    this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_UNFILTERED, 'Unfiltered results');
 
                     return;
                 }

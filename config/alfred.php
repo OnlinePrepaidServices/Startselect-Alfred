@@ -40,6 +40,7 @@ return [
             'titleItemsFallback' => 'Use [phrase] with..',
             'titleItemsPopular' => 'Recent searches',
             'titleItemsResults' => 'Results',
+            'titleItemsUnfiltered' => 'Unfiltered results',
             'titleTips' => 'Narrow your search',
         ],
     ],
