@@ -100,6 +100,11 @@
                             clearTimeout(this.action.timer);
                         }
 
+                        // Trigger action immediately on empty phrase
+                        if (!this.getPhrase()) {
+                            this.triggerAction(null);
+                        }
+
                         // Start timer to trigger the action
                         this.action.timer = setTimeout(() => {
                             this.triggerAction(null);
