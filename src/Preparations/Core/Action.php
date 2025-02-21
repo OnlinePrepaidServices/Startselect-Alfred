@@ -2,6 +2,7 @@
 
 namespace Startselect\Alfred\Preparations\Core;
 
+use Illuminate\Support\Arr;
 use Startselect\Alfred\Concerns\AlfredState;
 use Startselect\Alfred\Preparations\AbstractPreparation;
 
