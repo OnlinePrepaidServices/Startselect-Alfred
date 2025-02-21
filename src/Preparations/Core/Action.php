@@ -12,6 +12,7 @@ class Action extends AbstractPreparation
     protected bool $extendedPhrase = false;
     protected bool $realtime = false;
     protected ?AbstractPreparation $trigger = null;
+    protected ?ItemSet $itemSet = null;
 
     protected array $validationProperties = [
         'trigger',
@@ -38,6 +39,16 @@ class Action extends AbstractPreparation
     }
 
     /**
+     * Whether the action has an item set, to immediately display unfiltered results.
+     */
+    public function itemSet(ItemSet $itemSet): self
+    {
+        $this->itemSet = $itemSet;
+
+        return $this;
+    }
+
+    /**
      * The preparation trigger of this action.
      */
     public function trigger(AbstractPreparation $preparation): self
@@ -59,6 +70,7 @@ class Action extends AbstractPreparation
                 'active' => true,
                 'extendedPhrase' => $this->extendedPhrase,
                 'realtime' => $this->realtime,
+                'items' => Arr::get($this->itemSet?->toArray() ?? [], 'properties.items') ?: null,
                 'tips' => $this->tips,
                 'trigger' => $this->trigger?->toArray(),
             ],

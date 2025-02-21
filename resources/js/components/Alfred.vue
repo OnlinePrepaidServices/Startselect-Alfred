@@ -17,6 +17,7 @@
                 action: {
                     active: false,
                     extendedPhrase: false,
+                    items: null,
                     realtime: false,
                     realtimeShouldDeactivate: false,
                     timer: null,
@@ -450,6 +451,7 @@
                     action: {
                         active: this.action.active,
                         extendedPhrase: this.action.extendedPhrase,
+                        items: this.action.items,
                         realtime: this.action.realtime,
                         trigger: this.action.trigger,
                     },
@@ -469,6 +471,7 @@
                 // Reset action
                 this.action.active = false;
                 this.action.extendedPhrase = false;
+                this.action.items = null;
                 this.action.realtime = false;
                 this.action.realtimeShouldDeactivate = false;
 
@@ -586,6 +589,11 @@
                 this.action.extendedPhrase = action.extendedPhrase;
                 this.action.realtime = action.realtime;
                 this.action.trigger = action.trigger;
+
+                // Items available for the unfiltered results?
+                if (action.items || null) {
+                   this.setItems(action.items);
+                }
             },
 
             /**
