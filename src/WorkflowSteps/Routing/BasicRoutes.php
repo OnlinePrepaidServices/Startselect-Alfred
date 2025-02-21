@@ -22,7 +22,7 @@ class BasicRoutes extends AbstractWorkflowStep
         self::ACTION_METHOD_CREATE,
     ];
 
-    public function register(): Item|array|null
+    public function register(ItemSet $itemSet): void
     {
         /** @var PermissionChecker $permissionChecker */
         $permissionChecker = App::make(PermissionChecker::class);
@@ -44,7 +44,7 @@ class BasicRoutes extends AbstractWorkflowStep
             }
         }
 
-        return $this->createRegisterItems($routeItemsByActionMethod) ?: null;
+        $this->registerItems($itemSet, $routeItemsByActionMethod);
     }
 
     protected function createRouteItem(Route $route, PermissionChecker $permissionChecker): ?Item
@@ -118,10 +118,8 @@ class BasicRoutes extends AbstractWorkflowStep
         return null;
     }
 
-    protected function createRegisterItems(array $routeItemsByActionMethod): array
+    protected function registerItems(ItemSet $itemSet, array $routeItemsByActionMethod): void
     {
-        $items = [];
-
         foreach ($routeItemsByActionMethod as $routeActionMethod => $routeItems) {
             // Did we gather route items for this action method?
             if (!$routeItems) {
@@ -133,22 +131,22 @@ class BasicRoutes extends AbstractWorkflowStep
                 self::ACTION_METHOD_CREATE => 'Create something new',
             };
 
-            $items[] = (new Item())
-                ->name(ucfirst($routeActionMethod))
-                ->info("{$title}.")
-                ->icon('compass')
-                ->prefix(match ($routeActionMethod) {
-                    self::ACTION_METHOD_INDEX => 'index',
-                    self::ACTION_METHOD_CREATE => 'new',
-                })
-                ->trigger(
-                    (new ItemSet())
-                        ->title($title)
-                        ->placeholder('Filter by found routes..')
-                        ->items($routeItems)
-                );
+            $itemSet->addItem(
+                (new Item())
+                    ->name(ucfirst($routeActionMethod))
+                    ->info("{$title}.")
+                    ->icon('compass')
+                    ->prefix(match ($routeActionMethod) {
+                        self::ACTION_METHOD_INDEX => 'index',
+                        self::ACTION_METHOD_CREATE => 'new',
+                    })
+                    ->trigger(
+                        (new ItemSet())
+                            ->title($title)
+                            ->placeholder('Filter by found routes..')
+                            ->items($routeItems)
+                    )
+            );
         }
-
-        return $items;
     }
 }

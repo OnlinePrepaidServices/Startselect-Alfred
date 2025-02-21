@@ -2,7 +2,7 @@
 
 namespace Startselect\Alfred\Contracts;
 
-use Startselect\Alfred\Preparations\Core\Item;
+use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
 
 interface WorkflowStep
@@ -10,9 +10,9 @@ interface WorkflowStep
     /**
      * Register workflow step.
      *
-     * This will add one or more items to the opening response of Alfred.
+     * Add items to the opening response of Alfred.
      */
-    public function register(): Item|array|null;
+    public function register(ItemSet $itemSet): void;
 
     /**
      * Initialize workflow step.

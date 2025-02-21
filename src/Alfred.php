@@ -27,14 +27,8 @@ class Alfred
             $workflowStep->setPageData($pageData);
 
             // Let's find our items for this workflow step
-            if ($workflowStep->isRegistrable() && $registerResult = $workflowStep->register()) {
-                // Did we get multiple?
-                if (is_array($registerResult)) {
-                    $itemSet->addItems($registerResult);
-                    continue;
-                }
-
-                $itemSet->addItem($registerResult);
+            if ($workflowStep->isRegistrable()) {
+                $workflowStep->register($itemSet);
             }
         }
 

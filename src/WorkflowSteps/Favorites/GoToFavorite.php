@@ -11,17 +11,19 @@ use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
 class GoToFavorite extends AbstractWorkflowStep
 {
-    public function register(): Item|array|null
+    public function register(ItemSet $itemSet): void
     {
-        return (new Item())
-            ->name('Go to favorite')
-            ->info('Navigate to one of your favorites.')
-            ->icon('star')
-            ->trigger(
-                (new WorkflowStep())
-                    ->class(self::class)
-                    ->includeLocalStorageKeys(['favorites'])
-            );
+        $itemSet->addItem(
+            (new Item())
+                ->name('Go to favorite')
+                ->info('Navigate to one of your favorites.')
+                ->icon('star')
+                ->trigger(
+                    (new WorkflowStep())
+                        ->class(self::class)
+                        ->includeLocalStorageKeys(['favorites'])
+                )
+        );
     }
 
     public function handle(): Response

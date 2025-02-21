@@ -9,9 +9,9 @@ use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
 class FocusableFields extends AbstractWorkflowStep
 {
-    public function register(): Item|array|null
+    public function register(ItemSet $itemSet): void
     {
-        return [
+        $itemSet->addItem(
             (new Item())
                 ->name('Focus a field')
                 ->info('Focus a HTML input field on this page.')
@@ -23,7 +23,7 @@ class FocusableFields extends AbstractWorkflowStep
                         ->placeholder('Search for focusable fields')
                         ->items($this->getFocusableFields())
                 )
-        ];
+        );
     }
 
     protected function getFocusableFields(): array

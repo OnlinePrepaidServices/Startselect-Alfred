@@ -17,18 +17,20 @@ class DeleteFavorite extends AbstractWorkflowStep
         ],
     ];
 
-    public function register(): Item|array|null
+    public function register(ItemSet $itemSet): void
     {
-        return (new Item())
-            ->name('Delete favorite')
-            ->info('Delete one of your favorites.')
-            ->icon('star')
-            ->trigger(
-                (new WorkflowStep())
-                    ->class(self::class)
-                    ->method(self::METHOD_INIT)
-                    ->includeLocalStorageKeys(['favorites'])
-            );
+        $itemSet->addItem(
+            (new Item())
+                ->name('Delete favorite')
+                ->info('Delete one of your favorites.')
+                ->icon('star')
+                ->trigger(
+                    (new WorkflowStep())
+                        ->class(self::class)
+                        ->method(self::METHOD_INIT)
+                        ->includeLocalStorageKeys(['favorites'])
+                )
+        );
     }
 
     public function init(): Response

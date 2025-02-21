@@ -26,18 +26,20 @@ class ExecuteSnippet extends AbstractWorkflowStep
         ],
     ];
 
-    public function register(): Item|array|null
+    public function register(ItemSet $itemSet): void
     {
-        return (new Item())
-            ->name('Execute snippet')
-            ->info('Execute one of your snippets and add it to the clipboard.')
-            ->icon('i-cursor')
-            ->trigger(
-                (new WorkflowStep())
-                    ->class(self::class)
-                    ->method(self::METHOD_INIT)
-                    ->includeLocalStorageKeys(['snippets'])
-            );
+        $itemSet->addItem(
+            (new Item())
+                ->name('Execute snippet')
+                ->info('Execute one of your snippets and add it to the clipboard.')
+                ->icon('i-cursor')
+                ->trigger(
+                    (new WorkflowStep())
+                        ->class(self::class)
+                        ->method(self::METHOD_INIT)
+                        ->includeLocalStorageKeys(['snippets'])
+                )
+        );
     }
 
     public function init(): Response

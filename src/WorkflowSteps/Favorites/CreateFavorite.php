@@ -4,6 +4,7 @@ namespace Startselect\Alfred\WorkflowSteps\Favorites;
 
 use Startselect\Alfred\Preparations\Core\Action;
 use Startselect\Alfred\Preparations\Core\Item;
+use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
 use Startselect\Alfred\Preparations\Other\LocalStorage;
 use Startselect\Alfred\Preparations\Other\WorkflowStep;
@@ -11,21 +12,23 @@ use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
 class CreateFavorite extends AbstractWorkflowStep
 {
-    public function register(): Item|array|null
+    public function register(ItemSet $itemSet): void
     {
-        return (new Item())
-            ->name('Create favorite')
-            ->info('A new favorite based on the current URL.')
-            ->icon('star')
-            ->shortcut([
-                Item::KEY_CONTROL,
-                'B',
-            ])
-            ->trigger(
-                (new WorkflowStep())
-                    ->class(self::class)
-                    ->method(self::METHOD_INIT)
-            );
+        $itemSet->addItem(
+            (new Item())
+                ->name('Create favorite')
+                ->info('A new favorite based on the current URL.')
+                ->icon('star')
+                ->shortcut([
+                    Item::KEY_CONTROL,
+                    'B',
+                ])
+                ->trigger(
+                    (new WorkflowStep())
+                        ->class(self::class)
+                        ->method(self::METHOD_INIT)
+                )
+        );
     }
 
     public function init(): Response

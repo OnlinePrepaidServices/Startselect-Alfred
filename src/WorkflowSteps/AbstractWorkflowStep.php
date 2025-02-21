@@ -5,7 +5,7 @@ namespace Startselect\Alfred\WorkflowSteps;
 use Illuminate\Support\Facades\App;
 use Startselect\Alfred\Contracts\PermissionChecker;
 use Startselect\Alfred\Contracts\WorkflowStep;
-use Startselect\Alfred\Preparations\Core\Item;
+use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
 use Startselect\Alfred\ValueObjects\AlfredData;
 use Startselect\Alfred\ValueObjects\PageData;
@@ -60,9 +60,8 @@ abstract class AbstractWorkflowStep implements WorkflowStep
         $this->response = new Response();
     }
 
-    public function register(): Item|array|null
+    public function register(ItemSet $itemSet): void
     {
-        return null;
     }
 
     public function init(): Response

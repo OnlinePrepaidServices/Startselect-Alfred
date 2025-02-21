@@ -23,18 +23,20 @@ class EditSnippet extends AbstractWorkflowStep
         ],
     ];
 
-    public function register(): Item|array|null
+    public function register(ItemSet $itemSet): void
     {
-        return (new Item())
-            ->name('Edit snippet')
-            ->info('Edit one of your snippets.')
-            ->icon('i-cursor')
-            ->trigger(
-                (new WorkflowStep())
-                    ->class(self::class)
-                    ->method(self::METHOD_INIT)
-                    ->includeLocalStorageKeys(['snippets'])
-            );
+        $itemSet->addItem(
+            (new Item())
+                ->name('Edit snippet')
+                ->info('Edit one of your snippets.')
+                ->icon('i-cursor')
+                ->trigger(
+                    (new WorkflowStep())
+                        ->class(self::class)
+                        ->method(self::METHOD_INIT)
+                        ->includeLocalStorageKeys(['snippets'])
+                )
+        );
     }
 
     public function init(): Response

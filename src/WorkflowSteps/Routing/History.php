@@ -12,17 +12,19 @@ class History extends AbstractWorkflowStep
 {
     protected const MAX_HISTORY_RESULTS = 50;
 
-    public function register(): Item|array|null
+    public function register(ItemSet $itemSet): void
     {
-        return (new Item())
-            ->name('History')
-            ->info('Navigate to a page you have already been to.')
-            ->icon('history')
-            ->shortcut([
-                Item::KEY_CONTROL,
-                'H',
-            ])
-            ->trigger($this->getHistory());
+        $itemSet->addItem(
+            (new Item())
+                ->name('History')
+                ->info('Navigate to a page you have already been to.')
+                ->icon('history')
+                ->shortcut([
+                    Item::KEY_CONTROL,
+                    'H',
+                ])
+                ->trigger($this->getHistory())
+        );
     }
 
     public function handle(): Response

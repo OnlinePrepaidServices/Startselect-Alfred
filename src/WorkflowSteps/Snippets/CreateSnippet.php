@@ -4,6 +4,7 @@ namespace Startselect\Alfred\WorkflowSteps\Snippets;
 
 use Startselect\Alfred\Preparations\Core\Action;
 use Startselect\Alfred\Preparations\Core\Item;
+use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
 use Startselect\Alfred\Preparations\Other\LocalStorage;
 use Startselect\Alfred\Preparations\Other\WorkflowStep;
@@ -29,17 +30,19 @@ class CreateSnippet extends AbstractWorkflowStep
         ],
     ];
 
-    public function register(): Item|array|null
+    public function register(ItemSet $itemSet): void
     {
-        return (new Item())
-            ->name('Create snippet')
-            ->info('Text autocomplete based on a keyword.')
-            ->icon('i-cursor')
-            ->trigger(
-                (new WorkflowStep())
-                    ->class(self::class)
-                    ->method(self::METHOD_INIT)
-            );
+        $itemSet->addItem(
+            (new Item())
+                ->name('Create snippet')
+                ->info('Text autocomplete based on a keyword.')
+                ->icon('i-cursor')
+                ->trigger(
+                    (new WorkflowStep())
+                        ->class(self::class)
+                        ->method(self::METHOD_INIT)
+                )
+        );
     }
 
     public function init(): Response
