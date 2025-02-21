@@ -1167,6 +1167,11 @@
                     clearTimeout(this.action.timer);
                 }
 
+                // Only trigger when we have a phrase
+                if (!this.getPhrase()) {
+                    return;
+                }
+
                 // Reset items
                 this.items.current = [];
                 this.items.filtered = [];
