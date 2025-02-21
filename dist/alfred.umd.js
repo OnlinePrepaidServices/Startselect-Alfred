@@ -9892,7 +9892,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=84196f72
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=26d491ce
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10100,7 +10100,7 @@ var staticRenderFns = [function () {
   })]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=84196f72
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=26d491ce
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -13661,6 +13661,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
   TITLE_ITEMS_FALLBACK: 'defaultValues.titleItemsFallback',
   TITLE_ITEMS_POPULAR: 'defaultValues.titleItemsPopular',
   TITLE_ITEMS_RESULTS: 'defaultValues.titleItemsResults',
+  TITLE_ITEMS_UNFILTERED: 'defaultValues.titleItemsUnfiltered',
   TITLE_TIPS: 'defaultValues.titleTips'
 });
 ;// ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=script&lang=js
@@ -13684,6 +13685,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       action: {
         active: false,
         extendedPhrase: false,
+        items: null,
         realtime: false,
         realtimeShouldDeactivate: false,
         timer: null,
@@ -14069,6 +14071,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         action: {
           active: this.action.active,
           extendedPhrase: this.action.extendedPhrase,
+          items: this.action.items,
           realtime: this.action.realtime,
           trigger: this.action.trigger
         },
@@ -14088,6 +14091,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       // Reset action
       this.action.active = false;
       this.action.extendedPhrase = false;
+      this.action.items = null;
       this.action.realtime = false;
       this.action.realtimeShouldDeactivate = false;
 
@@ -14198,6 +14202,11 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       this.action.extendedPhrase = action.extendedPhrase;
       this.action.realtime = action.realtime;
       this.action.trigger = action.trigger;
+
+      // Items available for the unfiltered results?
+      if (action.items || null) {
+        this.setItems(action.items);
+      }
     },
     /**
      * Set an item set state.
@@ -14624,7 +14633,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       // No filtered items, empty phrase and not the registered set of items? Only then display all available items.
       if (this.items.saved.length && !filtered.length && !this.getPhrase()) {
         this.renderItems(this.items.current, false, []);
-        this.items.title = this.getSetting(settings.TITLE_ITEMS_RESULTS, 'Results');
+        this.items.title = this.getSetting(settings.TITLE_ITEMS_UNFILTERED, 'Unfiltered results');
         return;
       }
 
@@ -15255,10 +15264,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=84196f72&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=26d491ce&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=84196f72&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=26d491ce&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
