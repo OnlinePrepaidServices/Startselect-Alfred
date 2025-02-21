@@ -17,7 +17,7 @@
                 action: {
                     active: false,
                     extendedPhrase: false,
-                    items: null,
+                    items: [],
                     realtime: false,
                     realtimeShouldDeactivate: false,
                     timer: null,
@@ -471,7 +471,7 @@
                 // Reset action
                 this.action.active = false;
                 this.action.extendedPhrase = false;
-                this.action.items = null;
+                this.action.items = [];
                 this.action.realtime = false;
                 this.action.realtimeShouldDeactivate = false;
 
@@ -587,13 +587,9 @@
             setAction(action) {
                 this.action.active = action.active;
                 this.action.extendedPhrase = action.extendedPhrase;
+                this.action.items = action.items;
                 this.action.realtime = action.realtime;
                 this.action.trigger = action.trigger;
-
-                // Items available for the unfiltered results?
-                if (action.items || null) {
-                   this.setItems(action.items);
-                }
             },
 
             /**
@@ -1169,6 +1165,11 @@
 
                 // Only trigger when we have a phrase
                 if (!this.getPhrase()) {
+                    // Items available for the unfiltered results?
+                    if (this.action.items.length) {
+                        this.setItems(this.action.items);
+                    }
+
                     return;
                 }
 
@@ -1352,8 +1353,7 @@
 
                 this.alfred.prefixed = true;
 
-                // Immediately trigger the action if a phrase is already present
-                if (item.trigger.type === 'Action' && this.getPhrase().length) {
+                if (item.trigger.type === 'Action') {
                     this.triggerAction(null);
                 } else if (item.trigger.type === 'ItemSet') {
                     this.filterItems();
@@ -1820,7 +1820,7 @@
                     <li :class="message.type === 'success' ? 'alfred__message--success' : 'alfred__message--error'" v-for="message in messages.current" v-html="message.text"></li>
                 </ul>
             </div>
-            <div class="alfred__tips" v-if="tips.current.length && !getPhrase().length">
+            <div class="alfred__tips" v-if="tips.current.length && !getPhrase()">
                 <span class="alfred__tips__title">{{ tips.title }}</span>
                 <ul>
                     <li v-for="tip in tips.current">
