@@ -1352,6 +1352,10 @@
                     return;
                 }
 
+                if (this.getSetting(settingsMap.REMEMBER_POPULAR_ITEMS, false)) {
+                    this.addItemUsage(item);
+                }
+
                 this.alfred.prefixed = true;
 
                 this.handlePreparedTrigger(item.trigger, null, item.trigger.properties);
