@@ -71,7 +71,7 @@ class Action extends AbstractPreparation
                 'active' => true,
                 'extendedPhrase' => $this->extendedPhrase,
                 'realtime' => $this->realtime,
-                'items' => Arr::get($this->itemSet?->toArray() ?? [], 'properties.items') ?: null,
+                'items' => Arr::get($this->itemSet?->toArray() ?? [], 'properties.items') ?: [],
                 'tips' => $this->tips,
                 'trigger' => $this->trigger?->toArray(),
             ],
