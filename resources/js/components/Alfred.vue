@@ -1171,7 +1171,7 @@
                 // Only trigger when we have a phrase
                 if (!this.getPhrase()) {
                     // Items available for the unfiltered results?
-                    if (this.action.items.length) {
+                    if (this.action.realtime && this.action.items.length) {
                         this.setItems(this.action.items);
                     }
 
