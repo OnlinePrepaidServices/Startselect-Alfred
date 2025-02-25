@@ -163,7 +163,11 @@
 
         mounted() {
             this.initiateAlfred();
+
+            // Initiate settings
             this.tips.title = this.getSetting(settingsMap.TITLE_TIPS, 'Narrow your search');
+            this.action.timeout = this.getSetting(settingsMap.TIMEOUT_ACTION, 1.2) * 1000; // Seconds to milliseconds
+            this.messages.timeout = this.getSetting(settingsMap.TIMEOUT_MESSAGES, 2.2) * 1000; // Seconds to milliseconds
 
             /**
              * Listen to global Alfred workflow step triggers.

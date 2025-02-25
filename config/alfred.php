@@ -43,5 +43,11 @@ return [
             'titleItemsUnfiltered' => 'Unfiltered results',
             'titleTips' => 'Narrow your search',
         ],
+
+        // Alfred's timeouts in seconds
+        'timeouts' => [
+            'action' => 1.2,
+            'messages' => 2.2,
+        ],
     ],
 ];
