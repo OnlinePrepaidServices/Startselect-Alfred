@@ -93,16 +93,31 @@
                         return;
                     }
 
+                    // Handle action's unfiltered results
+                    if (this.action.active) {
+                        const oldValuePhrase = this.alfred.prefixed && this.alfred.prefix
+                            ? oldValue.substring(this.alfred.prefix.length + 1)
+                            : oldValue;
+
+                        // Items available for the unfiltered results?
+                        if (this.action.items.length) {
+                            // Display when we have an empty phrase
+                            if (!this.getPhrase()) {
+                                this.setItems(this.action.items);
+                            }
+
+                            // Hide them when we start searching
+                            if (!oldValuePhrase) {
+                                this.setItems([]);
+                            }
+                        }
+                    }
+
                     // Handle action's item filtering when realtime
                     if (this.action.active && (this.action.realtime || this.alfred.prefixed)) {
                         // Do we have a timer active?
                         if (this.action.timer) {
                             clearTimeout(this.action.timer);
-                        }
-
-                        // Trigger action immediately on empty phrase
-                        if (!this.getPhrase()) {
-                            this.triggerAction(null);
                         }
 
                         // Start timer to trigger the action
@@ -1171,7 +1186,7 @@
                 // Only trigger when we have a phrase
                 if (!this.getPhrase()) {
                     // Items available for the unfiltered results?
-                    if (this.action.realtime && this.action.items.length) {
+                    if (this.action.items.length) {
                         this.setItems(this.action.items);
                     }
 
