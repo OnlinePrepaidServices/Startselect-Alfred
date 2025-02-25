@@ -1839,7 +1839,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <input type="text" name="phrase" value="" autocomplete="off" ref="phraseInput" v-model="alfred.phrase" :placeholder="alfred.placeholder">
+                    <input type="text" name="phrase" value="" ref="phraseInput" v-model="alfred.phrase" :placeholder="alfred.placeholder" autocomplete="off" autocapitalize="off" spellcheck="false">
                     <span class="alfred__loader alfred__search__loader" v-show="alfred.loading"></span>
                 </div>
             </div>
