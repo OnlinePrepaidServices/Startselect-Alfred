@@ -6,20 +6,20 @@ use Startselect\Alfred\Preparations\Core\Item;
 
 class ImageItem extends Item
 {
-    protected ?string $url = null;
+    protected ?string $image = null;
 
     protected array $validationProperties = [
         'name',
         'trigger',
-        'url',
+        'image',
     ];
 
     /**
-     * The url of the image in the item.
+     * The image of the item.
      */
-    public function url(string $url): self
+    public function image(string $url): self
     {
-        $this->url = $url;
+        $this->image = $url;
 
         return $this;
     }
@@ -27,7 +27,7 @@ class ImageItem extends Item
     public function toArray(): array
     {
         return array_merge(parent::toArray(), [
-            'url' => $this->url,
+            'image' => $this->image,
         ]);
     }
 }

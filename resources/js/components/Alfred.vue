@@ -1879,7 +1879,7 @@
                         <div class="alfred__item__details" v-if="item.type !== 'FallbackItem' && (item.shortcut || item.prefix || item.type === 'StatusItem' || item.type === 'ImageItem')">
                             <span v-if="item.type === 'ImageItem'">
                                 <span class="alfred__item__details__image">
-                                    <img :src="item.url" alt="">
+                                    <img :src="item.image" alt="">
                                 </span>
                             </span>
                             <span v-if="item.type === 'StatusItem'">
@@ -2126,8 +2126,8 @@
 }
 .alfred__item__details__image {
   display: inline-block;
-  max-height: 3rem;
-  max-width: 4rem;
+  height: 3rem;
+  width: 4rem;
 }
 .alfred__item__details__image > img {
   height: 100%;
