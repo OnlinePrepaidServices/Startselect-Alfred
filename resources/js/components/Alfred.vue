@@ -1907,8 +1907,6 @@
             </div>
         </div>
         <div class="alfred__footer">
-            <span><i class="fas fa-arrow-left"></i></span>
-            <span><i class="fas fa-arrow-right"></i></span>
             <span><i class="fas fa-arrow-up"></i></span>
             <span><i class="fas fa-arrow-down"></i></span>
             <span>to navigate</span>
