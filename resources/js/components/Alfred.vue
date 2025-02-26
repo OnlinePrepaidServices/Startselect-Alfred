@@ -1820,7 +1820,7 @@
 
 <template>
     <div class="alfred" v-if="alfred.visible">
-        <div class="alfred__title" v-if="alfred.title">
+        <div class="alfred__header" v-if="alfred.title">
             <span>{{ alfred.title }}</span>
             <span @click="displayHelp()" v-if="alfred.help">
                 <i class="fas fa-question-circle"></i>
@@ -1896,6 +1896,15 @@
                 </ul>
             </div>
         </div>
+        <div class="alfred__footer">
+            <span><i class="fas fa-arrow-left"></i></span>
+            <span><i class="fas fa-arrow-right"></i></span>
+            <span><i class="fas fa-arrow-up"></i></span>
+            <span><i class="fas fa-arrow-down"></i></span>
+            <span>to navigate</span>
+            <span><i class="fas fa-arrow-turn-down fa-rotate-90"></i></span>
+            <span>to select</span>
+        </div>
     </div>
 </template>
 
@@ -1907,20 +1916,20 @@
   z-index: 50;
   margin: 0 auto;
   border-radius: 0.5rem;
-  padding: 0.25rem;
+  padding: 0.15rem;
   background: rgba(34, 41, 47, 0.75);
   top: 20%;
   width: fit-content;
   box-shadow: 0 0 2rem 2rem rgba(34, 41, 47, 0.03), 0 5px 25px -5px rgba(34, 41, 47, 0.25);
 }
 .alfred__container {
-  border-radius: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
   background-color: #ffffff;
 }
 .alfred__container--fixed {
   width: 592px;
 }
-.alfred__title {
+.alfred__header {
   cursor: default;
   display: flex;
   border-top-left-radius: 0.5rem;
@@ -1930,15 +1939,15 @@
   color: #22292f;
   padding: 0.5rem 0.9rem 0.5rem;
 }
-.alfred__title span:first-child {
+.alfred__header span:first-child {
   flex: 1;
 }
-.alfred__title span:nth-child(2) {
+.alfred__header span:nth-child(2) {
   cursor: pointer;
   flex: 0 0 22px;
   text-align: right;
 }
-.alfred__title:not(.hidden) + .alfred__container {
+.alfred__header:not(.hidden) + .alfred__container {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -2182,5 +2191,20 @@
 }
 .alfred .fa, .alfred .fas {
   font-size: inherit !important;
+}
+.alfred__footer {
+  cursor: default;
+  display: flex;
+  border-bottom-left-radius: .5rem;
+  border-bottom-right-radius: .5rem;
+  background-color: #FFF;
+  font-size: .7rem;
+  color: #22292f;
+  padding: .5rem .9rem .5rem;
+  border-top-width: 1px;
+  border-style: solid;
+  border-color: #ccd3db;
+  gap: 0.3rem;
+  justify-content: flex-end;
 }
 </style>

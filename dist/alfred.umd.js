@@ -9892,14 +9892,14 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=3f28a207
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=3cb46e26
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _vm.alfred.visible ? _c('div', {
     staticClass: "alfred"
   }, [_vm.alfred.title ? _c('div', {
-    staticClass: "alfred__title"
+    staticClass: "alfred__header"
   }, [_c('span', [_vm._v(_vm._s(_vm.alfred.title))]), _vm.alfred.help ? _c('span', {
     on: {
       "click": function ($event) {
@@ -10098,7 +10098,7 @@ var render = function render() {
     }), 0) : _vm._e(), item.prefix || null ? _c('span', {
       staticClass: "alfred__item__prefix"
     }, [_vm._v(" [" + _vm._s(item.prefix) + "] ")]) : _vm._e()]) : _vm._e()]);
-  }), 0)])])]) : _vm._e();
+  }), 0)])]), _vm._m(1)]) : _vm._e();
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -10108,9 +10108,25 @@ var staticRenderFns = [function () {
   }, [_c('i', {
     staticClass: "fas fa-search"
   })]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c('div', {
+    staticClass: "alfred__footer"
+  }, [_c('span', [_c('i', {
+    staticClass: "fas fa-arrow-left"
+  })]), _c('span', [_c('i', {
+    staticClass: "fas fa-arrow-right"
+  })]), _c('span', [_c('i', {
+    staticClass: "fas fa-arrow-up"
+  })]), _c('span', [_c('i', {
+    staticClass: "fas fa-arrow-down"
+  })]), _c('span', [_vm._v("to navigate")]), _c('span', [_c('i', {
+    staticClass: "fas fa-arrow-turn-down fa-rotate-90"
+  })]), _c('span', [_vm._v("to select")])]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=3f28a207
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=3cb46e26
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -15304,10 +15320,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=3f28a207&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=3cb46e26&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=3f28a207&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=3cb46e26&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
