@@ -1902,7 +1902,7 @@
             <span><i class="fas fa-arrow-up"></i></span>
             <span><i class="fas fa-arrow-down"></i></span>
             <span>to navigate</span>
-            <span><i class="fas fa-arrow-turn-down fa-rotate-90"></i></span>
+            <span><i class="fas fa-directions fa-rotate-180"></i></span>
             <span>to select</span>
         </div>
     </div>
@@ -2082,10 +2082,6 @@
   display: flex;
   padding: 0.5rem 0.8rem;
 }
-.alfred__items > ul > li:last-child {
-  border-bottom-right-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-}
 .alfred__items > ul > li:hover {
   cursor: pointer;
   background: #f3f5f7a1;
@@ -2195,16 +2191,16 @@
 .alfred__footer {
   cursor: default;
   display: flex;
+  gap: 0.3rem;
+  justify-content: flex-end;
   border-bottom-left-radius: .5rem;
   border-bottom-right-radius: .5rem;
-  background-color: #FFF;
+  background-color: #ffffff;
   font-size: .7rem;
-  color: #22292f;
+  color: #94a4b5;
   padding: .5rem .9rem .5rem;
   border-top-width: 1px;
   border-style: solid;
   border-color: #ccd3db;
-  gap: 0.3rem;
-  justify-content: flex-end;
 }
 </style>
