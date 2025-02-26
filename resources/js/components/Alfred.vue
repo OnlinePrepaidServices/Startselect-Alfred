@@ -2126,8 +2126,8 @@
 }
 .alfred__item__details__image {
   display: inline-block;
-  height: 3rem;
-  width: 4rem;
+  height: 2.5rem;
+  width: 3.5rem;
 }
 .alfred__item__details__image > img {
   height: 100%;
