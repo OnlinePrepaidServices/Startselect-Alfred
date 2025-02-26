@@ -1043,6 +1043,8 @@
             filterItems() {
                 // Do we have any items to filter?
                 if (!this.items.current.length) {
+                    this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_EMPTY, 'No results');
+
                     return;
                 }
 
@@ -1114,6 +1116,7 @@
 
                 // No filtered items, filled out phrase and not the registered set of items? Display an empty results title
                 if (this.items.saved.length && !filtered.length && this.getPhrase()) {
+                    this.renderItems([], false, []);
                     this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_EMPTY, 'No results');
 
                     return;
