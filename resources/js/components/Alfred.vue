@@ -1876,7 +1876,7 @@
                             </span>
                             <span class="alfred__item__info" v-html="item.info"></span>
                         </div>
-                        <div class="alfred__item__details" v-if="item.type !== 'FallbackItem' && (item.shortcut || item.prefix || item.type === 'StatusItem')">
+                        <div class="alfred__item__details" v-if="item.type !== 'FallbackItem' && (item.shortcut || item.prefix || item.type === 'StatusItem' || item.type === 'ImageItem')">
                             <span v-if="item.type === 'ImageItem'">
                                 <span class="alfred__item__details__image">
                                     <img :src="item.url" alt="">
