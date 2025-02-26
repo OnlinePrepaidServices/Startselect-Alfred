@@ -37,6 +37,7 @@ return [
         // Alfred's default values
         'defaultValues' => [
             'placeholder' => 'Find actions..',
+            'titleItemsEmpty' => 'No results',
             'titleItemsFallback' => 'Use [phrase] with..',
             'titleItemsPopular' => 'Recent searches',
             'titleItemsResults' => 'Results',

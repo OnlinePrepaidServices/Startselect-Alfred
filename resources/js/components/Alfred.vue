@@ -1112,6 +1112,13 @@
                     return;
                 }
 
+                // No filtered items, filled out phrase and not the registered set of items? Display an empty results title
+                if (this.items.saved.length && !filtered.length && this.getPhrase()) {
+                    this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_EMPTY, 'No results');
+
+                    return;
+                }
+
                 // Render fuzzy filtered items
                 this.renderItems(filtered, false, []);
                 this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_RESULTS, 'Results');

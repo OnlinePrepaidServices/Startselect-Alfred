@@ -4,6 +4,7 @@ export default {
     MAX_POPULAR_ITEMS_ON_INIT: 'maxPopularItemsOnInit',
     TIMEOUT_ACTION: 'timeouts.action',
     TIMEOUT_MESSAGES: 'timeouts.messages',
+    TITLE_ITEMS_EMPTY: 'defaultValues.titleItemsEmpty',
     TITLE_ITEMS_FALLBACK: 'defaultValues.titleItemsFallback',
     TITLE_ITEMS_POPULAR: 'defaultValues.titleItemsPopular',
     TITLE_ITEMS_RESULTS: 'defaultValues.titleItemsResults',
