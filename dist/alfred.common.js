@@ -613,7 +613,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 1554:
+/***/ 9173:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 __webpack_require__(4114);
@@ -9882,7 +9882,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=b7658a9a
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=6735012e
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10098,10 +10098,6 @@ var staticRenderFns = [function () {
   return _c('div', {
     staticClass: "alfred__footer"
   }, [_c('span', [_c('i', {
-    staticClass: "fas fa-arrow-left"
-  })]), _c('span', [_c('i', {
-    staticClass: "fas fa-arrow-right"
-  })]), _c('span', [_c('i', {
     staticClass: "fas fa-arrow-up"
   })]), _c('span', [_c('i', {
     staticClass: "fas fa-arrow-down"
@@ -10110,7 +10106,7 @@ var staticRenderFns = [function () {
   })]), _c('span', [_vm._v("to select")])]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=b7658a9a
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=6735012e
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -13661,7 +13657,7 @@ axios.default = axios;
 var fuzzysort = __webpack_require__(7210);
 var fuzzysort_default = /*#__PURE__*/__webpack_require__.n(fuzzysort);
 // EXTERNAL MODULE: ./node_modules/sweetalert2/dist/sweetalert2.all.js
-var sweetalert2_all = __webpack_require__(1554);
+var sweetalert2_all = __webpack_require__(9173);
 var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all);
 ;// ./resources/js/helpers/settings.js
 /* harmony default export */ var settings = ({
@@ -15313,10 +15309,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=b7658a9a&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=6735012e&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=b7658a9a&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=6735012e&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
