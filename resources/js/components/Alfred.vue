@@ -1878,8 +1878,7 @@
                         </div>
                         <div class="alfred__item__details" v-if="item.type !== 'FallbackItem' && (item.shortcut || item.prefix || item.type === 'StatusItem')">
                             <span v-if="item.type === 'StatusItem'">
-                                <span class="alfred__item__details__status alfred__item__details__status--on" v-if="item.switched">Yes</span>
-                                <span class="alfred__item__details__status alfred__item__details__status--off" v-if="!item.switched">No</span>
+                                <span class="alfred__item__details__status" :style="{ color: item.color }">{{ item.status }}</span>
                             </span>
                             <ul v-if="item.shortcut">
                                 <li v-for="button in item.shortcut">{{ button }}</li>
@@ -2122,12 +2121,6 @@
 }
 .alfred__item__details__status {
   font-weight: 700;
-}
-.alfred__item__details__status--on {
-  color: #2eb37c;
-}
-.alfred__item__details__status--off {
-  color: #94a4b5;
 }
 .alfred__item__details > ul {
   display: block;

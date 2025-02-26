@@ -6,20 +6,32 @@ use Startselect\Alfred\Preparations\Core\Item;
 
 class StatusItem extends Item
 {
-    protected ?bool $switched = null;
+    protected ?string $status = null;
+    protected ?string $color = '#94a4b5';
 
     protected array $validationProperties = [
         'name',
         'trigger',
-        'switched',
+        'status',
+        'color',
     ];
 
     /**
-     * Status switch(ed).
+     * The status of the item.
      */
-    public function switched(bool $switched): self
+    public function status(string $status): self
     {
-        $this->switched = $switched;
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * The status's color to be displayed in the item.
+     */
+    public function color(string $hexColor): self
+    {
+        $this->color = $hexColor;
 
         return $this;
     }
@@ -27,7 +39,8 @@ class StatusItem extends Item
     public function toArray(): array
     {
         return array_merge(parent::toArray(), [
-            'switched' => $this->switched,
+            'status' => $this->status,
+            'color' => $this->color,
         ]);
     }
 }
