@@ -1877,6 +1877,11 @@
                             <span class="alfred__item__info" v-html="item.info"></span>
                         </div>
                         <div class="alfred__item__details" v-if="item.type !== 'FallbackItem' && (item.shortcut || item.prefix || item.type === 'StatusItem')">
+                            <span v-if="item.type === 'ImageItem'">
+                                <span class="alfred__item__details__image">
+                                    <img :src="item.url" alt="">
+                                </span>
+                            </span>
                             <span v-if="item.type === 'StatusItem'">
                                 <span class="alfred__item__details__status" :style="{ color: item.color }">{{ item.status }}</span>
                             </span>
@@ -2118,6 +2123,17 @@
   text-align: right;
   flex: 0 0 80px;
   padding: 0 0 0 5px;
+}
+.alfred__item__details__image {
+  display: inline-block;
+  max-height: 3rem;
+  max-width: 4rem;
+}
+.alfred__item__details__image > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  overflow: hidden;
 }
 .alfred__item__details__status {
   font-weight: 700;
