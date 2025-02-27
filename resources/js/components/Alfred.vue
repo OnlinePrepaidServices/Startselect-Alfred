@@ -614,6 +614,9 @@
                 this.action.items = action.items;
                 this.action.realtime = action.realtime;
                 this.action.trigger = action.trigger;
+
+                // Reset items title
+                this.items.title = '';
             },
 
             /**
@@ -1041,6 +1044,9 @@
              * Filter items by phrase and display items.
              */
             filterItems() {
+                // Reset items title
+                this.items.title = '';
+
                 // Do we have any items to filter?
                 if (!this.items.current.length) {
                     this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_EMPTY, 'No results');
@@ -1870,7 +1876,7 @@
                 </ul>
             </div>
             <div class="alfred__items">
-                <span class="alfred__items__title">{{ items.title }}</span>
+                <span class="alfred__items__title" v-if="items.title">{{ items.title }}</span>
                 <ul ref="items" v-show="items.filtered.length">
                     <li :class="item.focus ? 'alfred__item--focus' : ''" v-for="item in items.filtered" @click="triggerItem(item, $event)" @click.middle="triggerItem(item, $event)">
                         <span class="alfred__item__icon" v-if="item.icon">
