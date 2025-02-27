@@ -1912,7 +1912,7 @@
                 </ul>
             </div>
         </div>
-        <div class="alfred__footer" v-if="!action.extendedPhrase || !items.title">
+        <div class="alfred__footer">
             <div class="alfred__footer__section">
                 <span><i class="fas fa-arrow-up"></i></span>
                 <span><i class="fas fa-arrow-down"></i></span>
@@ -1972,10 +1972,6 @@
 .alfred__header:not(.hidden) + .alfred__container {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-}
-.alfred__container:has(+ .alfred__footer:is(.hidden)) {
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
 }
 .alfred__search {
   position: relative;
