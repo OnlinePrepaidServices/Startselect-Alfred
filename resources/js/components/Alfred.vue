@@ -1907,11 +1907,19 @@
             </div>
         </div>
         <div class="alfred__footer">
-            <span><i class="fas fa-arrow-up"></i></span>
-            <span><i class="fas fa-arrow-down"></i></span>
-            <span>to navigate</span>
-            <span><i class="fas fa-directions fa-rotate-180"></i></span>
-            <span>to select</span>
+            <div class="alfred__footer__section">
+                <span><i class="fas fa-arrow-up"></i></span>
+                <span><i class="fas fa-arrow-down"></i></span>
+                <span>to navigate</span>
+            </div>
+            <div class="alfred__footer__section">
+              <span class="alfred__footer__button">enter</span>
+                <span>to select</span>
+            </div>
+            <div class="alfred__footer__section">
+                <span class="alfred__footer__button">tab</span>
+                <span>to autocomplete</span>
+            </div>
         </div>
     </div>
 </template>
@@ -2199,7 +2207,6 @@
 .alfred__footer {
   cursor: default;
   display: flex;
-  gap: 0.3rem;
   justify-content: flex-end;
   border-bottom-left-radius: .5rem;
   border-bottom-right-radius: .5rem;
@@ -2210,5 +2217,26 @@
   border-top-width: 1px;
   border-style: solid;
   border-color: #ccd3db;
+}
+.alfred__footer__section {
+  display: flex;
+  gap: 0.3rem;
+  border-right-width: 1px;
+  border-style: solid;
+  border-color: #ccd3db;
+  padding: 0 0.5rem;
+}
+.alfred__footer__section:last-of-type {
+  border-right-width: 0;
+  padding-right: 0;
+}
+.alfred__footer__button {
+  border-radius: .25rem;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ccd3db;
+  padding: .05rem;
+  font-size: .55rem;
+  text-transform: uppercase;
 }
 </style>
