@@ -562,6 +562,9 @@
                     return;
                 }
 
+                // Reset items title
+                this.items.title = '';
+
                 // Alfred state available?
                 if (state.alfred || null) {
                     // Only allow phrase changes when we are not in prefixed state
@@ -614,9 +617,6 @@
                 this.action.items = action.items;
                 this.action.realtime = action.realtime;
                 this.action.trigger = action.trigger;
-
-                // Reset items title
-                this.items.title = '';
             },
 
             /**
@@ -1044,9 +1044,6 @@
              * Filter items by phrase and display items.
              */
             filterItems() {
-                // Reset items title
-                this.items.title = '';
-
                 // Do we have any items to filter?
                 if (!this.items.current.length) {
                     this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_EMPTY, 'No results');
