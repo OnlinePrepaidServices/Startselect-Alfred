@@ -1051,7 +1051,10 @@
             filterItems() {
                 // Do we have any items to filter?
                 if (!this.items.current.length) {
-                    this.items.title = this.getSetting(settingsMap.TITLE_ITEMS_EMPTY, 'No results');
+                    // Hiding the title when an action is active, that doesn't load items
+                    this.items.title = (this.action.active && !this.action.realtime && !this.alfred.prefixed)
+                        ? ''
+                        : this.getSetting(settingsMap.TITLE_ITEMS_EMPTY, 'No results');
 
                     return;
                 }
@@ -1878,7 +1881,7 @@
                 </ul>
             </div>
             <div class="alfred__items">
-                <span class="alfred__items__title" v-if="items.title && (action.active && !action.realtime)">{{ items.title }}</span>
+                <span class="alfred__items__title" v-if="items.title">{{ items.title }}</span>
                 <ul ref="items" v-show="items.filtered.length">
                     <li :class="item.focus ? 'alfred__item--focus' : ''" v-for="item in items.filtered" @click="triggerItem(item, $event)" @click.middle="triggerItem(item, $event)">
                         <span class="alfred__item__icon" v-if="item.icon">
