@@ -1881,7 +1881,7 @@
                 </ul>
             </div>
             <div class="alfred__items">
-                <span class="alfred__items__title" v-if="items.title">{{ items.title }}</span>
+                <span class="alfred__items__title" v-show="items.title">{{ items.title }}</span>
                 <ul ref="items" v-show="items.filtered.length">
                     <li :class="item.focus ? 'alfred__item--focus' : ''" v-for="item in items.filtered" @click="triggerItem(item, $event)" @click.middle="triggerItem(item, $event)">
                         <span class="alfred__item__icon" v-if="item.icon">
@@ -2228,6 +2228,9 @@
   border-top-width: 1px;
   border-style: solid;
   border-color: #ccd3db;
+}
+.alfred__container:has(.alfred__items > ul:empty):has(.alfred__items__title:empty) + .alfred__footer {
+  border-top-width: 0;
 }
 .alfred__footer__section {
   display: flex;
