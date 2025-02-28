@@ -120,6 +120,11 @@
                             clearTimeout(this.action.timer);
                         }
 
+                        // Hide current items when we have an empty phrase
+                        if (this.items.current.length && !this.getPhrase()) {
+                            this.setItems([]);
+                        }
+
                         // Start timer to trigger the action
                         this.action.timer = setTimeout(() => {
                             this.triggerAction(null);
