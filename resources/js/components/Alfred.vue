@@ -120,8 +120,8 @@
                             clearTimeout(this.action.timer);
                         }
 
-                        // Hide current items when we have an empty phrase
-                        if (this.items.current.length && !this.getPhrase()) {
+                        // Hide current items when we have an empty phrase and no unfiltered results
+                        if (!this.action.items.length && this.items.current.length && !this.getPhrase()) {
                             this.setItems([]);
                         }
 
