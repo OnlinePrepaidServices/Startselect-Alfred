@@ -1878,7 +1878,7 @@
                 </ul>
             </div>
             <div class="alfred__items">
-                <span class="alfred__items__title" v-if="items.title">{{ items.title }}</span>
+                <span class="alfred__items__title" v-if="items.title && (action.active && !action.realtime)">{{ items.title }}</span>
                 <ul ref="items" v-show="items.filtered.length">
                     <li :class="item.focus ? 'alfred__item--focus' : ''" v-for="item in items.filtered" @click="triggerItem(item, $event)" @click.middle="triggerItem(item, $event)">
                         <span class="alfred__item__icon" v-if="item.icon">
