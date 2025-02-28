@@ -9892,7 +9892,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=350ef4be
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=1452a350
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10025,7 +10025,7 @@ var render = function render() {
     })]);
   }), 0)]) : _vm._e(), _c('div', {
     staticClass: "alfred__items"
-  }, [_vm.items.title ? _c('span', {
+  }, [_vm.items.title && _vm.action.active && !_vm.action.realtime ? _c('span', {
     staticClass: "alfred__items__title"
   }, [_vm._v(_vm._s(_vm.items.title))]) : _vm._e(), _c('ul', {
     directives: [{
@@ -10092,9 +10092,7 @@ var render = function render() {
     }), 0) : _vm._e(), item.prefix || null ? _c('span', {
       staticClass: "alfred__item__prefix"
     }, [_vm._v(" [" + _vm._s(item.prefix) + "] ")]) : _vm._e()]) : _vm._e()]);
-  }), 0)])]), !_vm.action.extendedPhrase || !_vm.items.title ? _c('div', {
-    staticClass: "alfred__footer"
-  }, [_vm._m(1), _vm._m(2), _vm._m(3)]) : _vm._e()]) : _vm._e();
+  }), 0)])]), _vm._m(1)]) : _vm._e();
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -10108,31 +10106,25 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
+    staticClass: "alfred__footer"
+  }, [_c('div', {
     staticClass: "alfred__footer__section"
   }, [_c('span', [_c('i', {
     staticClass: "fas fa-arrow-up"
   })]), _c('span', [_c('i', {
     staticClass: "fas fa-arrow-down"
-  })]), _c('span', [_vm._v("to navigate")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c('div', {
+  })]), _c('span', [_vm._v("to navigate")])]), _c('div', {
     staticClass: "alfred__footer__section"
   }, [_c('span', {
     staticClass: "alfred__footer__button"
-  }, [_vm._v("enter")]), _c('span', [_vm._v("to select")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c('div', {
+  }, [_vm._v("enter")]), _c('span', [_vm._v("to select")])]), _c('div', {
     staticClass: "alfred__footer__section"
   }, [_c('span', {
     staticClass: "alfred__footer__button"
-  }, [_vm._v("tab")]), _c('span', [_vm._v("to autocomplete")])]);
+  }, [_vm._v("tab")]), _c('span', [_vm._v("to autocomplete")])])]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=350ef4be
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=1452a350
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -13815,6 +13807,11 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
             clearTimeout(this.action.timer);
           }
 
+          // Hide current items when we have an empty phrase and no unfiltered results
+          if (!this.action.items.length && this.items.current.length && !this.getPhrase()) {
+            this.setItems([]);
+          }
+
           // Start timer to trigger the action
           this.action.timer = setTimeout(() => {
             this.triggerAction(null);
@@ -14210,6 +14207,9 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         return;
       }
 
+      // Reset items title
+      this.items.title = '';
+
       // Alfred state available?
       if (state.alfred || null) {
         // Only allow phrase changes when we are not in prefixed state
@@ -14260,9 +14260,6 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       this.action.items = action.items;
       this.action.realtime = action.realtime;
       this.action.trigger = action.trigger;
-
-      // Reset items title
-      this.items.title = '';
     },
     /**
      * Set an item set state.
@@ -14635,9 +14632,6 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
      * Filter items by phrase and display items.
      */
     filterItems() {
-      // Reset items title
-      this.items.title = '';
-
       // Do we have any items to filter?
       if (!this.items.current.length) {
         this.items.title = this.getSetting(settings.TITLE_ITEMS_EMPTY, 'No results');
@@ -15341,10 +15335,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=350ef4be&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=1452a350&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=350ef4be&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=1452a350&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
