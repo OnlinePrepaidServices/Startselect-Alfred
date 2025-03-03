@@ -39,7 +39,6 @@
                     placeholder: '',
                     prefix: null,
                     prefixed: false,
-                    template: '',
                     title: '',
                     triggered: null,
                     visible: false,
@@ -491,7 +490,6 @@
                         phrase: this.alfred.phrase,
                         placeholder: this.alfred.placeholder,
                         prefixed: this.alfred.prefixed,
-                        template: this.alfred.template,
                         title: this.alfred.title,
                         triggered: this.alfred.triggered,
                     },
@@ -591,7 +589,6 @@
                     this.alfred.help = state.alfred.help;
                     this.alfred.placeholder = state.alfred.placeholder;
                     this.alfred.prefixed = state.alfred.prefixed;
-                    this.alfred.template = state.alfred.template;
                     this.alfred.title = state.alfred.title;
                     this.alfred.triggered = state.alfred.triggered;
                 } else if (!this.alfred.prefixed) {
@@ -1548,21 +1545,6 @@
             },
 
             /**
-             * Trigger a template.
-             *
-             * @param {Object} template
-             * @param {MouseEvent|KeyboardEvent} event
-             */
-            triggerTemplate(template, event) {
-                // Make sure we don't trigger other event based stuff
-                if (event) {
-                    event.preventDefault();
-                }
-
-                this.alfred.template = template.html;
-            },
-
-            /**
              * Trigger a workflow step.
              *
              * @param {Object} workflowStep
@@ -1739,14 +1721,6 @@
                     return this.triggerReloadState(trigger.properties, event);
                 }
 
-                // Do we want to trigger a template?
-                if (trigger.type === 'Template') {
-                    this.saveState();
-                    this.updateAlfredState(alfredState);
-
-                    return this.triggerTemplate(trigger.properties, event);
-                }
-
                 // Do we want to trigger a workflow step?
                 if (trigger.type === 'WorkflowStep') {
                     return this.triggerWorkflowStep(trigger.properties, event);
@@ -1843,7 +1817,7 @@
 </script>
 
 <template>
-    <div :class="['alfred', alfred.template ? '' : 'alfred--fixed']" v-if="alfred.visible">
+    <div class="alfred" v-if="alfred.visible">
         <div class="alfred__header" v-if="alfred.title">
             <span>{{ alfred.title }}</span>
             <span @click="displayHelp()" v-if="alfred.help">
@@ -1851,8 +1825,7 @@
             </span>
         </div>
         <div class="alfred__container">
-            <div class="alfred__template" v-if="alfred.template" v-html="alfred.template"></div>
-            <div class="alfred__search" v-show="!alfred.template">
+            <div class="alfred__search">
                 <div v-if="action.active && action.extendedPhrase">
                     <textarea name="phrase" ref="phraseInput" v-model="alfred.phrase" :placeholder="alfred.placeholder"></textarea>
                     <div class="alfred__search__extended">
@@ -1954,11 +1927,8 @@
   padding: 0.15rem;
   background: rgba(34, 41, 47, 0.75);
   top: 20%;
-  width: fit-content;
+  width: 600px;
   box-shadow: 0 0 2rem 2rem rgba(34, 41, 47, 0.03), 0 5px 25px -5px rgba(34, 41, 47, 0.25);
-}
-.alfred--fixed {
-  width: 592px;
 }
 .alfred__container {
   border-radius: 0.5rem 0.5rem 0 0;
