@@ -9892,12 +9892,12 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=3742fe8f
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=4fd5a962
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _vm.alfred.visible ? _c('div', {
-    class: ['alfred', _vm.alfred.template ? '' : 'alfred--fixed']
+    staticClass: "alfred"
   }, [_vm.alfred.title ? _c('div', {
     staticClass: "alfred__header"
   }, [_c('span', [_vm._v(_vm._s(_vm.alfred.title))]), _vm.alfred.help ? _c('span', {
@@ -9910,18 +9910,7 @@ var render = function render() {
     staticClass: "fas fa-question-circle"
   })]) : _vm._e()]) : _vm._e(), _c('div', {
     staticClass: "alfred__container"
-  }, [_vm.alfred.template ? _c('div', {
-    staticClass: "alfred__template",
-    domProps: {
-      "innerHTML": _vm._s(_vm.alfred.template)
-    }
-  }) : _vm._e(), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: !_vm.alfred.template,
-      expression: "!alfred.template"
-    }],
+  }, [_c('div', {
     staticClass: "alfred__search"
   }, [_vm.action.active && _vm.action.extendedPhrase ? _c('div', [_c('textarea', {
     directives: [{
@@ -10142,7 +10131,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("tab")]), _c('span', [_vm._v("to autocomplete")])]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=3742fe8f
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=4fd5a962
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -13752,7 +13741,6 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         placeholder: '',
         prefix: null,
         prefixed: false,
-        template: '',
         title: '',
         triggered: null,
         visible: false
@@ -14154,7 +14142,6 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
           phrase: this.alfred.phrase,
           placeholder: this.alfred.placeholder,
           prefixed: this.alfred.prefixed,
-          template: this.alfred.template,
           title: this.alfred.title,
           triggered: this.alfred.triggered
         },
@@ -14248,7 +14235,6 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         this.alfred.help = state.alfred.help;
         this.alfred.placeholder = state.alfred.placeholder;
         this.alfred.prefixed = state.alfred.prefixed;
-        this.alfred.template = state.alfred.template;
         this.alfred.title = state.alfred.title;
         this.alfred.triggered = state.alfred.triggered;
       } else if (!this.alfred.prefixed) {
@@ -15093,19 +15079,6 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       }
     },
     /**
-     * Trigger a template.
-     *
-     * @param {Object} template
-     * @param {MouseEvent|KeyboardEvent} event
-     */
-    triggerTemplate(template, event) {
-      // Make sure we don't trigger other event based stuff
-      if (event) {
-        event.preventDefault();
-      }
-      this.alfred.template = template.html;
-    },
-    /**
      * Trigger a workflow step.
      *
      * @param {Object} workflowStep
@@ -15267,13 +15240,6 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         return this.triggerReloadState(trigger.properties, event);
       }
 
-      // Do we want to trigger a template?
-      if (trigger.type === 'Template') {
-        this.saveState();
-        this.updateAlfredState(alfredState);
-        return this.triggerTemplate(trigger.properties, event);
-      }
-
       // Do we want to trigger a workflow step?
       if (trigger.type === 'WorkflowStep') {
         return this.triggerWorkflowStep(trigger.properties, event);
@@ -15357,10 +15323,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=3742fe8f&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=4fd5a962&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=3742fe8f&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=4fd5a962&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
