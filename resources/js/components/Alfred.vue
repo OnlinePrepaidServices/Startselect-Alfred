@@ -1964,7 +1964,7 @@
   background-color: #f3f5f7;
   font-size: 0.8rem;
   color: #22292f;
-  padding: 0.5rem 0.9rem 0.5rem;
+  padding: 0.5rem 0.9rem;
 }
 .alfred__header span:first-child {
   flex: 1;
@@ -2219,12 +2219,12 @@
   cursor: default;
   display: flex;
   justify-content: flex-end;
-  border-bottom-left-radius: .5rem;
-  border-bottom-right-radius: .5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
   background-color: #ffffff;
-  font-size: .7rem;
+  font-size: 0.7rem;
   color: #94a4b5;
-  padding: .5rem .9rem .5rem;
+  padding: 0.5rem 0.9rem;
   border-top-width: 1px;
   border-style: solid;
   border-color: #ccd3db;
@@ -2245,12 +2245,12 @@
   padding-right: 0;
 }
 .alfred__footer__button {
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   border-width: 1px;
   border-style: solid;
   border-color: #ccd3db;
-  padding: .05rem;
-  font-size: .55rem;
+  padding: 0.1rem;
+  font-size: 0.55rem;
   text-transform: uppercase;
 }
 </style>
