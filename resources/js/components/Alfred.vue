@@ -2239,6 +2239,7 @@
   border-style: solid;
   border-color: #ccd3db;
   padding: 0 0.5rem;
+  align-items: center;
 }
 .alfred__footer__section:last-of-type {
   border-right-width: 0;
