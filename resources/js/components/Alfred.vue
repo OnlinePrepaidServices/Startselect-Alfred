@@ -1843,14 +1843,14 @@
 </script>
 
 <template>
-    <div class="alfred" v-if="alfred.visible">
+    <div :class="['alfred', alfred.template ? '' : 'alfred--fixed']" v-if="alfred.visible">
         <div class="alfred__header" v-if="alfred.title">
             <span>{{ alfred.title }}</span>
             <span @click="displayHelp()" v-if="alfred.help">
                 <i class="fas fa-question-circle"></i>
             </span>
         </div>
-        <div :class="['alfred__container', alfred.template ? '' : 'alfred__container--fixed']">
+        <div class="alfred__container">
             <div class="alfred__template" v-if="alfred.template" v-html="alfred.template"></div>
             <div class="alfred__search" v-show="!alfred.template">
                 <div v-if="action.active && action.extendedPhrase">
@@ -1957,12 +1957,12 @@
   width: fit-content;
   box-shadow: 0 0 2rem 2rem rgba(34, 41, 47, 0.03), 0 5px 25px -5px rgba(34, 41, 47, 0.25);
 }
+.alfred--fixed {
+  width: 592px;
+}
 .alfred__container {
   border-radius: 0.5rem 0.5rem 0 0;
   background-color: #ffffff;
-}
-.alfred__container--fixed {
-  width: 592px;
 }
 .alfred__header {
   cursor: default;
@@ -2248,6 +2248,7 @@
   border-color: #ccd3db;
   padding: 0 0.5rem;
   align-items: center;
+  line-height: 1.5;
 }
 .alfred__footer__section:last-of-type {
   border-right-width: 0;
