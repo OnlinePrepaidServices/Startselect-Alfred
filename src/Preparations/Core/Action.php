@@ -65,6 +65,7 @@ class Action extends AbstractPreparation
             'properties' => [
                 'alfred' => [
                     'title' => $this->title,
+                    'footer' => $this->footer,
                     'phrase' => $this->phrase,
                     'placeholder' => $this->placeholder,
                 ],

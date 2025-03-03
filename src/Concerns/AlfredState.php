@@ -6,6 +6,7 @@ trait AlfredState
 {
     protected ?string $help = null;
     protected ?string $title = null;
+    protected ?string $footer = null;
     protected string $phrase = '';
     protected string $placeholder = '';
     protected array $tips = [];
@@ -17,6 +18,16 @@ trait AlfredState
     {
         $this->title = $title;
         $this->help = $help;
+
+        return $this;
+    }
+
+    /**
+     * Set Alfred's footer.
+     */
+    public function footer(string $footer): static
+    {
+        $this->footer = $footer;
 
         return $this;
     }

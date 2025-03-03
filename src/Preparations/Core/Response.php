@@ -61,6 +61,7 @@ class Response extends AbstractPreparation
             'alfred' => [
                 'help' => $this->help,
                 'title' => $this->title,
+                'footer' => $this->footer,
                 'phrase' => $this->phrase,
                 'placeholder' => $this->placeholder,
             ],

@@ -27,6 +27,7 @@
                 alfred: {
                     closePrevention: false,
                     doubleShift: false,
+                    footer: '',
                     help: '',
                     initiated: false,
                     initiatedGlobally: false,
@@ -485,6 +486,7 @@
                         trigger: this.action.trigger,
                     },
                     alfred: {
+                        footer: this.alfred.footer,
                         help: this.alfred.help,
                         phrase: this.alfred.phrase,
                         placeholder: this.alfred.placeholder,
@@ -585,6 +587,7 @@
                         }
                     }
 
+                    this.alfred.footer = state.alfred.footer;
                     this.alfred.help = state.alfred.help;
                     this.alfred.placeholder = state.alfred.placeholder;
                     this.alfred.prefixed = state.alfred.prefixed;
@@ -1917,14 +1920,25 @@
                 </ul>
             </div>
         </div>
-        <div class="alfred__footer">
+        <div class="alfred__footer" v-if="alfred.footer">
+            <div class="alfred__footer__section">
+                <span>{{ alfred.footer }}</span>
+            </div>
+        </div>
+        <div class="alfred__footer" v-else-if="action.active && !action.realtime && !alfred.prefixed">
+            <div class="alfred__footer__section">
+                <span class="alfred__footer__button">enter</span>
+                <span>to execute</span>
+            </div>
+        </div>
+        <div class="alfred__footer" v-else>
             <div class="alfred__footer__section">
                 <span><i class="fas fa-arrow-up"></i></span>
                 <span><i class="fas fa-arrow-down"></i></span>
                 <span>to navigate</span>
             </div>
             <div class="alfred__footer__section">
-              <span class="alfred__footer__button">enter</span>
+                <span class="alfred__footer__button">enter</span>
                 <span>to select</span>
             </div>
             <div class="alfred__footer__section">
