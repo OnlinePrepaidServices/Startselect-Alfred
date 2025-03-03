@@ -91,6 +91,7 @@ class EditSnippet extends AbstractWorkflowStep
             ->trigger(
                 (new Action())
                     ->extendedPhrase(true)
+                    ->footer('Fill out your snippet text and use the confirm button to save.')
                     ->trigger(
                         (new WorkflowStep())
                             ->class(self::class)
