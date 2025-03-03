@@ -2096,9 +2096,6 @@
   color: #22292f;
   font-size: 0.85rem;
 }
-.alfred__tips, .alfred__items {
-  user-select: none;
-}
 .alfred__items {
   overflow: auto;
   max-height: 400px;
@@ -2262,5 +2259,8 @@
   padding: 0.1rem;
   font-size: 0.55rem;
   text-transform: uppercase;
+}
+.alfred__header, .alfred__footer, .alfred__tips, .alfred__items {
+  user-select: none;
 }
 </style>
