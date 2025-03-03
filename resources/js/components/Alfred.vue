@@ -1925,12 +1925,6 @@
                 <span>{{ alfred.footer }}</span>
             </div>
         </div>
-        <div class="alfred__footer" v-else-if="action.active && !action.realtime && !alfred.prefixed">
-            <div class="alfred__footer__section">
-                <span class="alfred__footer__button">enter</span>
-                <span>to execute</span>
-            </div>
-        </div>
         <div class="alfred__footer" v-else>
             <div class="alfred__footer__section">
                 <span><i class="fas fa-arrow-up"></i></span>
