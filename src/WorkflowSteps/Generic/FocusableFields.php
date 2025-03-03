@@ -17,31 +17,28 @@ class FocusableFields extends AbstractWorkflowStep
                 ->info('Focus a HTML input field on this page.')
                 ->icon('keyboard')
                 ->prefix('field')
-                ->trigger(
-                    (new ItemSet())
-                        ->title('Focus a field')
-                        ->placeholder('Search for focusable fields')
-                        ->items($this->getFocusableFields())
-                )
+                ->trigger($this->getFocusableFields())
         );
     }
 
-    protected function getFocusableFields(): array
+    protected function getFocusableFields(): ItemSet
     {
-        $items = [];
+        $itemSet = (new ItemSet())
+            ->title('Focus a HTML input field on this page')
+            ->placeholder('Filter by fields..');
 
         foreach ($this->pageData->getFocusableFields() as $focusableField) {
-            $items[] = (new Item())
-                ->name("Field: {$focusableField->getLabel()}")
-                ->info('Focus this HTML input field on this page.')
-                ->icon('keyboard')
-                ->trigger(
-                    (new FieldFocus())
-                        ->id($focusableField->getId())
-                        ->name($focusableField->getName())
-                );
+            $itemSet->addItem(
+                (new Item())
+                    ->name($focusableField->getLabel())
+                    ->trigger(
+                        (new FieldFocus())
+                            ->id($focusableField->getId())
+                            ->name($focusableField->getName())
+                    )
+            );
         }
 
-        return $items;
+        return $itemSet;
     }
 }

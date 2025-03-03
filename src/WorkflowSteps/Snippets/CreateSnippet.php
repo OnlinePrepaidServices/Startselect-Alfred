@@ -35,7 +35,7 @@ class CreateSnippet extends AbstractWorkflowStep
         $itemSet->addItem(
             (new Item())
                 ->name('Create snippet')
-                ->info('Text autocomplete based on a keyword.')
+                ->info('Text replacement based on a keyword.')
                 ->icon('i-cursor')
                 ->trigger(
                     (new WorkflowStep())

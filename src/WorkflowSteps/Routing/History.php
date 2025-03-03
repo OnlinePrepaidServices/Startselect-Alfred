@@ -17,7 +17,7 @@ class History extends AbstractWorkflowStep
         $itemSet->addItem(
             (new Item())
                 ->name('History')
-                ->info('Navigate to a page you have already been to.')
+                ->info('Navigate to a page you have recently visited.')
                 ->icon('history')
                 ->shortcut([
                     Item::KEY_CONTROL,
