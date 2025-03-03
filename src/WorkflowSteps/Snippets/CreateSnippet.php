@@ -112,10 +112,10 @@ class CreateSnippet extends AbstractWorkflowStep
             ->placeholder(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis tempus eros, eu ultrices ligula.'
             )
+            ->footer('Fill out your snippet text and use the confirm button to save.')
             ->trigger(
                 (new Action())
                     ->extendedPhrase(true)
-                    ->footer('Fill out your snippet text and use the confirm button to save.')
                     ->trigger(
                         (new WorkflowStep())
                             ->class(self::class)
