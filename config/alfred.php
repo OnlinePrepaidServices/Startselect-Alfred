@@ -18,6 +18,9 @@ return [
     // List of workflow steps that can be processed, once called upon by Alfred
     'optionalWorkflowSteps' => [],
 
+    // The authentication checker that'll be used when getting the authenticated user's settings
+    'authenticationChecker' => Startselect\Alfred\Contracts\AuthenticationChecker::class,
+
     // The permission checker that'll be used when handling preparations and workflow steps required permissions
     'permissionChecker' => Startselect\Alfred\Support\DefaultPermissionChecker::class,
 

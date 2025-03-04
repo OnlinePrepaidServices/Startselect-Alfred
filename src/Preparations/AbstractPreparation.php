@@ -2,7 +2,6 @@
 
 namespace Startselect\Alfred\Preparations;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Startselect\Alfred\Contracts\PermissionChecker;
 use Startselect\Alfred\Contracts\Preparation as PreparationInterface;
