@@ -11,24 +11,9 @@ use Startselect\Alfred\Alfred;
 use Startselect\Alfred\ValueObjects\AlfredData;
 use Startselect\Alfred\ValueObjects\PageData;
 
-class AlfredController extends Controller
+class AlfredWorkflowStepHandlerController extends Controller
 {
-    /**
-     * Initiate Alfred.
-     */
-    public function initiate(Alfred $alfred, Request $request): JsonResponse
-    {
-        return response()->json(
-            $alfred->getRegisteredWorkflowSteps(
-                new PageData($request->get('page'))
-            )->toArray()
-        );
-    }
-
-    /**
-     * Handle a workflow step.
-     */
-    public function handleWorkflowStep(Alfred $alfred, Request $request): JsonResponse
+    public function __invoke(Alfred $alfred, Request $request): JsonResponse
     {
         // Get request information
         $alfredData = $request->get('alfred');
