@@ -2,7 +2,7 @@
 
 namespace Startselect\Alfred\Enums;
 
-enum AlfredPreferenceType: string
+enum AlfredPreferenceType: int
 {
-    case SNIPPETS = 'snippets';
+    case SNIPPETS = 1;
 }
