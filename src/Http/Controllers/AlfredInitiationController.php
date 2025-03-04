@@ -1,6 +1,6 @@
 <?php
 
-namespace Startselect\Alfred\Controllers;
+namespace Startselect\Alfred\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
