@@ -153,7 +153,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     /**
      * Workflow step failed somewhere.
      */
-    protected function failure(string $message = '', string $notification = ''): Response
+    final protected function failure(string $message = '', string $notification = ''): Response
     {
         // Did we receive a message?
         if ($message) {
@@ -176,7 +176,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     /**
      * Get the current response.
      */
-    protected function getResponse(): Response
+    final protected function getResponse(): Response
     {
         return $this->response;
     }
@@ -184,7 +184,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     /**
      * Get a parameter from the URL path that was accepted by the whitelist.
      */
-    protected function getParameterFromUrlPath(string $name): ?string
+    final protected function getParameterFromUrlPath(string $name): ?string
     {
         return $this->parametersInUrlPath[$name] ?? null;
     }
@@ -192,7 +192,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     /**
      * Get the value of optional data; or all data.
      */
-    protected function getOptionalData(?string $key = null): mixed
+    final protected function getOptionalData(?string $key = null): mixed
     {
         // Return all data?
         if ($key === null) {
@@ -205,7 +205,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     /**
      * Get the value of required data; or all data.
      */
-    protected function getRequiredData(?string $key = null): mixed
+    final protected function getRequiredData(?string $key = null): mixed
     {
         // Return all data?
         if ($key === null) {
@@ -218,7 +218,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     /**
      * Whether all required data is available.
      */
-    protected function isRequiredDataPresent(string $method): bool
+    final protected function isRequiredDataPresent(string $method): bool
     {
         // Is there any data required at all for this method?
         if (empty($this->requiredData[$method])) {
