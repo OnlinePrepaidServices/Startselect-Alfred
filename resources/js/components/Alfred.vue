@@ -1802,7 +1802,7 @@
                 if (response.result.trigger) {
                     this.alfred.loaded = true;
 
-                    this.handlePreparedTrigger(response.result.trigger, null, response);
+                    this.handlePreparedTrigger(response.result.trigger, null, response.result);
 
                     this.alfred.loaded = false;
 
