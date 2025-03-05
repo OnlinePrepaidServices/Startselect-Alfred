@@ -10,7 +10,7 @@ use Startselect\Alfred\Models\AlfredPreference;
 
 class AlfredPreferenceHelper
 {
-    protected static ?Collection $preferences;
+    protected static ?Collection $preferences = null;
 
     /**
      * Get snippets for the authenticated user.
