@@ -19,7 +19,7 @@ return [
     'optionalWorkflowSteps' => [],
 
     // The authentication checker that'll be used when getting the authenticated user's settings
-    'authenticationChecker' => Startselect\Alfred\Contracts\AuthenticationChecker::class,
+    'authenticationChecker' => Startselect\Alfred\Support\DefaultAuthenticationChecker::class,
 
     // The permission checker that'll be used when handling preparations and workflow steps required permissions
     'permissionChecker' => Startselect\Alfred\Support\DefaultPermissionChecker::class,
