@@ -25,7 +25,7 @@ class AlfredWorkflowStepHandlerController extends Controller
         }
 
         return new JsonResponse([
-            'data' => $alfred->handleWorkflowStep(
+            'result' => $alfred->handleWorkflowStep(
                 alfredData: new AlfredData($alfredData),
                 pageData: new PageData($pageData)
             )->toArray(),

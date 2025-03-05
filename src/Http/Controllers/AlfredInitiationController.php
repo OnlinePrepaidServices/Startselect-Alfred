@@ -14,7 +14,7 @@ class AlfredInitiationController extends Controller
     public function __invoke(Alfred $alfred, Request $request): JsonResponse
     {
         return new JsonResponse([
-            'data' => $alfred->getRegisteredWorkflowSteps(pageData: new PageData($request->get('page')))->toArray(),
+            'result' => $alfred->getRegisteredWorkflowSteps(pageData: new PageData($request->get('page')))->toArray(),
             'snippets' => AlfredPreferenceHelper::snippets()->toArray(),
         ]);
     }

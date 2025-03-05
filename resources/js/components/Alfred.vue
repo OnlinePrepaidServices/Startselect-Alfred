@@ -1780,29 +1780,29 @@
                 }
 
                 // Display a message?
-                if (response.message) {
-                    this.displayMessage(response.success ? 'success' : 'error', response.message);
+                if (response.result.message) {
+                    this.displayMessage(response.result.success ? 'success' : 'error', response.result.message);
                 }
 
                 // Display a notification?
-                if (response.notification) {
-                    this.displayNotification(response.success ? 'success' : 'error', response.notification);
+                if (response.result.notification) {
+                    this.displayNotification(response.result.success ? 'success' : 'error', response.result.notification);
                 }
 
                 // Did our trigger succeed?
-                if (!response.success && this.alfred.initiatedGlobally) {
+                if (!response.result.success && this.alfred.initiatedGlobally) {
                     this.resetAlfred();
 
                     return;
-                } else if (!response.success) {
+                } else if (!response.result.success) {
                     return;
                 }
 
                 // Did we receive something to trigger?
-                if (response.trigger) {
+                if (response.result.trigger) {
                     this.alfred.loaded = true;
 
-                    this.handlePreparedTrigger(response.trigger, null, response);
+                    this.handlePreparedTrigger(response.result.trigger, null, response);
 
                     this.alfred.loaded = false;
 
