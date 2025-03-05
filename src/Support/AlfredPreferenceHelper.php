@@ -13,6 +13,14 @@ class AlfredPreferenceHelper
     protected static ?Collection $preferences;
 
     /**
+     * Get snippets for the authenticated user.
+     */
+    public static function snippets(): AlfredPreference
+    {
+        return static::find(AlfredPreferenceType::SNIPPETS);
+    }
+
+    /**
      * Get an Alfred preference for the authenticated user.
      */
     public static function find(AlfredPreferenceType $type): AlfredPreference
