@@ -5,8 +5,11 @@ namespace Startselect\Alfred\WorkflowSteps;
 use Illuminate\Support\Facades\App;
 use Startselect\Alfred\Contracts\PermissionChecker;
 use Startselect\Alfred\Contracts\WorkflowStep;
+use Startselect\Alfred\Enums\AlfredPreferenceType;
+use Startselect\Alfred\Models\AlfredPreference;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
+use Startselect\Alfred\Support\AlfredPreferenceHelper;
 use Startselect\Alfred\ValueObjects\AlfredData;
 use Startselect\Alfred\ValueObjects\PageData;
 
@@ -235,6 +238,14 @@ abstract class AbstractWorkflowStep implements WorkflowStep
         }
 
         return true;
+    }
+
+    /**
+     * Get an Alfred preference for the authenticated user.
+     */
+    final protected function getAlfredPreference(AlfredPreferenceType $type): AlfredPreference
+    {
+        return AlfredPreferenceHelper::find($type);
     }
 
     /**
