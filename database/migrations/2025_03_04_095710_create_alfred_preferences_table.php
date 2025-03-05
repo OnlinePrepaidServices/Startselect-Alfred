@@ -14,8 +14,6 @@ return new class extends Migration
             $table->unsignedTinyInteger('type');
             $table->json('data');
             $table->timestamps();
-
-            $table->index(['owner_id', 'type']);
         });
     }
 
