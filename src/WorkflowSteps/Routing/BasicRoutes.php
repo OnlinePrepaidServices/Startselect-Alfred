@@ -4,10 +4,8 @@ namespace Startselect\Alfred\WorkflowSteps\Routing;
 
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route as RouteFacade;
 use Illuminate\Support\Str;
-use Startselect\Alfred\Contracts\PermissionChecker;
 use Startselect\Alfred\Preparations\Core\Item;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\PreparationFactory;
@@ -24,9 +22,6 @@ class BasicRoutes extends AbstractWorkflowStep
 
     public function register(ItemSet $itemSet): void
     {
-        /** @var PermissionChecker $permissionChecker */
-        $permissionChecker = App::make(PermissionChecker::class);
-
         // Keep track of certain types of routes
         $routeItemsByActionMethod = [
             self::ACTION_METHOD_INDEX => [],
@@ -38,7 +33,7 @@ class BasicRoutes extends AbstractWorkflowStep
             // Are we fetching routes for this action method?
             if (
                 isset($routeItemsByActionMethod[$route->getActionMethod()])
-                && $routeItem = $this->createRouteItem($route, $permissionChecker)
+                && $routeItem = $this->createRouteItem($route)
             ) {
                 $routeItemsByActionMethod[$route->getActionMethod()][] = $routeItem;
             }
@@ -47,7 +42,7 @@ class BasicRoutes extends AbstractWorkflowStep
         $this->registerItems($itemSet, $routeItemsByActionMethod);
     }
 
-    protected function createRouteItem(Route $route, PermissionChecker $permissionChecker): ?Item
+    protected function createRouteItem(Route $route): ?Item
     {
         // Parameters required? Then we can't do a simple redirect
         if (str_contains($route->uri(), '{')) {
@@ -62,7 +57,7 @@ class BasicRoutes extends AbstractWorkflowStep
                 ->trigger(PreparationFactory::redirect(url($route->uri())))
                 ->when(
                     $route->getName(),
-                    function (Item $item, string $routeName) use ($route, $permissionChecker, $singular) {
+                    function (Item $item, string $routeName) use ($route, $singular) {
                         // E.g. products.index, product_bundles.index
                         $nameParts = explode('.', $route->getName());
                         unset($nameParts[array_key_last($nameParts)]);
@@ -71,14 +66,14 @@ class BasicRoutes extends AbstractWorkflowStep
                         $item
                             ->name($singular ? Str::singular($itemName) : $itemName)
                             ->when(
-                                $this->findPermissionForRouteItem($route, $itemName, $permissionChecker),
+                                $this->findPermissionForRouteItem($route, $itemName),
                                 function (Item $item, mixed $permission) {
                                     $item->requiresPermission($permission);
                                 }
                             );
                     }
                 )
-                ->when(!$route->getName(), function (Item $item) use ($route, $permissionChecker, $singular) {
+                ->when(!$route->getName(), function (Item $item) use ($route, $singular) {
                     // E.g. App\Http\Controllers\ProductsController
                     $controllerName = class_basename($route->getController());
                     $nameParts = preg_split('/(?=[A-Z])/', $controllerName);
@@ -88,7 +83,7 @@ class BasicRoutes extends AbstractWorkflowStep
                     $item
                         ->name($singular ? Str::singular($itemName) : $itemName)
                         ->when(
-                            $this->findPermissionForRouteItem($route, $itemName, $permissionChecker),
+                            $this->findPermissionForRouteItem($route, $itemName),
                             function (Item $item, mixed $permission) {
                                 $item->requiresPermission($permission);
                             }
@@ -101,7 +96,7 @@ class BasicRoutes extends AbstractWorkflowStep
         return null;
     }
 
-    protected function findPermissionForRouteItem(Route $route, string $itemName, PermissionChecker $checker): mixed
+    protected function findPermissionForRouteItem(Route $route, string $itemName): mixed
     {
         $searchPermissions = array_unique(array_filter([
             $route->getName(),
@@ -109,7 +104,7 @@ class BasicRoutes extends AbstractWorkflowStep
         ]));
 
         foreach ($searchPermissions as $searchPermission) {
-            $permission = $checker->findPermission($searchPermission);
+            $permission = $this->permissionChecker->findPermission($searchPermission);
             if ($permission) {
                 return $permission;
             }
