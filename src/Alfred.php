@@ -26,10 +26,7 @@ class Alfred
             // Prepare the workflow step with given data
             $workflowStep->setPageData($pageData);
 
-            // Let's find our items for this workflow step
-            if ($workflowStep->isRegistrable()) {
-                $workflowStep->register($itemSet);
-            }
+            $workflowStep->register($itemSet);
         }
 
         return (new Response())

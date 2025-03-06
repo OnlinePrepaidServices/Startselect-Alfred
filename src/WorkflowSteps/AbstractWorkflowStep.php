@@ -18,27 +18,13 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     public const METHOD_INIT = 'init';
     public const METHOD_HANDLE = 'handle';
 
+    protected AlfredData $alfredData;
+    protected PageData $pageData;
+
     /**
      * Required permission that will be used by the isCallable function.
      */
     protected mixed $requiredPermission = null;
-
-    /**
-     * Blacklist of URL paths.
-     *
-     * Alfred doesn't allow to register this workflow step based on these (partly) given URL paths.
-     */
-    protected array $blacklistUrlPaths = [];
-
-    /**
-     * Whitelist of URL paths.
-     *
-     * Alfred does allow to register this workflow step based on these (partly) given URL paths.
-     */
-    protected array $whitelistUrlPaths = [];
-
-    protected AlfredData $alfredData;
-    protected PageData $pageData;
 
     /**
      * Required data with indexes and failure messages.
@@ -53,8 +39,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     private array $requiredDataValues = [];
     private array $optionalDataValues = [];
     private ?string $requiredDataFailureMessage = null;
-
-    private array $parametersInUrlPath = [];
 
     private Response $response;
 
@@ -126,34 +110,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     }
 
     /**
-     * Whether this workflow step is registrable based on the current page data.
-     */
-    final public function isRegistrable(): bool
-    {
-        // Did we receive a URL path?
-        if (!$urlPath = $this->pageData->getUrl()->getPath()) {
-            return true;
-        }
-
-        // Did we define any URL paths?
-        if (empty($this->blacklistUrlPaths) && empty($this->whitelistUrlPaths)) {
-            return true;
-        }
-
-        // Blacklisted?
-        if ($this->isUrlPathInList($urlPath, $this->blacklistUrlPaths)) {
-            return false;
-        }
-
-        // Whitelisted?
-        if ($this->isUrlPathInList($urlPath, $this->whitelistUrlPaths)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Workflow step failed somewhere.
      */
     final protected function failure(string $message = '', string $notification = ''): Response
@@ -182,14 +138,6 @@ abstract class AbstractWorkflowStep implements WorkflowStep
     final protected function getResponse(): Response
     {
         return $this->response;
-    }
-
-    /**
-     * Get a parameter from the URL path that was accepted by the whitelist.
-     */
-    final protected function getParameterFromUrlPath(string $name): ?string
-    {
-        return $this->parametersInUrlPath[$name] ?? null;
     }
 
     /**
@@ -249,33 +197,5 @@ abstract class AbstractWorkflowStep implements WorkflowStep
         $alfredPreferenceManager = App::make(AlfredPreferenceManager::class);
 
         return $alfredPreferenceManager->find($type);
-    }
-
-    /**
-     * Whether the URL path is found in the given list.
-     */
-    private function isUrlPathInList(string $path, array $pathsToCheck): bool
-    {
-        foreach ($pathsToCheck as $pathToCheck) {
-            // Normal path?
-            if (str_contains($path, $pathToCheck)) {
-                return true;
-            }
-
-            // Regex path?
-            if (str_contains($pathToCheck, '(') || str_contains($pathToCheck, '[')) {
-                // Make sure our pattern is correct
-                $pattern = str_replace('/', "\/", $pathToCheck);
-
-                if (preg_match("/{$pattern}/", $path, $matches)) {
-                    // Make sure we can get the parameters from this path
-                    $this->parametersInUrlPath = $matches;
-
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 }
