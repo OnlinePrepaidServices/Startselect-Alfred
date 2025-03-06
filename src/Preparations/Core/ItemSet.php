@@ -75,25 +75,25 @@ class ItemSet extends AbstractPreparation
      *
      * @return array<Item>|null
      */
-    protected function getItems(bool $toArray = false): ?array
+    protected function getItems(): ?array
     {
-        if ($this->items && $toArray) {
-            $items = [];
-            foreach ($this->items as $item) {
-                if ($item instanceof Item && $item->isValid()) {
-                    $items[] = $item->toArray();
-                }
-            }
-
-            // Reverse the sorting?
-            if ($this->reverseSorting) {
-                $items = array_reverse($items);
-            }
-
-            return $items;
+        if (!$this->items) {
+            return null;
         }
 
-        return $this->items;
+        $items = [];
+        foreach ($this->items as $item) {
+            if ($item instanceof Item && $item->isValid()) {
+                $items[] = $item->toArray();
+            }
+        }
+
+        // Reverse the sorting?
+        if ($this->reverseSorting) {
+            $items = array_reverse($items);
+        }
+
+        return $items;
     }
 
     /**
@@ -103,21 +103,21 @@ class ItemSet extends AbstractPreparation
      */
     protected function getSortedItems(): ?array
     {
-        if ($this->getItems()) {
-            $items = $this->getItems(true);
-            $reverse = $this->reverseSorting;
-
-            // Sort by name
-            usort($items, function ($left, $right) use ($reverse) {
-                return $reverse
-                    ? strnatcmp($right['name'], $left['name'])
-                    : strnatcmp($left['name'], $right['name']);
-            });
-
-            return $items;
+        if (!$this->items) {
+            return null;
         }
 
-        return null;
+        $items = $this->getItems();
+        $reverse = $this->reverseSorting;
+
+        // Sort by name
+        usort($items, function ($left, $right) use ($reverse) {
+            return $reverse
+                ? strnatcmp($right['name'], $left['name'])
+                : strnatcmp($left['name'], $right['name']);
+        });
+
+        return $items;
     }
 
     public function toArray(): array
@@ -130,8 +130,8 @@ class ItemSet extends AbstractPreparation
                     'phrase' => $this->phrase,
                     'placeholder' => $this->placeholder,
                 ],
-                'items' => $this->getItems()
-                    ? ($this->sortItems ? $this->getSortedItems() : $this->getItems(true))
+                'items' => $this->items
+                    ? ($this->sortItems ? $this->getSortedItems() : $this->getItems())
                     : null,
                 'tips' => $this->tips,
             ],
