@@ -63,7 +63,7 @@ abstract class AbstractPreparation implements PreparationInterface
         $permissionChecker = App::make(PermissionChecker::class);
 
         // Specific permission required?
-        if (!$permissionChecker->hasPermission($this->requiredPermission)) {
+        if ($this->requiredPermission !== null && !$permissionChecker->hasPermission($this->requiredPermission)) {
             return false;
         }
 
