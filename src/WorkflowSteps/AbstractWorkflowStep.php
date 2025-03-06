@@ -2,11 +2,8 @@
 
 namespace Startselect\Alfred\WorkflowSteps;
 
-use Illuminate\Support\Facades\App;
 use Startselect\Alfred\Contracts\PermissionChecker;
 use Startselect\Alfred\Contracts\WorkflowStep;
-use Startselect\Alfred\Enums\AlfredPreferenceType;
-use Startselect\Alfred\Models\AlfredPreference;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
 use Startselect\Alfred\Support\AlfredPreferenceManager;
@@ -42,8 +39,10 @@ abstract class AbstractWorkflowStep implements WorkflowStep
 
     private Response $response;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected PermissionChecker $permissionChecker,
+        protected AlfredPreferenceManager $alfredPreferenceManager,
+    ) {
         $this->response = new Response();
     }
 
@@ -103,10 +102,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
      */
     final public function isAllowed(): bool
     {
-        /** @var PermissionChecker $permissionChecker */
-        $permissionChecker = App::make(PermissionChecker::class);
-
-        return $permissionChecker->hasPermission($this->requiredPermission);
+        return $this->permissionChecker->hasPermission($this->requiredPermission);
     }
 
     /**
@@ -186,16 +182,5 @@ abstract class AbstractWorkflowStep implements WorkflowStep
         }
 
         return true;
-    }
-
-    /**
-     * Get an Alfred preference for the authenticated user.
-     */
-    final protected function getAlfredPreference(AlfredPreferenceType $type): AlfredPreference
-    {
-        /** @var AlfredPreferenceManager $alfredPreferenceManager */
-        $alfredPreferenceManager = App::make(AlfredPreferenceManager::class);
-
-        return $alfredPreferenceManager->find($type);
     }
 }

@@ -26,19 +26,6 @@ class AlfredServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->singleton(WorkflowStepProvider::class, function () {
-            return new WorkflowStepProvider(
-                Config::get('alfred.registerWorkflowSteps', []),
-                Config::get('alfred.optionalWorkflowSteps', []),
-            );
-        });
-
-        $this->app->singleton(Alfred::class, function (Application $app) {
-            $workflowStepProvider = $app->make(WorkflowStepProvider::class);
-
-            return new Alfred($workflowStepProvider);
-        });
-
         $this->app->singleton(AuthenticationChecker::class, function () {
             return new (Config::get('alfred.authenticationChecker'));
         });
@@ -49,6 +36,21 @@ class AlfredServiceProvider extends ServiceProvider
 
         $this->app->singleton(AlfredPreferenceManager::class, function (Application $app) {
             return new AlfredPreferenceManager($app->make(AuthenticationChecker::class));
+        });
+
+        $this->app->singleton(WorkflowStepProvider::class, function (Application $app) {
+            return new WorkflowStepProvider(
+                $app->make(PermissionChecker::class),
+                $app->make(AlfredPreferenceManager::class),
+                Config::get('alfred.registerWorkflowSteps', []),
+                Config::get('alfred.optionalWorkflowSteps', []),
+            );
+        });
+
+        $this->app->singleton(Alfred::class, function (Application $app) {
+            $workflowStepProvider = $app->make(WorkflowStepProvider::class);
+
+            return new Alfred($workflowStepProvider);
         });
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Startselect\Alfred;
 
+use Startselect\Alfred\Contracts\PermissionChecker;
+use Startselect\Alfred\Support\AlfredPreferenceManager;
 use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
 class WorkflowStepProvider
@@ -9,6 +11,8 @@ class WorkflowStepProvider
     protected array $bootedWorkflowSteps = [];
 
     public function __construct(
+        protected PermissionChecker $permissionChecker,
+        protected AlfredPreferenceManager $alfredPreferenceManager,
         protected array $registerWorkflowSteps = [],
         protected array $optionalWorkflowSteps = [],
     ) {
@@ -34,7 +38,10 @@ class WorkflowStepProvider
      */
     public function boot(string $className): AbstractWorkflowStep
     {
-        return $this->bootedWorkflowSteps[$className] = new $className();
+        return $this->bootedWorkflowSteps[$className] = new $className(
+            $this->permissionChecker,
+            $this->alfredPreferenceManager,
+        );
     }
 
     /**
