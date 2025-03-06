@@ -26,6 +26,18 @@ class AlfredPreferenceManager
     }
 
     /**
+     * Save an Alfred preference.
+     */
+    public function save(AlfredPreference $preference): bool
+    {
+        try {
+            return $preference->save();
+        } catch (\Throwable) {
+            return false;
+        }
+    }
+
+    /**
      * Get an Alfred preference for the authenticated user.
      */
     public function find(AlfredPreferenceType $type): AlfredPreference
