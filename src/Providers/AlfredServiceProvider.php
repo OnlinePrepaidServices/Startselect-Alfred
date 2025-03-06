@@ -2,11 +2,13 @@
 
 namespace Startselect\Alfred\Providers;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Startselect\Alfred\Alfred;
 use Startselect\Alfred\Contracts\AuthenticationChecker;
 use Startselect\Alfred\Contracts\PermissionChecker;
+use Startselect\Alfred\Support\AlfredPreferenceManager;
 use Startselect\Alfred\WorkflowStepProvider;
 
 class AlfredServiceProvider extends ServiceProvider
@@ -31,8 +33,8 @@ class AlfredServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->singleton(Alfred::class, function () {
-            $workflowStepProvider = $this->app->make(WorkflowStepProvider::class);
+        $this->app->singleton(Alfred::class, function (Application $app) {
+            $workflowStepProvider = $app->make(WorkflowStepProvider::class);
 
             return new Alfred($workflowStepProvider);
         });
@@ -43,6 +45,10 @@ class AlfredServiceProvider extends ServiceProvider
 
         $this->app->singleton(PermissionChecker::class, function () {
             return new (Config::get('alfred.permissionChecker'));
+        });
+
+        $this->app->singleton(AlfredPreferenceManager::class, function (Application $app) {
+            return new AlfredPreferenceManager($app->make(AuthenticationChecker::class));
         });
     }
 }

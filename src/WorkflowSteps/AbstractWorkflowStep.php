@@ -9,7 +9,7 @@ use Startselect\Alfred\Enums\AlfredPreferenceType;
 use Startselect\Alfred\Models\AlfredPreference;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
-use Startselect\Alfred\Support\AlfredPreferenceHelper;
+use Startselect\Alfred\Support\AlfredPreferenceManager;
 use Startselect\Alfred\ValueObjects\AlfredData;
 use Startselect\Alfred\ValueObjects\PageData;
 
@@ -245,7 +245,10 @@ abstract class AbstractWorkflowStep implements WorkflowStep
      */
     final protected function getAlfredPreference(AlfredPreferenceType $type): AlfredPreference
     {
-        return AlfredPreferenceHelper::find($type);
+        /** @var AlfredPreferenceManager $alfredPreferenceManager */
+        $alfredPreferenceManager = App::make(AlfredPreferenceManager::class);
+
+        return $alfredPreferenceManager->find($type);
     }
 
     /**
