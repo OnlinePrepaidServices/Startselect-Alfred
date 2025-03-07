@@ -18,4 +18,26 @@ class AlfredPreference extends Model
     protected $casts = [
         'type' => AlfredPreferenceType::class,
     ];
+
+    public function setData(mixed $key, mixed $value = null): self
+    {
+        if (!is_array($key)) {
+            $key = [$key => $value];
+        }
+
+        $this->data = array_merge_recursive($this->data ?? [], $key);
+
+        return $this;
+    }
+
+    public function unsetData(mixed $key): self
+    {
+        $data = $this->data ?? [];
+
+        unset($data[$key]);
+
+        $this->data = $data;
+
+        return $this;
+    }
 }
