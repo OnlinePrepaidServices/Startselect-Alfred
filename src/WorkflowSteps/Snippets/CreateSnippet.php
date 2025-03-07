@@ -70,7 +70,7 @@ class CreateSnippet extends AbstractWorkflowStep
         // Save the snippet
         $preference = $this->alfredPreferenceManager->snippets();
         $preference->setData($this->getRequiredData('keyword'), $this->alfredData->getPhrase());
-        if ($this->alfredPreferenceManager->save($preference)) {
+        if (!$this->alfredPreferenceManager->save($preference)) {
             return $this->failure('Could not save the snippet to the database.');
         }
 

@@ -75,7 +75,7 @@ class DeleteSnippet extends AbstractWorkflowStep
         $preference->unsetData($this->getRequiredData('keyword'));
 
         // Save snippets now that we removed it
-        if ($this->alfredPreferenceManager->save($preference)) {
+        if (!$this->alfredPreferenceManager->save($preference)) {
             return $this->failure('Could not delete the snippet from the database.');
         }
 
