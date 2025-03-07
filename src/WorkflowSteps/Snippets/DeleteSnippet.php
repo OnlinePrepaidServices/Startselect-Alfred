@@ -5,7 +5,7 @@ namespace Startselect\Alfred\WorkflowSteps\Snippets;
 use Startselect\Alfred\Preparations\Core\Item;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
-use Startselect\Alfred\Preparations\Other\LocalStorage;
+use Startselect\Alfred\Preparations\Other\SnippetSync;
 use Startselect\Alfred\Preparations\Other\WorkflowStep;
 use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
@@ -28,21 +28,22 @@ class DeleteSnippet extends AbstractWorkflowStep
                     (new WorkflowStep())
                         ->class(self::class)
                         ->method(self::METHOD_INIT)
-                        ->includeLocalStorageKeys(['snippets'])
                 )
         );
     }
 
     public function init(): Response
     {
-        // Did we get any snippets?
-        if (!$snippets = $this->alfredData->getWorkflowStep()->getLocalStorageData('snippets')) {
+        $preference = $this->alfredPreferenceManager->snippets();
+
+        // Do we have any snippets?
+        if (!$preference->data) {
             return $this->failure('You do not have any snippets.');
         }
 
         // Gather items
         $itemSet = new ItemSet();
-        foreach ($snippets as $keyword => $snippet) {
+        foreach ($preference->data as $keyword => $snippet) {
             $itemSet->addItem(
                 (new Item())
                     ->name($keyword)
@@ -52,7 +53,6 @@ class DeleteSnippet extends AbstractWorkflowStep
                         (new WorkflowStep())
                             ->class(self::class)
                             ->data(['keyword' => $keyword])
-                            ->includeLocalStorageKeys(['snippets'])
                     )
             );
         }
@@ -71,14 +71,18 @@ class DeleteSnippet extends AbstractWorkflowStep
         }
 
         // Remove snippet from available snippets
-        $snippets = $this->alfredData->getWorkflowStep()->getLocalStorageData('snippets');
-        unset($snippets[$this->getRequiredData('keyword')]);
+        $preference = $this->alfredPreferenceManager->snippets();
+        unset($preference->data[$this->getRequiredData('keyword')]);
+
+        // Save snippets now that we removed it
+        if ($this->alfredPreferenceManager->save($preference)) {
+            return $this->failure('Could not delete the snippet from the database.');
+        }
 
         return $this->getResponse()
             ->trigger(
-                (new LocalStorage())
-                    ->key('snippets')
-                    ->data($snippets)
+                (new SnippetSync())
+                    ->data($preference->data)
                     ->notification("Snippet with keyword `{$this->getRequiredData('keyword')}` was deleted!")
             );
     }

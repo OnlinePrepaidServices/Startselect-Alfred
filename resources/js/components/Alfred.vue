@@ -58,6 +58,7 @@
                     timeout: 2200,
                 },
                 snippets: {
+                    items: [],
                     timer: null,
                     timeout: 1000,
                 },
@@ -258,6 +259,11 @@
                 this.alfred.initiated = true;
 
                 this.handleWorkflowStepResponse(initiateResponse);
+
+                // Alfred snippets
+                if (initiateResponse?.snippets) {
+                    this.snippets.items = initiateResponse.snippets;
+                }
 
                 // Alfred is ready
                 document.addEventListener('keyup', this.triggerAlfredKeyboardEvent);
@@ -1535,13 +1541,35 @@
                     return;
                 }
 
-                let snippets = this.getLocalStorageData('snippets') ?? {};
-
-                for (const keyword in snippets) {
+                for (const keyword in this.snippets.items) {
                     if (target.value.includes(keyword)) {
-                        target.value = target.value.replaceAll(keyword, snippets[keyword]);
+                        target.value = target.value.replaceAll(keyword, this.snippets.items[keyword]);
                     }
                 }
+            },
+
+            /**
+             * Trigger a snippet sync to refresh the snippets.
+             *
+             * @param {Object} snippetSync
+             * @param {MouseEvent|KeyboardEvent|null} event
+             */
+            triggerSnippetSync(snippetSync, event) {
+                // Make sure we don't trigger other event based stuff
+                if (event) {
+                    event.preventDefault();
+                }
+
+                // Sync snippets
+                this.snippets.items = snippetSync.data;
+
+                // Do we need to display a notification?
+                if (snippetSync.notification) {
+                    this.displayNotification('success', snippetSync.notification);
+                }
+
+                // Snippets synced; Close Alfred!
+                this.resetAlfred();
             },
 
             /**
@@ -1719,6 +1747,11 @@
                 // Do we want to trigger a state reload?
                 if (trigger.type === 'ReloadState') {
                     return this.triggerReloadState(trigger.properties, event);
+                }
+
+                // Do we want to update the Alfred snippets?
+                if (trigger.type === 'SnippetSync') {
+                    return this.triggerSnippetSync(trigger.properties, event);
                 }
 
                 // Do we want to trigger a workflow step?

@@ -37,21 +37,22 @@ class ExecuteSnippet extends AbstractWorkflowStep
                     (new WorkflowStep())
                         ->class(self::class)
                         ->method(self::METHOD_INIT)
-                        ->includeLocalStorageKeys(['snippets'])
                 )
         );
     }
 
     public function init(): Response
     {
-        // Did we get any snippets?
-        if (!$snippets = $this->alfredData->getWorkflowStep()->getLocalStorageData('snippets')) {
+        $preference = $this->alfredPreferenceManager->snippets();
+
+        // Do we have any snippets?
+        if (!$preference->data) {
             return $this->failure('You do not have any snippets.');
         }
 
         // Gather items
         $itemSet = new ItemSet();
-        foreach ($snippets as $keyword => $snippet) {
+        foreach ($preference->data as $keyword => $snippet) {
             $itemSet->addItem(
                 (new Item())
                     ->name($keyword)
@@ -60,7 +61,6 @@ class ExecuteSnippet extends AbstractWorkflowStep
                         (new WorkflowStep())
                             ->class(self::class)
                             ->data(['keyword' => $keyword])
-                            ->includeLocalStorageKeys(['snippets'])
                     )
             );
         }
@@ -79,8 +79,8 @@ class ExecuteSnippet extends AbstractWorkflowStep
         }
 
         // Find snippet to execute
-        $snippets = $this->alfredData->getWorkflowStep()->getLocalStorageData('snippets');
-        $snippet = $snippets[$this->getRequiredData('keyword')] ?? null;
+        $preference = $this->alfredPreferenceManager->snippets();
+        $snippet = $preference->data[$this->getRequiredData('keyword')] ?? null;
         if (!$snippet) {
             return $this->failure();
         }

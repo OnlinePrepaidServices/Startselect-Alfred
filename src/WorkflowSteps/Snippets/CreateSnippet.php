@@ -6,7 +6,7 @@ use Startselect\Alfred\Preparations\Core\Action;
 use Startselect\Alfred\Preparations\Core\Item;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
-use Startselect\Alfred\Preparations\Other\LocalStorage;
+use Startselect\Alfred\Preparations\Other\SnippetSync;
 use Startselect\Alfred\Preparations\Other\WorkflowStep;
 use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
@@ -67,14 +67,17 @@ class CreateSnippet extends AbstractWorkflowStep
             return $this->failure();
         }
 
+        // Save the snippet
+        $preference = $this->alfredPreferenceManager->snippets();
+        $preference->data[$this->getRequiredData('keyword')] = $this->alfredData->getPhrase();
+        if ($this->alfredPreferenceManager->save($preference)) {
+            return $this->failure('Could not save the snippet to the database.');
+        }
+
         return $this->getResponse()
             ->trigger(
-                (new LocalStorage())
-                    ->key('snippets')
-                    ->merge(true)
-                    ->data([
-                        $this->getRequiredData('keyword') => $this->alfredData->getPhrase(),
-                    ])
+                (new SnippetSync())
+                    ->data($preference->data)
                     ->notification("Snippet with keyword `{$this->getRequiredData('keyword')}` was added!")
             );
     }
