@@ -9892,7 +9892,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=34e26e24
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=3a75fd31
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10131,7 +10131,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("tab")]), _c('span', [_vm._v("to autocomplete")])]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=34e26e24
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=3a75fd31
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -13760,6 +13760,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         timeout: 2200
       },
       snippets: {
+        items: [],
         timer: null,
         timeout: 1000
       }
@@ -13942,6 +13943,11 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
     initiatedAlfred(initiateResponse) {
       this.alfred.initiated = true;
       this.handleWorkflowStepResponse(initiateResponse);
+
+      // Alfred snippets
+      if (initiateResponse?.snippets) {
+        this.snippets.items = initiateResponse.snippets;
+      }
 
       // Alfred is ready
       document.addEventListener('keyup', this.triggerAlfredKeyboardEvent);
@@ -15071,12 +15077,34 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       if (!target || !target.value) {
         return;
       }
-      let snippets = this.getLocalStorageData('snippets') ?? {};
-      for (const keyword in snippets) {
+      for (const keyword in this.snippets.items) {
         if (target.value.includes(keyword)) {
-          target.value = target.value.replaceAll(keyword, snippets[keyword]);
+          target.value = target.value.replaceAll(keyword, this.snippets.items[keyword]);
         }
       }
+    },
+    /**
+     * Trigger a snippet sync to refresh the snippets.
+     *
+     * @param {Object} snippetSync
+     * @param {MouseEvent|KeyboardEvent|null} event
+     */
+    triggerSnippetSync(snippetSync, event) {
+      // Make sure we don't trigger other event based stuff
+      if (event) {
+        event.preventDefault();
+      }
+
+      // Sync snippets
+      this.snippets.items = snippetSync.data;
+
+      // Do we need to display a notification?
+      if (snippetSync.notification) {
+        this.displayNotification('success', snippetSync.notification);
+      }
+
+      // Snippets synced; Close Alfred!
+      this.resetAlfred();
     },
     /**
      * Trigger a workflow step.
@@ -15240,6 +15268,11 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         return this.triggerReloadState(trigger.properties, event);
       }
 
+      // Do we want to update the Alfred snippets?
+      if (trigger.type === 'SnippetSync') {
+        return this.triggerSnippetSync(trigger.properties, event);
+      }
+
       // Do we want to trigger a workflow step?
       if (trigger.type === 'WorkflowStep') {
         return this.triggerWorkflowStep(trigger.properties, event);
@@ -15323,10 +15356,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=34e26e24&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=3a75fd31&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=34e26e24&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=3a75fd31&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
