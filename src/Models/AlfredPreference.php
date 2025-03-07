@@ -17,6 +17,7 @@ class AlfredPreference extends Model
 {
     protected $casts = [
         'type' => AlfredPreferenceType::class,
+        'data' => 'array',
     ];
 
     public function setData(mixed $key, mixed $value = null): self
