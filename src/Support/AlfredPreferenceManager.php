@@ -61,7 +61,9 @@ class AlfredPreferenceManager
             $this->preferences = AlfredPreference::query()
                 ->where('owner_id', $this->authenticationChecker->getId())
                 ->get()
-                ->groupBy('type');
+                ->mapWithKeys(function (AlfredPreference $preference) {
+                    return [$preference->type->value => $preference];
+                });
         } catch (\Throwable) {
             $this->preferences = new Collection();
         }
