@@ -3,31 +3,25 @@
 namespace Startselect\Alfred\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Arr;
 use Startselect\Alfred\Alfred;
-use Startselect\Alfred\ValueObjects\AlfredData;
-use Startselect\Alfred\ValueObjects\PageData;
-use Symfony\Component\HttpFoundation\Response;
+use Startselect\Alfred\Http\Requests\AlfredRequest;
 
 class AlfredWorkflowStepHandlerController extends Controller
 {
-    public function __invoke(Alfred $alfred, Request $request): JsonResponse
+    public function __invoke(AlfredRequest $request, Alfred $alfred): JsonResponse
     {
-        // Get request information
-        $alfredData = $request->get('alfred');
-        $pageData = $request->get('page');
-
-        // Did we get a workflow step?
-        if (!Arr::get($alfredData, 'workflowStep.class') || !Arr::get($alfredData, 'workflowStep.method')) {
-            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
-        }
+        $request->validate([
+            'alfred' => ['required'],
+            'alfred.workflowStep' => ['required'],
+            'alfred.workflowStep.class' => ['required'],
+            'alfred.workflowStep.method' => ['required'],
+        ]);
 
         return new JsonResponse([
             'result' => $alfred->handleWorkflowStep(
-                alfredData: new AlfredData($alfredData),
-                pageData: new PageData($pageData)
+                alfredData: $request->getAlfredData(),
+                pageData: $request->getPageData(),
             )->toArray(),
         ]);
     }

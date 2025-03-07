@@ -3,23 +3,24 @@
 namespace Startselect\Alfred\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Startselect\Alfred\Alfred;
+use Startselect\Alfred\Http\Requests\AlfredRequest;
 use Startselect\Alfred\Support\AlfredPreferenceManager;
-use Startselect\Alfred\ValueObjects\PageData;
 
 class AlfredInitiationController extends Controller
 {
     public function __invoke(
+        AlfredRequest $request,
         Alfred $alfred,
-        AlfredPreferenceManager $alfredPreferenceManager,
-        Request $request
+        AlfredPreferenceManager $preferenceManager,
     ): JsonResponse
     {
         return new JsonResponse([
-            'result' => $alfred->getRegisteredWorkflowSteps(pageData: new PageData($request->get('page')))->toArray(),
-            'snippets' => $alfredPreferenceManager->snippets()->data,
+            'result' => $alfred->getRegisteredWorkflowSteps(
+                pageData: $request->getPageData()
+            )->toArray(),
+            'snippets' => $preferenceManager->snippets()->data,
         ]);
     }
 }
