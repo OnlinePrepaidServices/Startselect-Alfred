@@ -20,8 +20,23 @@ class AlfredPreference extends Model
         'data' => 'array',
     ];
 
-    public function setData(mixed $key, mixed $value = null): self
+    public function setData(mixed $key, mixed $value = null, bool $replace = false): self
     {
+        // Upon replacing, we simply overwrite the current key value, with the new value
+        // Without replacing, we add the new value to the current value, which becomes an array of values
+        if ($replace) {
+            $items = is_array($key) ? $key : [$key => $value];
+            $data = $this->data;
+
+            foreach ($items as $key => $value) {
+                $data[$key] = $value;
+            }
+
+            $this->data = $data;
+
+            return $this;
+        }
+
         if (!is_array($key)) {
             $key = [$key => $value];
         }
