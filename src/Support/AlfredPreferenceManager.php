@@ -42,18 +42,9 @@ class AlfredPreferenceManager
      */
     public function find(AlfredPreferenceType $type): AlfredPreference
     {
-        $preference = $this->all()->first(function (AlfredPreference $preference) use ($type) {
+        return $this->all()->first(function (AlfredPreference $preference) use ($type) {
             return $preference->type === $type;
         });
-
-        if (!$preference) {
-            $preference = new AlfredPreference();
-            $preference->owner_id = $this->authenticationChecker->getId();
-            $preference->type = $type;
-            $preference->data = [];
-        }
-
-        return $preference;
     }
 
     /**
@@ -61,18 +52,32 @@ class AlfredPreferenceManager
      */
     public function all(): Collection
     {
+        // Did we already get all the preferences from the DB?
         if ($this->preferences) {
             return $this->preferences;
         }
 
         try {
-            return $this->preferences = AlfredPreference::query()
+            $this->preferences = AlfredPreference::query()
                 ->where('owner_id', $this->authenticationChecker->getId())
-                ->get();
+                ->get()
+                ->groupBy('type');
         } catch (\Throwable) {
-            // Don't do anything.
+            $this->preferences = new Collection();
         }
 
-        return $this->preferences = new Collection();
+        // Create all the preferences in the collection that we have available
+        foreach (AlfredPreferenceType::cases() as $type) {
+            if (!$this->preferences->has($type->value)) {
+                $preference = new AlfredPreference();
+                $preference->owner_id = $this->authenticationChecker->getId();
+                $preference->type = $type;
+                $preference->data = [];
+
+                $this->preferences->put($type->value, $preference);
+            }
+        }
+
+        return $this->preferences;
     }
 }
