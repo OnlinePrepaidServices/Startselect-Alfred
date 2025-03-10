@@ -91,6 +91,7 @@ class ExecuteSnippet extends AbstractWorkflowStep
         if ($matches[0]) {
             return $this->getResponse()
                 ->title("Change variable: {$matches[0][0]}")
+                ->placeholder('Variable value..')
                 ->trigger(
                     (new Action())
                         ->trigger(
@@ -147,6 +148,7 @@ class ExecuteSnippet extends AbstractWorkflowStep
 
         return $this->getResponse()
             ->title("Change variable: {$this->getRequiredData('variables')[$this->getRequiredData('variable')]}")
+            ->placeholder('Variable value..')
             ->trigger(
                 (new Action())
                     ->trigger(
