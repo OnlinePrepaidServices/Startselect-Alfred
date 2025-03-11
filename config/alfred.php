@@ -7,6 +7,7 @@ return [
     'registerWorkflowSteps' => [
         CoreWorkflowSteps\Auth\Logout::class,
         CoreWorkflowSteps\Generic\FocusableFields::class,
+        CoreWorkflowSteps\Generic\ManageSettings::class,
         CoreWorkflowSteps\Routing\BasicRoutes::class,
         CoreWorkflowSteps\Routing\History::class,
         CoreWorkflowSteps\Snippets\CreateSnippet::class,
