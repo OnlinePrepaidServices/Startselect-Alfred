@@ -18,6 +18,14 @@ class AlfredPreferenceManager
     }
 
     /**
+     * Get settings for the authenticated user.
+     */
+    public function settings(): AlfredPreference
+    {
+        return $this->find(AlfredPreferenceType::SETTINGS);
+    }
+
+    /**
      * Get snippets for the authenticated user.
      */
     public function snippets(): AlfredPreference

@@ -5,13 +5,6 @@
     import settingsMap from './../helpers/settings';
 
     export default {
-        props: {
-            settings: {
-                type: Object,
-                required: false,
-            },
-        },
-
         data() {
             return {
                 action: {
@@ -57,6 +50,7 @@
                     current: [],
                     timeout: 2200,
                 },
+                settings: [],
                 snippets: {
                     items: [],
                     timer: null,
@@ -259,6 +253,11 @@
                 this.alfred.initiated = true;
 
                 this.handleWorkflowStepResponse(initiateResponse);
+
+                // Alfred settings
+                if (initiateResponse?.settings) {
+                    this.settings = initiateResponse.settings;
+                }
 
                 // Alfred snippets
                 if (initiateResponse?.snippets) {
