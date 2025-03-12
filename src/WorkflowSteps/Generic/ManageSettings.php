@@ -27,6 +27,8 @@ class ManageSettings extends AbstractWorkflowStep
             'name' => 'Max popular items on init',
             'info' => 'The amount of popular items to show when opening Alfred.',
             'type' => 'integer',
+            'min' => 1,
+            'max' => 10,
         ],
     ];
 
@@ -101,6 +103,27 @@ class ManageSettings extends AbstractWorkflowStep
             return $this->failure('Please set a value.');
         }
 
+        // Get the manageable setting
+        $manageableSetting = self::MANAGEABLE_SETTINGS[$this->getRequiredData('key')];
+
+        // Update value to setting type
+        $value = match ($manageableSetting['type']) {
+            'integer' => (int) $this->alfredData->getPhrase(),
+            default => $this->alfredData->getPhrase(),
+        };
+
+        // Validate based on type
+        $validation = match ($manageableSetting['type']) {
+            'integer' => is_int($value) && $value >= $manageableSetting['min'] && $value <= $manageableSetting['max']
+                ? true
+                : "Value should be a number and have a value between {$manageableSetting['min']} and {$manageableSetting['max']}.",
+            default => true,
+        };
+
+        if ($validation !== true) {
+            return $this->failure($validation);
+        }
+
         // Save the setting
         $preference = $this->alfredPreferenceManager->settings();
         $preference->setData($this->getRequiredData('key'), $this->alfredData->getPhrase());
@@ -122,7 +145,7 @@ class ManageSettings extends AbstractWorkflowStep
 
         // Save the setting
         $preference = $this->alfredPreferenceManager->settings();
-        $preference->setData($this->getRequiredData('key'), (bool)$this->getRequiredData('value'));
+        $preference->setData($this->getRequiredData('key'), (bool) $this->getRequiredData('value'));
         if (!$this->alfredPreferenceManager->save($preference)) {
             return $this->failure('Could not save the setting to the database.');
         }
@@ -144,6 +167,7 @@ class ManageSettings extends AbstractWorkflowStep
                 'boolean' => $itemSet->addItem(
                     (new StatusItem())
                         ->name($manageableSetting['name'])
+                        ->info($manageableSetting['info'])
                         ->when($settings[$key] ?? $defaultSettings[$key], function (StatusItem $item) use ($key) {
                             $item
                                 ->status('Yes')
@@ -180,7 +204,6 @@ class ManageSettings extends AbstractWorkflowStep
                                 ])
                         )
                 ),
-                default => $this->failure('Unsupported setting detected: ' . $manageableSetting['name']),
             };
         }
 
