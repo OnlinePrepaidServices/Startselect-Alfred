@@ -47,5 +47,5 @@ Vue.use(Alfred);
 
 With settings:
 ```html
-<alfred :settings='@json(\Startselect\Alfred\Support\AlfredSettingManager::init())'></alfred>
+<alfred :settings='@json(Startselect\Alfred\Support\AlfredSettingManager::init())'></alfred>
 ```
