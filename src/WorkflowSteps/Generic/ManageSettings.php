@@ -83,6 +83,7 @@ class ManageSettings extends AbstractWorkflowStep
                     ->trigger(
                         (new WorkflowStep())
                             ->class(self::class)
+                            ->method(self::METHOD_SAVE_VALUE)
                             ->data($this->getRequiredData())
                     )
             );
