@@ -237,6 +237,17 @@
             },
 
             /**
+             * Overwrite setting values.
+             *
+             * @param {Object} settings
+             */
+            setSettings(settings) {
+                for (let key in settings) {
+                    this.settings[key] = settings[key];
+                }
+            },
+
+            /**
              * Initiate Alfred.
              */
             initiateAlfred() {
@@ -259,10 +270,13 @@
 
                 this.handleWorkflowStepResponse(initiateResponse);
 
-                // Alfred snippets
-                if (initiateResponse?.snippets) {
-                    this.snippets.items = initiateResponse.snippets;
-                }
+                // Alfred settings from local storage
+                this.setSettings(this.getLocalStorageData('settings') ?? {});
+
+                // Alfred snippets from DB or local storage
+                this.snippets.items = initiateResponse?.snippets
+                    ? initiateResponse.snippets
+                    : this.getLocalStorageData('snippets') ?? {};
 
                 // Alfred is ready
                 document.addEventListener('keyup', this.triggerAlfredKeyboardEvent);
