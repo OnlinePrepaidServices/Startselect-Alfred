@@ -1461,6 +1461,13 @@
                     this.displayNotification('success', localStorage.notification);
                 }
 
+                // Do we need to update something?
+                if (localStorage.key === 'snippets') {
+                    this.snippets.items = data;
+                } else if (localStorage.key === 'settings') {
+                    this.setSettings(data);
+                }
+
                 // Local storage updated; Close Alfred!
                 this.resetAlfred();
             },
