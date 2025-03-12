@@ -10,10 +10,10 @@ return [
         CoreWorkflowSteps\Generic\ManageSettings::class,
         CoreWorkflowSteps\Routing\BasicRoutes::class,
         CoreWorkflowSteps\Routing\History::class,
-        CoreWorkflowSteps\Snippets\CreateSnippet::class,
-        CoreWorkflowSteps\Snippets\DeleteSnippet::class,
-        CoreWorkflowSteps\Snippets\EditSnippet::class,
-        CoreWorkflowSteps\Snippets\ExecuteSnippet::class,
+        CoreWorkflowSteps\Snippets\Database\CreateSnippet::class,
+        CoreWorkflowSteps\Snippets\Database\DeleteSnippet::class,
+        CoreWorkflowSteps\Snippets\Database\EditSnippet::class,
+        CoreWorkflowSteps\Snippets\Database\ExecuteSnippet::class,
     ],
 
     // List of workflow steps that can be processed, once called upon by Alfred

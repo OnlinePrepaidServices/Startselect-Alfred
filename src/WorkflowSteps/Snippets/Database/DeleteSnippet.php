@@ -1,6 +1,6 @@
 <?php
 
-namespace Startselect\Alfred\WorkflowSteps\Snippets;
+namespace Startselect\Alfred\WorkflowSteps\Snippets\Database;
 
 use Startselect\Alfred\Preparations\Core\Item;
 use Startselect\Alfred\Preparations\Core\ItemSet;
