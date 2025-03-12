@@ -171,7 +171,6 @@
             this.initiateAlfred();
 
             // Initiate settings
-            this.tips.title = this.getSetting(settingsMap.TITLE_TIPS, 'Narrow your search');
             this.action.timeout = this.getSetting(settingsMap.TIMEOUT_ACTION, 1.2) * 1000; // Seconds to milliseconds
             this.messages.timeout = this.getSetting(settingsMap.TIMEOUT_MESSAGES, 2.2) * 1000; // Seconds to milliseconds
 
@@ -573,8 +572,9 @@
                     return;
                 }
 
-                // Reset items title
+                // Reset titles
                 this.items.title = '';
+                this.tips.title = '';
 
                 // Alfred state available?
                 if (state.alfred || null) {
@@ -614,6 +614,10 @@
                 // Tips state available?
                 if (state.tips || null) {
                     this.tips.current = state.tips;
+
+                    if (this.tips.current.length) {
+                        this.tips.title = this.getSetting(settingsMap.TITLE_TIPS, 'Narrow your search');
+                    }
                 }
             },
 
@@ -1880,7 +1884,7 @@
                     <li :class="message.type === 'success' ? 'alfred__message--success' : 'alfred__message--error'" v-for="message in messages.current" v-html="message.text"></li>
                 </ul>
             </div>
-            <div class="alfred__tips" v-if="tips.current.length && !getPhrase()">
+            <div class="alfred__tips" v-show="tips.current.length && !getPhrase()">
                 <span class="alfred__tips__title">{{ tips.title }}</span>
                 <ul>
                     <li v-for="tip in tips.current">
@@ -2239,7 +2243,7 @@
   border-style: solid;
   border-color: #ccd3db;
 }
-.alfred__container:has(.alfred__items > ul:empty):has(.alfred__items__title:empty) + .alfred__footer {
+.alfred__container:has(.alfred__tips__title:empty):has(.alfred__items__title:empty) + .alfred__footer {
   border-top-width: 0;
 }
 .alfred__footer__section {
