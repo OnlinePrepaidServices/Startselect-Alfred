@@ -1,6 +1,6 @@
 <?php
 
-namespace Startselect\Alfred\WorkflowSteps\Generic;
+namespace Startselect\Alfred\WorkflowSteps\Settings\Database;
 
 use Illuminate\Support\Facades\Config;
 use Startselect\Alfred\Preparations\Core\Action;
