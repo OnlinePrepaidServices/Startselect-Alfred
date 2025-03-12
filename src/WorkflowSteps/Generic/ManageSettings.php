@@ -14,6 +14,8 @@ use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
 class ManageSettings extends AbstractWorkflowStep
 {
+    protected const METHOD_CHANGE_VALUE = 'changeValue';
+    protected const METHOD_SAVE_VALUE = 'saveValue';
     protected const METHOD_TOGGLE_VALUE = 'toggleValue';
     protected const MANAGEABLE_SETTINGS = [
         'rememberPopularItems' => [
@@ -29,12 +31,12 @@ class ManageSettings extends AbstractWorkflowStep
     ];
 
     protected array $requiredData = [
-        self::METHOD_INIT => [
+        self::METHOD_CHANGE_VALUE => [
             'key' => 'Missing setting key.',
             'name' => 'Missing setting name.',
             'value' => 'Missing setting value.',
         ],
-        self::METHOD_HANDLE => [
+        self::METHOD_SAVE_VALUE => [
             'key' => 'Missing setting key.',
         ],
         self::METHOD_TOGGLE_VALUE => [
@@ -51,20 +53,32 @@ class ManageSettings extends AbstractWorkflowStep
                 ->info('Change an Alfred setting.')
                 ->icon('cog')
                 ->prefix('setting')
-                ->trigger($this->getSettings())
+                ->trigger(
+                    (new WorkflowStep())
+                        ->class(self::class)
+                        ->method(self::METHOD_INIT)
+                )
         );
     }
 
     public function init(): Response
     {
+        return $this->getResponse()
+            ->title('Change an Alfred setting')
+            ->placeholder('Filter by settings..')
+            ->trigger($this->getSettings());
+    }
+
+    public function changeValue(): Response
+    {
         // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_INIT)) {
+        if (!$this->isRequiredDataPresent(self::METHOD_CHANGE_VALUE)) {
             return $this->failure();
         }
 
         return $this->getResponse()
             ->title("Change setting: {$this->getRequiredData('name')}")
-            ->placeholder($this->getRequiredData('value'))
+            ->phrase($this->getRequiredData('value'))
             ->trigger(
                 (new Action())
                     ->trigger(
@@ -75,10 +89,10 @@ class ManageSettings extends AbstractWorkflowStep
             );
     }
 
-    public function handle(): Response
+    public function saveValue(): Response
     {
         // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_HANDLE)) {
+        if (!$this->isRequiredDataPresent(self::METHOD_SAVE_VALUE)) {
             return $this->failure();
         }
 
@@ -120,9 +134,7 @@ class ManageSettings extends AbstractWorkflowStep
 
     protected function getSettings(): ItemSet
     {
-        $itemSet = (new ItemSet())
-            ->title('Change an Alfred setting')
-            ->placeholder('Filter by settings..');
+        $itemSet = (new ItemSet());
 
         $settings = $this->alfredPreferenceManager->settings()->data;
         $defaultSettings = Config::get('alfred.settings');
@@ -160,7 +172,7 @@ class ManageSettings extends AbstractWorkflowStep
                         ->trigger(
                             (new WorkflowStep())
                                 ->class(self::class)
-                                ->method(self::METHOD_INIT)
+                                ->method(self::METHOD_CHANGE_VALUE)
                                 ->data([
                                     'key' => $key,
                                     'name' => $manageableSetting['name'],
