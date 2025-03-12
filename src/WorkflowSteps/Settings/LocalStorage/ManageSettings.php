@@ -58,6 +58,7 @@ class ManageSettings extends AbstractWorkflowStep
                     (new WorkflowStep())
                         ->class(self::class)
                         ->method(self::METHOD_INIT)
+                        ->includeLocalStorageKeys(['settings'])
                 )
         );
     }
@@ -87,6 +88,7 @@ class ManageSettings extends AbstractWorkflowStep
                             ->class(self::class)
                             ->method(self::METHOD_SAVE_VALUE)
                             ->data($this->getRequiredData())
+                            ->includeLocalStorageKeys(['snippets'])
                     )
             );
     }
@@ -143,13 +145,6 @@ class ManageSettings extends AbstractWorkflowStep
             return $this->failure();
         }
 
-        // Find setting to edit
-        $settings = $this->alfredData->getWorkflowStep()->getLocalStorageData('settings');
-        $setting = $settings[$this->getRequiredData('key')] ?? null;
-        if (!$setting) {
-            return $this->failure();
-        }
-
         return $this->getResponse()
             ->notification('Alfred settings saved successfully.')
             ->trigger(
@@ -166,7 +161,6 @@ class ManageSettings extends AbstractWorkflowStep
     {
         $itemSet = (new ItemSet());
 
-        // Find setting to edit
         $settings = $this->alfredData->getWorkflowStep()->getLocalStorageData('settings');
         $defaultSettings = Config::get('alfred.settings');
 
