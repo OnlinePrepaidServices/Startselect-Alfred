@@ -268,8 +268,6 @@
             initiatedAlfred(initiateResponse) {
                 this.alfred.initiated = true;
 
-                this.handleWorkflowStepResponse(initiateResponse);
-
                 // Alfred settings from local storage
                 this.setSettings(this.getLocalStorageData('settings') ?? {});
 
@@ -277,6 +275,9 @@
                 this.snippets.items = initiateResponse?.snippets
                     ? initiateResponse.snippets
                     : this.getLocalStorageData('snippets') ?? {};
+
+                // Handle initiation response
+                this.handleWorkflowStepResponse(initiateResponse);
 
                 // Alfred is ready
                 document.addEventListener('keyup', this.triggerAlfredKeyboardEvent);
