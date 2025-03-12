@@ -126,7 +126,7 @@ class ManageSettings extends AbstractWorkflowStep
 
         // Save the setting
         $preference = $this->alfredPreferenceManager->settings();
-        $preference->setData($this->getRequiredData('key'), $this->alfredData->getPhrase());
+        $preference->setData($this->getRequiredData('key'), $value);
         if (!$this->alfredPreferenceManager->save($preference)) {
             return $this->failure('Could not save the setting to the database.');
         }
