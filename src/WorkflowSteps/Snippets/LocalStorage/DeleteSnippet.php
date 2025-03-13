@@ -2,84 +2,38 @@
 
 namespace Startselect\Alfred\WorkflowSteps\Snippets\LocalStorage;
 
-use Startselect\Alfred\Preparations\Core\Item;
-use Startselect\Alfred\Preparations\Core\ItemSet;
-use Startselect\Alfred\Preparations\Core\Response;
+use Startselect\Alfred\Preparations\AbstractPreparation;
 use Startselect\Alfred\Preparations\Other\LocalStorage;
-use Startselect\Alfred\Preparations\Other\WorkflowStep;
-use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
+use Startselect\Alfred\WorkflowSteps\Snippets\DeleteSnippet as AbstractDeleteSnippet;
 
-class DeleteSnippet extends AbstractWorkflowStep
+class DeleteSnippet extends AbstractDeleteSnippet
 {
-    protected array $requiredData = [
-        self::METHOD_HANDLE => [
-            'keyword' => 'Missing snippet keyword.',
-        ],
-    ];
-
-    public function register(ItemSet $itemSet): void
+    protected function handlesLocalStorage(): bool
     {
-        $itemSet->addItem(
-            (new Item())
-                ->name('Delete snippet')
-                ->info('Delete one of your snippets.')
-                ->icon('i-cursor')
-                ->trigger(
-                    (new WorkflowStep())
-                        ->class(self::class)
-                        ->method(self::METHOD_INIT)
-                        ->includeLocalStorageKeys(['snippets'])
-                )
-        );
+        return true;
     }
 
-    public function init(): Response
+    protected function hasSnippets(): bool
     {
-        // Did we get any snippets?
-        if (!$snippets = $this->alfredData->getWorkflowStep()->getLocalStorageData('snippets')) {
-            return $this->failure('You do not have any snippets.');
-        }
-
-        // Gather items
-        $itemSet = new ItemSet();
-        foreach ($snippets as $keyword => $snippet) {
-            $itemSet->addItem(
-                (new Item())
-                    ->name($keyword)
-                    ->info($snippet)
-                    ->showWarning(true)
-                    ->trigger(
-                        (new WorkflowStep())
-                            ->class(self::class)
-                            ->data(['keyword' => $keyword])
-                            ->includeLocalStorageKeys(['snippets'])
-                    )
-            );
-        }
-
-        return $this->getResponse()
-            ->title('Delete snippet')
-            ->placeholder('Filter by your snippets..')
-            ->trigger($itemSet);
+        return count($this->alfredData->getWorkflowStep()->getLocalStorageData('snippets'));
     }
 
-    public function handle(): Response
+    protected function getSnippets(): array
     {
-        // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_HANDLE)) {
-            return $this->failure();
-        }
+        return $this->alfredData->getWorkflowStep()->getLocalStorageData('snippets');
+    }
 
-        // Remove snippet from available snippets
-        $snippets = $this->alfredData->getWorkflowStep()->getLocalStorageData('snippets');
+    protected function onDelete(array &$snippets): bool
+    {
         unset($snippets[$this->getRequiredData('keyword')]);
 
-        return $this->getResponse()
-            ->trigger(
-                (new LocalStorage())
-                    ->key('snippets')
-                    ->data($snippets)
-                    ->notification("Snippet with keyword `{$this->getRequiredData('keyword')}` was deleted!")
-            );
+        return true;
+    }
+
+    protected function onDeleteTrigger(array $snippets): AbstractPreparation
+    {
+        return (new LocalStorage())
+            ->key('snippets')
+            ->data($snippets);
     }
 }

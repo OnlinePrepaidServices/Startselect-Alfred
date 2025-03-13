@@ -2,128 +2,44 @@
 
 namespace Startselect\Alfred\WorkflowSteps\Snippets\LocalStorage;
 
-use Startselect\Alfred\Preparations\Core\Action;
-use Startselect\Alfred\Preparations\Core\Item;
-use Startselect\Alfred\Preparations\Core\ItemSet;
-use Startselect\Alfred\Preparations\Core\Response;
+use Startselect\Alfred\Preparations\AbstractPreparation;
 use Startselect\Alfred\Preparations\Other\LocalStorage;
-use Startselect\Alfred\Preparations\Other\WorkflowStep;
-use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
+use Startselect\Alfred\WorkflowSteps\Snippets\EditSnippet as AbstractEditSnippet;
 
-class EditSnippet extends AbstractWorkflowStep
+class EditSnippet extends AbstractEditSnippet
 {
-    protected const METHOD_SAVE = 'save';
-
-    protected array $requiredData = [
-        self::METHOD_HANDLE => [
-            'keyword' => 'Missing snippet keyword.',
-        ],
-        self::METHOD_SAVE => [
-            'keyword' => 'Missing snippet keyword.',
-        ],
-    ];
-
-    public function register(ItemSet $itemSet): void
+    protected function handlesLocalStorage(): bool
     {
-        $itemSet->addItem(
-            (new Item())
-                ->name('Edit snippet')
-                ->info('Edit one of your snippets.')
-                ->icon('i-cursor')
-                ->trigger(
-                    (new WorkflowStep())
-                        ->class(self::class)
-                        ->method(self::METHOD_INIT)
-                        ->includeLocalStorageKeys(['snippets'])
-                )
-        );
+        return true;
     }
 
-    public function init(): Response
+    protected function hasSnippets(): bool
     {
-        // Did we get any snippets?
-        if (!$snippets = $this->alfredData->getWorkflowStep()->getLocalStorageData('snippets')) {
-            return $this->failure('You do not have any snippets.');
-        }
-
-        // Gather items
-        $itemSet = new ItemSet();
-        foreach ($snippets as $keyword => $snippet) {
-            $itemSet->addItem(
-                (new Item())
-                    ->name($keyword)
-                    ->info($snippet)
-                    ->trigger(
-                        (new WorkflowStep())
-                            ->class(self::class)
-                            ->data(['keyword' => $keyword])
-                            ->includeLocalStorageKeys(['snippets'])
-                    )
-            );
-        }
-
-        return $this->getResponse()
-            ->title('Edit snippet')
-            ->placeholder('Filter by your snippets..')
-            ->trigger($itemSet);
+        return count($this->alfredData->getWorkflowStep()->getLocalStorageData('snippets'));
     }
 
-    public function handle(): Response
+    protected function getSnippets(): array
     {
-        // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_HANDLE)) {
-            return $this->failure();
-        }
-
-        // Find snippet to edit
-        $snippets = $this->alfredData->getWorkflowStep()->getLocalStorageData('snippets');
-        $snippet = $snippets[$this->getRequiredData('keyword')] ?? null;
-        if (!$snippet) {
-            return $this->failure();
-        }
-
-        return $this->getResponse()
-            ->title(
-                title: "Edit snippet: {$this->getRequiredData('keyword')}",
-                help: CreateSnippet::HELP,
-            )
-            ->phrase($snippet)
-            ->footer('Fill out your snippet text and use the confirm button to save.')
-            ->trigger(
-                (new Action())
-                    ->extendedPhrase(true)
-                    ->trigger(
-                        (new WorkflowStep())
-                            ->class(self::class)
-                            ->method(self::METHOD_SAVE)
-                            ->data([
-                                'keyword' => $this->getRequiredData('keyword'),
-                            ])
-                    )
-            );
+        return $this->alfredData->getWorkflowStep()->getLocalStorageData('snippets');
     }
 
-    public function save(): Response
+    protected function findSnippet(): ?string
     {
-        // Did we get a phrase?
-        if (!$this->alfredData->getPhrase()) {
-            return $this->failure();
-        }
+        return $this->getSnippets()[$this->getRequiredData('keyword')] ?? null;
+    }
 
-        // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_SAVE)) {
-            return $this->failure();
-        }
+    protected function onEdit(array &$snippets): bool
+    {
+        return true;
+    }
 
-        return $this->getResponse()
-            ->trigger(
-                (new LocalStorage())
-                    ->key('snippets')
-                    ->merge(true)
-                    ->data([
-                        $this->getRequiredData('keyword') => $this->alfredData->getPhrase(),
-                    ])
-                    ->notification("Snippet with keyword `{$this->getRequiredData('keyword')}` was updated!")
-            );
+    protected function onEditTrigger(array $snippets): AbstractPreparation
+    {
+        return (new LocalStorage())
+            ->key('snippets')
+            ->merge(true)
+            ->data([
+                $this->getRequiredData('keyword') => $this->alfredData->getPhrase(),
+            ]);
     }
 }
