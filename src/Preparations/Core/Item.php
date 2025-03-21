@@ -26,7 +26,7 @@ class Item extends AbstractPreparation
     /**
      * The name of the item.
      */
-    public function name(string $name): self
+    public function name(string $name): static
     {
         $this->name = $name;
 
@@ -36,7 +36,7 @@ class Item extends AbstractPreparation
     /**
      * The information / description of the item.
      */
-    public function info(string $info): self
+    public function info(string $info): static
     {
         $this->info = $info;
 
@@ -48,7 +48,7 @@ class Item extends AbstractPreparation
      *
      * This is a Font Awesome class after the fa-* part; Just replace the asterisk.
      */
-    public function icon(string $icon): self
+    public function icon(string $icon): static
     {
         $this->icon = $icon;
 
@@ -58,7 +58,7 @@ class Item extends AbstractPreparation
     /**
      * Whether the item could be triggered by a prefix while typing in the phrase field.
      */
-    public function prefix(string $prefix): self
+    public function prefix(string $prefix): static
     {
         $this->prefix = $prefix;
 
@@ -70,7 +70,7 @@ class Item extends AbstractPreparation
      *
      * Note: Use capital letters.
      */
-    public function shortcut(array $shortcut): self
+    public function shortcut(array $shortcut): static
     {
         $this->shortcut = $shortcut;
 
@@ -80,7 +80,7 @@ class Item extends AbstractPreparation
     /**
      * Warn the user before triggering the item.
      */
-    public function showWarning(bool $warn): self
+    public function showWarning(bool $warn): static
     {
         $this->warn = $warn;
 
@@ -90,7 +90,7 @@ class Item extends AbstractPreparation
     /**
      * The preparation to execute when the item is triggered.
      */
-    public function trigger(AbstractPreparation $preparation): self
+    public function trigger(AbstractPreparation $preparation): static
     {
         $this->trigger = $preparation;
 

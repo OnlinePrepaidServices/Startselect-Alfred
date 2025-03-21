@@ -32,7 +32,7 @@ class Action extends AbstractPreparation
     /**
      * Whether the action should be submitted while typing in the phrase field.
      */
-    public function realtime(bool $realtime): self
+    public function realtime(bool $realtime): static
     {
         $this->realtime = $realtime;
 
@@ -42,7 +42,7 @@ class Action extends AbstractPreparation
     /**
      * Whether the action has an item set, to immediately display unfiltered results.
      */
-    public function itemSet(ItemSet $itemSet): self
+    public function itemSet(ItemSet $itemSet): static
     {
         $this->itemSet = $itemSet;
 
@@ -52,7 +52,7 @@ class Action extends AbstractPreparation
     /**
      * The preparation trigger of this action.
      */
-    public function trigger(AbstractPreparation $preparation): self
+    public function trigger(AbstractPreparation $preparation): static
     {
         $this->trigger = $preparation;
 

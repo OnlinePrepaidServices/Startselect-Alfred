@@ -17,7 +17,7 @@ class Response extends AbstractPreparation
     /**
      * Whether the response is executed successfully.
      */
-    public function success(bool $success): self
+    public function success(bool $success): static
     {
         $this->success = $success;
 
@@ -27,7 +27,7 @@ class Response extends AbstractPreparation
     /**
      * Set a message that'll be shown to the user.
      */
-    public function message(string $message): self
+    public function message(string $message): static
     {
         $this->message = $message;
 
@@ -37,7 +37,7 @@ class Response extends AbstractPreparation
     /**
      * Set a notification that'll be shown to the user.
      */
-    public function notification(string $notification): self
+    public function notification(string $notification): static
     {
         $this->notification = $notification;
 
@@ -47,7 +47,7 @@ class Response extends AbstractPreparation
     /**
      * The preparation trigger when Alfred receives the response.
      */
-    public function trigger(AbstractPreparation $preparation): self
+    public function trigger(AbstractPreparation $preparation): static
     {
         $this->trigger = $preparation;
 

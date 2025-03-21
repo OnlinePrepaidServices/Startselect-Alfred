@@ -21,7 +21,7 @@ class WorkflowStep extends AbstractPreparation
     /**
      * The class of the workflow step.
      */
-    public function class(string $class): self
+    public function class(string $class): static
     {
         $this->class = $class;
 
@@ -31,7 +31,7 @@ class WorkflowStep extends AbstractPreparation
     /**
      * The method call of the workflow step.
      */
-    public function method(string $method): self
+    public function method(string $method): static
     {
         $this->method = $method;
 
@@ -41,7 +41,7 @@ class WorkflowStep extends AbstractPreparation
     /**
      * The data that will be given to the workflow step.
      */
-    public function data(array $data): self
+    public function data(array $data): static
     {
         $this->data = $data;
 
@@ -51,7 +51,7 @@ class WorkflowStep extends AbstractPreparation
     /**
      * The local storage data by giving keys that should be included when triggering the workflow step.
      */
-    public function includeLocalStorageKeys(array $includeLocalStorageKeys): self
+    public function includeLocalStorageKeys(array $includeLocalStorageKeys): static
     {
         $this->includeLocalStorageKeys = $includeLocalStorageKeys;
 

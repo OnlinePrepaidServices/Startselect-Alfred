@@ -39,8 +39,8 @@ abstract class EditSnippet extends AbstractWorkflowStep
                 ->icon('i-cursor')
                 ->trigger(
                     (new WorkflowStep())
-                        ->class(self::class)
-                        ->method(self::METHOD_INIT)
+                        ->class(static::class)
+                        ->method(static::METHOD_INIT)
                         ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
                             $workflowStep->includeLocalStorageKeys(['snippets']);
                         })
@@ -64,7 +64,7 @@ abstract class EditSnippet extends AbstractWorkflowStep
                     ->info($snippet)
                     ->trigger(
                         (new WorkflowStep())
-                            ->class(self::class)
+                            ->class(static::class)
                             ->data(['keyword' => $keyword])
                             ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
                                 $workflowStep->includeLocalStorageKeys(['snippets']);
@@ -82,7 +82,7 @@ abstract class EditSnippet extends AbstractWorkflowStep
     public function handle(): Response
     {
         // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_HANDLE)) {
+        if (!$this->isRequiredDataPresent(static::METHOD_HANDLE)) {
             return $this->failure();
         }
 
@@ -104,8 +104,8 @@ abstract class EditSnippet extends AbstractWorkflowStep
                     ->extendedPhrase(true)
                     ->trigger(
                         (new WorkflowStep())
-                            ->class(self::class)
-                            ->method(self::METHOD_SAVE)
+                            ->class(static::class)
+                            ->method(static::METHOD_SAVE)
                             ->data([
                                 'keyword' => $this->getRequiredData('keyword'),
                             ])
@@ -121,7 +121,7 @@ abstract class EditSnippet extends AbstractWorkflowStep
         }
 
         // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_SAVE)) {
+        if (!$this->isRequiredDataPresent(static::METHOD_SAVE)) {
             return $this->failure();
         }
 

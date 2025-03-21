@@ -17,7 +17,7 @@ class Clipboard extends AbstractPreparation
     /**
      * Text for browser's clipboard.
      */
-    public function text(string $text): self
+    public function text(string $text): static
     {
         $this->text = $text;
 
@@ -27,7 +27,7 @@ class Clipboard extends AbstractPreparation
     /**
      * The notification that is displayed once the clipboard has been altered.
      */
-    public function notification(string $notification): self
+    public function notification(string $notification): static
     {
         $this->notification = $notification;
 

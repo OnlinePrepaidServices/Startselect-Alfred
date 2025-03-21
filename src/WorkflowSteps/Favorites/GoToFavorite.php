@@ -20,7 +20,7 @@ class GoToFavorite extends AbstractWorkflowStep
                 ->icon('star')
                 ->trigger(
                     (new WorkflowStep())
-                        ->class(self::class)
+                        ->class(static::class)
                         ->includeLocalStorageKeys(['favorites'])
                 )
         );

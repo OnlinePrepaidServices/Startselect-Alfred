@@ -32,8 +32,8 @@ abstract class DeleteSnippet extends AbstractWorkflowStep
                 ->icon('i-cursor')
                 ->trigger(
                     (new WorkflowStep())
-                        ->class(self::class)
-                        ->method(self::METHOD_INIT)
+                        ->class(static::class)
+                        ->method(static::METHOD_INIT)
                         ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
                             $workflowStep->includeLocalStorageKeys(['snippets']);
                         })
@@ -58,7 +58,7 @@ abstract class DeleteSnippet extends AbstractWorkflowStep
                     ->showWarning(true)
                     ->trigger(
                         (new WorkflowStep())
-                            ->class(self::class)
+                            ->class(static::class)
                             ->data(['keyword' => $keyword])
                             ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
                                 $workflowStep->includeLocalStorageKeys(['snippets']);
@@ -76,7 +76,7 @@ abstract class DeleteSnippet extends AbstractWorkflowStep
     public function handle(): Response
     {
         // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_HANDLE)) {
+        if (!$this->isRequiredDataPresent(static::METHOD_HANDLE)) {
             return $this->failure();
         }
 

@@ -19,7 +19,7 @@ class FillFieldValue extends AbstractPreparation
     /**
      * The ID of the HTML input.
      */
-    public function id(string $id): self
+    public function id(string $id): static
     {
         $this->id = $id;
 
@@ -29,7 +29,7 @@ class FillFieldValue extends AbstractPreparation
     /**
      * The value of the HTML input.
      */
-    public function value(mixed $value): self
+    public function value(mixed $value): static
     {
         $this->value = $value;
 
@@ -39,7 +39,7 @@ class FillFieldValue extends AbstractPreparation
     /**
      * The notification that is displayed once the value of the HTML input is filled.
      */
-    public function notification(string $notification): self
+    public function notification(string $notification): static
     {
         $this->notification = $notification;
 

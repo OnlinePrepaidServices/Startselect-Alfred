@@ -25,8 +25,8 @@ class CreateFavorite extends AbstractWorkflowStep
                 ])
                 ->trigger(
                     (new WorkflowStep())
-                        ->class(self::class)
-                        ->method(self::METHOD_INIT)
+                        ->class(static::class)
+                        ->method(static::METHOD_INIT)
                 )
         );
     }
@@ -40,7 +40,7 @@ class CreateFavorite extends AbstractWorkflowStep
                 (new Action())
                     ->trigger(
                         (new WorkflowStep())
-                            ->class(self::class)
+                            ->class(static::class)
                             ->data($this->getOptionalData())
                     )
             );

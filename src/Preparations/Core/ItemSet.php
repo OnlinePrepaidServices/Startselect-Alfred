@@ -20,7 +20,7 @@ class ItemSet extends AbstractPreparation
     /**
      * Add an item that'll be used by Alfred.
      */
-    public function addItem(Item $item): self
+    public function addItem(Item $item): static
     {
         if (!$this->items) {
             $this->items = [];
@@ -36,7 +36,7 @@ class ItemSet extends AbstractPreparation
      *
      * @param array<Item> $items
      */
-    public function addItems(array $items): self
+    public function addItems(array $items): static
     {
         if (!$this->items) {
             $this->items = [];
@@ -52,7 +52,7 @@ class ItemSet extends AbstractPreparation
      *
      * @param array<Item> $items
      */
-    public function items(array $items): self
+    public function items(array $items): static
     {
         $this->items = $items;
 
@@ -62,7 +62,7 @@ class ItemSet extends AbstractPreparation
     /**
      * Whether Alfred should sort the items.
      */
-    public function sort(bool $sortItems, bool $reverseSorting = false): self
+    public function sort(bool $sortItems, bool $reverseSorting = false): static
     {
         $this->sortItems = $sortItems;
         $this->reverseSorting = $reverseSorting;

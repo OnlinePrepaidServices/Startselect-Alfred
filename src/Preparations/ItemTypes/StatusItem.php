@@ -19,7 +19,7 @@ class StatusItem extends Item
     /**
      * The status of the item.
      */
-    public function status(string $status): self
+    public function status(string $status): static
     {
         $this->status = $status;
 
@@ -29,7 +29,7 @@ class StatusItem extends Item
     /**
      * The status's color to be displayed in the item.
      */
-    public function color(string $hexColor): self
+    public function color(string $hexColor): static
     {
         $this->color = $hexColor;
 

@@ -23,7 +23,7 @@ class LocalStorage extends AbstractPreparation
     /**
      * Key for browser's local storage.
      */
-    public function key(string $key): self
+    public function key(string $key): static
     {
         $this->key = $key;
 
@@ -33,7 +33,7 @@ class LocalStorage extends AbstractPreparation
     /**
      * Data for browser's local storage.
      */
-    public function data(array $data): self
+    public function data(array $data): static
     {
         $this->data = $data;
 
@@ -43,7 +43,7 @@ class LocalStorage extends AbstractPreparation
     /**
      * Whether to merge existing data for given key in browser's local storage.
      */
-    public function merge(bool $merge): self
+    public function merge(bool $merge): static
     {
         $this->merge = $merge;
 
@@ -53,7 +53,7 @@ class LocalStorage extends AbstractPreparation
     /**
      * Expiration date for browser's local storage.
      */
-    public function ttl(int $ttl): self
+    public function ttl(int $ttl): static
     {
         $this->ttl = $ttl;
 
@@ -63,7 +63,7 @@ class LocalStorage extends AbstractPreparation
     /**
      * The notification that is displayed once the local storage has been updated.
      */
-    public function notification(string $notification): self
+    public function notification(string $notification): static
     {
         $this->notification = $notification;
 

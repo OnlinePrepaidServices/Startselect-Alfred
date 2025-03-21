@@ -36,7 +36,7 @@ abstract class AbstractPreparation implements PreparationInterface
     /**
      * The required permission that is checked when validating the preparation.
      */
-    public function requiresPermission(mixed $requiredPermission): self
+    public function requiresPermission(mixed $requiredPermission): static
     {
         $this->requiredPermission = $requiredPermission;
 
@@ -46,7 +46,7 @@ abstract class AbstractPreparation implements PreparationInterface
     /**
      * Apply the callback if the value is truthy.
      */
-    public function when(mixed $value, callable $callback = null, callable $default = null): self
+    public function when(mixed $value, ?callable $callback = null, ?callable $default = null): static
     {
         if ($value) {
             $callback($this, $value);

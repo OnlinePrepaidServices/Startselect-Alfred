@@ -61,8 +61,8 @@ abstract class ManageSettings extends AbstractWorkflowStep
                 ->icon('cog')
                 ->trigger(
                     (new WorkflowStep())
-                        ->class(self::class)
-                        ->method(self::METHOD_INIT)
+                        ->class(static::class)
+                        ->method(static::METHOD_INIT)
                         ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
                             $workflowStep->includeLocalStorageKeys(['snippets']);
                         })
@@ -81,7 +81,7 @@ abstract class ManageSettings extends AbstractWorkflowStep
     public function changeValue(): Response
     {
         // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_CHANGE_VALUE)) {
+        if (!$this->isRequiredDataPresent(static::METHOD_CHANGE_VALUE)) {
             return $this->failure();
         }
 
@@ -92,8 +92,8 @@ abstract class ManageSettings extends AbstractWorkflowStep
                 (new Action())
                     ->trigger(
                         (new WorkflowStep())
-                            ->class(self::class)
-                            ->method(self::METHOD_SAVE_VALUE)
+                            ->class(static::class)
+                            ->method(static::METHOD_SAVE_VALUE)
                             ->data($this->getRequiredData())
                             ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
                                 $workflowStep->includeLocalStorageKeys(['snippets']);
@@ -105,7 +105,7 @@ abstract class ManageSettings extends AbstractWorkflowStep
     public function saveValue(): Response
     {
         // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_SAVE_VALUE)) {
+        if (!$this->isRequiredDataPresent(static::METHOD_SAVE_VALUE)) {
             return $this->failure();
         }
 
@@ -115,7 +115,7 @@ abstract class ManageSettings extends AbstractWorkflowStep
         }
 
         // Get the manageable setting
-        $manageableSetting = self::MANAGEABLE_SETTINGS[$this->getRequiredData('key')];
+        $manageableSetting = static::MANAGEABLE_SETTINGS[$this->getRequiredData('key')];
 
         // Update value to setting type
         $value = match ($manageableSetting['type']) {
@@ -148,7 +148,7 @@ abstract class ManageSettings extends AbstractWorkflowStep
     public function toggleValue(): Response
     {
         // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_TOGGLE_VALUE)) {
+        if (!$this->isRequiredDataPresent(static::METHOD_TOGGLE_VALUE)) {
             return $this->failure();
         }
 
@@ -169,7 +169,7 @@ abstract class ManageSettings extends AbstractWorkflowStep
         $settings = $this->alfredPreferenceManager->settings()->data;
         $defaultSettings = Config::get('alfred.settings');
 
-        foreach (self::MANAGEABLE_SETTINGS as $key => $manageableSetting) {
+        foreach (static::MANAGEABLE_SETTINGS as $key => $manageableSetting) {
             match ($manageableSetting['type']) {
                 'boolean' => $itemSet->addItem(
                     (new StatusItem())
@@ -186,8 +186,8 @@ abstract class ManageSettings extends AbstractWorkflowStep
                         })
                         ->trigger(
                             (new WorkflowStep())
-                                ->class(self::class)
-                                ->method(self::METHOD_TOGGLE_VALUE)
+                                ->class(static::class)
+                                ->method(static::METHOD_TOGGLE_VALUE)
                                 ->data([
                                     'key' => $key,
                                     'value' => !($settings[$key] ?? $defaultSettings[$key]),
@@ -202,8 +202,8 @@ abstract class ManageSettings extends AbstractWorkflowStep
                         ->color('#22292f')
                         ->trigger(
                             (new WorkflowStep())
-                                ->class(self::class)
-                                ->method(self::METHOD_CHANGE_VALUE)
+                                ->class(static::class)
+                                ->method(static::METHOD_CHANGE_VALUE)
                                 ->data([
                                     'key' => $key,
                                     'name' => $manageableSetting['name'],

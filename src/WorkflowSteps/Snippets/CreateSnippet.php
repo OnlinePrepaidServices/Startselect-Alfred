@@ -42,8 +42,8 @@ abstract class CreateSnippet extends AbstractWorkflowStep
                 ->icon('i-cursor')
                 ->trigger(
                     (new WorkflowStep())
-                        ->class(self::class)
-                        ->method(self::METHOD_INIT)
+                        ->class(static::class)
+                        ->method(static::METHOD_INIT)
                 )
         );
     }
@@ -66,7 +66,7 @@ abstract class CreateSnippet extends AbstractWorkflowStep
         }
 
         // Did we get the necessary data?
-        if (!$this->isRequiredDataPresent(self::METHOD_HANDLE)) {
+        if (!$this->isRequiredDataPresent(static::METHOD_HANDLE)) {
             return $this->failure();
         }
 
@@ -89,8 +89,8 @@ abstract class CreateSnippet extends AbstractWorkflowStep
                 (new Action())
                     ->trigger(
                         (new WorkflowStep())
-                            ->class(self::class)
-                            ->method(self::METHOD_INIT)
+                            ->class(static::class)
+                            ->method(static::METHOD_INIT)
                             ->data([
                                 'step' => 'text',
                             ])
@@ -119,7 +119,7 @@ abstract class CreateSnippet extends AbstractWorkflowStep
                     ->extendedPhrase(true)
                     ->trigger(
                         (new WorkflowStep())
-                            ->class(self::class)
+                            ->class(static::class)
                             ->data(array_merge(
                                 $this->getOptionalData(),
                                 [

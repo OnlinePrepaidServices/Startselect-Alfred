@@ -17,7 +17,7 @@ class SnippetSync extends AbstractPreparation
     /**
      * Alfred preference snippet data.
      */
-    public function data(array $data): self
+    public function data(array $data): static
     {
         $this->data = $data;
 
@@ -27,7 +27,7 @@ class SnippetSync extends AbstractPreparation
     /**
      * The notification that is displayed once the snippets have been synced.
      */
-    public function notification(string $notification): self
+    public function notification(string $notification): static
     {
         $this->notification = $notification;
 

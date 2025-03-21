@@ -35,7 +35,7 @@ class Redirect extends AbstractPreparation
     /**
      * URL to redirect to.
      */
-    public function url(string $url): self
+    public function url(string $url): static
     {
         $this->url = $url;
 
@@ -45,7 +45,7 @@ class Redirect extends AbstractPreparation
     /**
      * The type of the redirect.
      */
-    public function type(string $type): self
+    public function type(string $type): static
     {
         if (in_array($type, $this->allowedTypes)) {
             $this->type = $type;
@@ -57,7 +57,7 @@ class Redirect extends AbstractPreparation
     /**
      * The window where the redirect will take place.
      */
-    public function window(string $window): self
+    public function window(string $window): static
     {
         if (in_array($window, $this->allowedWindows)) {
             $this->window = $window;

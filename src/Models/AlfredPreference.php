@@ -20,7 +20,7 @@ class AlfredPreference extends Model
         'data' => 'array',
     ];
 
-    public function setData(mixed $key, mixed $value = null, bool $replace = true): self
+    public function setData(mixed $key, mixed $value = null, bool $replace = true): static
     {
         // Upon replacing, we simply overwrite the current key's value, with the new value
         // Without replacing, we add the new value to the current value, which becomes an array of values
@@ -46,7 +46,7 @@ class AlfredPreference extends Model
         return $this;
     }
 
-    public function unsetData(mixed $key): self
+    public function unsetData(mixed $key): static
     {
         $data = $this->data ?? [];
 

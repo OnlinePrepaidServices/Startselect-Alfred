@@ -24,8 +24,8 @@ class BasicRoutes extends AbstractWorkflowStep
     {
         // Keep track of certain types of routes
         $routeItemsByActionMethod = [
-            self::ACTION_METHOD_INDEX => [],
-            self::ACTION_METHOD_CREATE => [],
+            static::ACTION_METHOD_INDEX => [],
+            static::ACTION_METHOD_CREATE => [],
         ];
 
         /** @var Route $route */
@@ -51,7 +51,7 @@ class BasicRoutes extends AbstractWorkflowStep
 
         // Getting the controller might fail
         try {
-            $singular = in_array($route->getActionMethod(), self::SINGULAR_ACTION_METHODS);
+            $singular = in_array($route->getActionMethod(), static::SINGULAR_ACTION_METHODS);
 
             return (new Item())
                 ->trigger(PreparationFactory::redirect(url($route->uri())))
@@ -122,8 +122,8 @@ class BasicRoutes extends AbstractWorkflowStep
             }
 
             $title = match ($routeActionMethod) {
-                self::ACTION_METHOD_INDEX => 'Index / overview of things',
-                self::ACTION_METHOD_CREATE => 'Create something new',
+                static::ACTION_METHOD_INDEX => 'Index / overview of things',
+                static::ACTION_METHOD_CREATE => 'Create something new',
             };
 
             $itemSet->addItem(
@@ -132,8 +132,8 @@ class BasicRoutes extends AbstractWorkflowStep
                     ->info("{$title}.")
                     ->icon('compass')
                     ->prefix(match ($routeActionMethod) {
-                        self::ACTION_METHOD_INDEX => 'index',
-                        self::ACTION_METHOD_CREATE => 'new',
+                        static::ACTION_METHOD_INDEX => 'index',
+                        static::ACTION_METHOD_CREATE => 'new',
                     })
                     ->trigger(
                         (new ItemSet())

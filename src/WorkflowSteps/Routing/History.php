@@ -93,9 +93,9 @@ class History extends AbstractWorkflowStep
         ];
 
         // Do we have more than the max results available?
-        if (($totalHistory = count($currentHistory)) > self::MAX_HISTORY_RESULTS) {
+        if (($totalHistory = count($currentHistory)) > static::MAX_HISTORY_RESULTS) {
             // Remove the results that exceed the max
-            $currentHistory = array_slice($currentHistory, $totalHistory - self::MAX_HISTORY_RESULTS, null, true);
+            $currentHistory = array_slice($currentHistory, $totalHistory - static::MAX_HISTORY_RESULTS, null, true);
         }
 
         session()->put('alfred.history', $currentHistory);

@@ -17,7 +17,7 @@ class ImageItem extends Item
     /**
      * The image of the item.
      */
-    public function image(string $url): self
+    public function image(string $url): static
     {
         $this->image = $url;
 

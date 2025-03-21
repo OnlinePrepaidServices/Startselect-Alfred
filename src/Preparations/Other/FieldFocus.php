@@ -17,7 +17,7 @@ class FieldFocus extends AbstractPreparation
     /**
      * The ID of the HTML input.
      */
-    public function id(string $id): self
+    public function id(string $id): static
     {
         $this->id = $id;
 
@@ -27,7 +27,7 @@ class FieldFocus extends AbstractPreparation
     /**
      * The name of the HTML input.
      */
-    public function name(string $name): self
+    public function name(string $name): static
     {
         $this->name = $name;
 
