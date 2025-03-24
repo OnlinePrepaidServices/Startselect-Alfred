@@ -15,10 +15,7 @@ class ManageSettings extends AbstractManageSettings
 
     protected function onSave(mixed $value): bool
     {
-        $preference = $this->alfredPreferenceManager->settings();
-        $preference->setData($this->getRequiredData('key'), $value);
-
-        return $this->alfredPreferenceManager->save($preference);
+        return true;
     }
 
     protected function onSaveTrigger(mixed $value): AbstractPreparation
