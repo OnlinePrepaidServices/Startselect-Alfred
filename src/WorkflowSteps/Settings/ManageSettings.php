@@ -65,7 +65,7 @@ abstract class ManageSettings extends AbstractWorkflowStep
                         ->class(static::class)
                         ->method(static::METHOD_INIT)
                         ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
-                            $workflowStep->includeLocalStorageKeys(['snippets']);
+                            $workflowStep->includeLocalStorageKeys(['settings']);
                         })
                 )
         );
@@ -97,7 +97,7 @@ abstract class ManageSettings extends AbstractWorkflowStep
                             ->method(static::METHOD_SAVE_VALUE)
                             ->data($this->getRequiredData())
                             ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
-                                $workflowStep->includeLocalStorageKeys(['snippets']);
+                                $workflowStep->includeLocalStorageKeys(['settings']);
                             })
                     )
             );
