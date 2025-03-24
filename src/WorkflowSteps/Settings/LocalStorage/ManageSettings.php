@@ -13,6 +13,11 @@ class ManageSettings extends AbstractManageSettings
         return true;
     }
 
+    protected function getSettings(): array
+    {
+        return $this->alfredData->getWorkflowStep()->getLocalStorageData('settings');
+    }
+
     protected function onSave(mixed $value): bool
     {
         return true;

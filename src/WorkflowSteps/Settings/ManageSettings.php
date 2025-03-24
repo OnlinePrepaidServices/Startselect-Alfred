@@ -48,6 +48,7 @@ abstract class ManageSettings extends AbstractWorkflowStep
     ];
 
     abstract protected function handlesLocalStorage(): bool;
+    abstract protected function getSettings(): array;
     abstract protected function onSave(mixed $value): bool;
     abstract protected function onSaveTrigger(mixed $value): AbstractPreparation;
     abstract protected function onToggleTrigger(): AbstractPreparation;
@@ -75,7 +76,7 @@ abstract class ManageSettings extends AbstractWorkflowStep
         return $this->getResponse()
             ->title('Change an Alfred setting')
             ->placeholder('Filter by settings..')
-            ->trigger($this->getSettings());
+            ->trigger($this->getSettingsItemSet());
     }
 
     public function changeValue(): Response
@@ -162,11 +163,11 @@ abstract class ManageSettings extends AbstractWorkflowStep
             ->trigger($this->onToggleTrigger());
     }
 
-    protected function getSettings(): ItemSet
+    protected function getSettingsItemSet(): ItemSet
     {
         $itemSet = new ItemSet();
 
-        $settings = $this->alfredPreferenceManager->settings()->data;
+        $settings = $this->getSettings();
         $defaultSettings = Config::get('alfred.settings');
 
         foreach (static::MANAGEABLE_SETTINGS as $key => $manageableSetting) {

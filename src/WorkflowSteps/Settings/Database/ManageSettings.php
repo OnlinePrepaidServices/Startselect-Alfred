@@ -13,6 +13,11 @@ class ManageSettings extends AbstractManageSettings
         return false;
     }
 
+    protected function getSettings(): array
+    {
+        return $this->alfredPreferenceManager->settings()->data;
+    }
+
     protected function onSave(mixed $value): bool
     {
         $preference = $this->alfredPreferenceManager->settings();
