@@ -18,6 +18,11 @@ abstract class ManageSettings extends AbstractWorkflowStep
     protected const METHOD_SAVE_VALUE = 'saveValue';
     protected const METHOD_TOGGLE_VALUE = 'toggleValue';
     protected const MANAGEABLE_SETTINGS = [
+        'displayTips' => [
+            'name' => 'Display tips',
+            'info' => 'Shows a list of tips, when available, above the items in Alfred.',
+            'type' => 'boolean',
+        ],
         'rememberPopularItems' => [
             'name' => 'Remember popular items',
             'info' => 'Keep track of which items you use most and show them when opening Alfred.',

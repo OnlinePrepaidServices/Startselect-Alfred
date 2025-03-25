@@ -626,8 +626,8 @@
                     this.setItems(state.items);
                 }
 
-                // Tips state available?
-                if (state.tips || null) {
+                // Tips state available and setting enabled?
+                if ((state.tips || null) && this.getSetting(settingsMap.DISPLAY_TIPS, true)) {
                     this.tips.current = state.tips;
 
                     if (this.tips.current.length) {

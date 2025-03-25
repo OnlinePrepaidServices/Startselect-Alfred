@@ -34,6 +34,9 @@ return [
         // Note: either needs to be inputs containing that class or a container with a label and form input.
         'focusableFieldsClasses' => [],
 
+        // Alfred's tips settings
+        'displayTips' => true,
+
         // Keep track of which items are popular and display those when opening Alfred sorted on most popular.
         'rememberPopularItems' => true,
         'maxPopularItemsOnInit' => 5,

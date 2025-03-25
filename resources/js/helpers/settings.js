@@ -1,5 +1,6 @@
 export default {
     FOCUSABLE_FIELDS_CLASSES: 'focusableFieldsClasses',
+    DISPLAY_TIPS: 'displayTips',
     REMEMBER_POPULAR_ITEMS: 'rememberPopularItems',
     MAX_POPULAR_ITEMS_ON_INIT: 'maxPopularItemsOnInit',
     TIMEOUT_ACTION: 'timeouts.action',
