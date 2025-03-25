@@ -9882,7 +9882,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=1f9f1fa6
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=8a792810
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10127,7 +10127,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("tab")]), _c('span', [_vm._v("to autocomplete")])]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=1f9f1fa6
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=8a792810
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -13683,6 +13683,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 ;// ./resources/js/helpers/settings.js
 /* harmony default export */ var settings = ({
   FOCUSABLE_FIELDS_CLASSES: 'focusableFieldsClasses',
+  DISPLAY_TIPS: 'displayTips',
   REMEMBER_POPULAR_ITEMS: 'rememberPopularItems',
   MAX_POPULAR_ITEMS_ON_INIT: 'maxPopularItemsOnInit',
   TIMEOUT_ACTION: 'timeouts.action',
@@ -14266,8 +14267,8 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         this.setItems(state.items);
       }
 
-      // Tips state available?
-      if (state.tips || null) {
+      // Tips state available and setting enabled?
+      if ((state.tips || null) && this.getSetting(settings.DISPLAY_TIPS, true)) {
         this.tips.current = state.tips;
         if (this.tips.current.length) {
           this.tips.title = this.getSetting(settings.TITLE_TIPS, 'Narrow your search');
@@ -15375,10 +15376,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=1f9f1fa6&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=8a792810&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=1f9f1fa6&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=8a792810&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
