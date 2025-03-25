@@ -3,10 +3,10 @@
 namespace Startselect\Alfred\WorkflowSteps;
 
 use Startselect\Alfred\Contracts\PermissionChecker;
+use Startselect\Alfred\Contracts\PreferenceManager;
 use Startselect\Alfred\Contracts\WorkflowStep;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
-use Startselect\Alfred\Support\AlfredPreferenceManager;
 use Startselect\Alfred\ValueObjects\AlfredData;
 use Startselect\Alfred\ValueObjects\PageData;
 
@@ -41,7 +41,7 @@ abstract class AbstractWorkflowStep implements WorkflowStep
 
     public function __construct(
         protected PermissionChecker $permissionChecker,
-        protected AlfredPreferenceManager $alfredPreferenceManager,
+        protected PreferenceManager $preferenceManager,
     ) {
         $this->response = new Response();
     }

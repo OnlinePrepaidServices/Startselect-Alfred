@@ -15,7 +15,7 @@ class DeleteSnippet extends AbstractDeleteSnippet
 
     protected function hasSnippets(): bool
     {
-        if (!$this->alfredPreferenceManager->snippets()->data) {
+        if (!$this->preferenceManager->snippets()->data) {
             return false;
         }
 
@@ -24,15 +24,15 @@ class DeleteSnippet extends AbstractDeleteSnippet
 
     protected function getSnippets(): array
     {
-        return $this->alfredPreferenceManager->snippets()->data;
+        return $this->preferenceManager->snippets()->data;
     }
 
     protected function onDelete(array &$snippets): bool
     {
-        $preference = $this->alfredPreferenceManager->snippets();
+        $preference = $this->preferenceManager->snippets();
         $preference->unsetData($this->getRequiredData('keyword'));
 
-        return $this->alfredPreferenceManager->save($preference);
+        return $this->preferenceManager->save($preference);
     }
 
     protected function onDeleteTrigger(array $snippets): AbstractPreparation

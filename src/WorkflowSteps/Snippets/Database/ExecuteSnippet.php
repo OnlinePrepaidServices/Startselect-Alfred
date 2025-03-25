@@ -13,7 +13,7 @@ class ExecuteSnippet extends AbstractExecuteSnippetAlias
 
     protected function hasSnippets(): bool
     {
-        if (!$this->alfredPreferenceManager->snippets()->data) {
+        if (!$this->preferenceManager->snippets()->data) {
             return false;
         }
 
@@ -22,7 +22,7 @@ class ExecuteSnippet extends AbstractExecuteSnippetAlias
 
     protected function getSnippets(): array
     {
-        return $this->alfredPreferenceManager->snippets()->data;
+        return $this->preferenceManager->snippets()->data;
     }
 
     protected function findSnippet(): ?string

@@ -9,8 +9,8 @@ class AlfredSettingManager
 {
     public static function init(): array
     {
-        /** @var AlfredPreferenceManager $preferenceManager */
-        $preferenceManager = App::make(AlfredPreferenceManager::class);
+        /** @var DefaultPreferenceManager $preferenceManager */
+        $preferenceManager = App::make(DefaultPreferenceManager::class);
 
         return array_merge(Config::get('alfred.settings'), $preferenceManager->settings()->data);
     }

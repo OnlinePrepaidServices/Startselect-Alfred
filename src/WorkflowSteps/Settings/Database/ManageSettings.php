@@ -15,15 +15,15 @@ class ManageSettings extends AbstractManageSettings
 
     protected function getSettings(): array
     {
-        return $this->alfredPreferenceManager->settings()->data;
+        return $this->preferenceManager->settings()->data;
     }
 
     protected function onSave(mixed $value): bool
     {
-        $preference = $this->alfredPreferenceManager->settings();
+        $preference = $this->preferenceManager->settings();
         $preference->setData($this->getRequiredData('key'), $value);
 
-        return $this->alfredPreferenceManager->save($preference);
+        return $this->preferenceManager->save($preference);
     }
 
     protected function onSaveTrigger(mixed $value): AbstractPreparation

@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Startselect\Alfred\Alfred;
 use Startselect\Alfred\Contracts\AuthenticationChecker;
 use Startselect\Alfred\Contracts\PermissionChecker;
-use Startselect\Alfred\Support\AlfredPreferenceManager;
+use Startselect\Alfred\Contracts\PreferenceManager;
 use Startselect\Alfred\WorkflowStepProvider;
 
 class AlfredServiceProvider extends ServiceProvider
@@ -34,14 +34,14 @@ class AlfredServiceProvider extends ServiceProvider
             return new (Config::get('alfred.permissionChecker'));
         });
 
-        $this->app->singleton(AlfredPreferenceManager::class, function (Application $app) {
-            return new AlfredPreferenceManager($app->make(AuthenticationChecker::class));
+        $this->app->singleton(PreferenceManager::class, function (Application $app) {
+            return new (Config::get('alfred.preferenceManager'))($app->make(AuthenticationChecker::class));
         });
 
         $this->app->singleton(WorkflowStepProvider::class, function (Application $app) {
             return new WorkflowStepProvider(
                 $app->make(PermissionChecker::class),
-                $app->make(AlfredPreferenceManager::class),
+                $app->make(PreferenceManager::class),
                 Config::get('alfred.registerWorkflowSteps', []),
                 Config::get('alfred.optionalWorkflowSteps', []),
             );

@@ -4,10 +4,12 @@ namespace Startselect\Alfred\Support;
 
 use Illuminate\Support\Collection;
 use Startselect\Alfred\Contracts\AuthenticationChecker;
+use Startselect\Alfred\Contracts\PreferenceManager;
 use Startselect\Alfred\Enums\AlfredPreferenceType;
-use Startselect\Alfred\Models\AlfredPreference;
+use Startselect\Alfred\Models\AlfredPreference as AlfredPreferenceModel;
+use Startselect\Alfred\Support\AlfredPreference as AlfredPreference;
 
-class AlfredPreferenceManager
+class DefaultPreferenceManager implements PreferenceManager
 {
     protected ?Collection $preferences = null;
 
@@ -17,9 +19,6 @@ class AlfredPreferenceManager
         //
     }
 
-    /**
-     * Get settings for the authenticated user.
-     */
     public function settings(): AlfredPreference
     {
         return $this->find(AlfredPreferenceType::SETTINGS);
@@ -39,7 +38,23 @@ class AlfredPreferenceManager
     public function save(AlfredPreference $preference): bool
     {
         try {
-            return $preference->save();
+            // Find existing preference in DB
+            $model = AlfredPreferenceModel::query()
+                ->where('owner_id', $this->authenticationChecker->getId())
+                ->where('type', $preference->type)
+                ->first();
+
+            if ($model) {
+                return $model->save();
+            }
+
+            // Create new record in DB
+            $model = new AlfredPreferenceModel();
+            $model->owner_id = $this->authenticationChecker->getId();
+            $model->type = $preference->type;
+            $model->data = $preference->data;
+
+            return $model->save();
         } catch (\Throwable) {
             return false;
         }
@@ -65,13 +80,26 @@ class AlfredPreferenceManager
             return $this->preferences;
         }
 
+        $this->preferences = new Collection();
+
         try {
-            $this->preferences = AlfredPreference::query()
+            // Get all known preferences from the DB
+            $preferences = AlfredPreferenceModel::query()
                 ->where('owner_id', $this->authenticationChecker->getId())
                 ->get()
                 ->mapWithKeys(function (AlfredPreference $preference) {
                     return [$preference->type->value => $preference];
                 });
+
+            foreach ($preferences as $key => $value) {
+                $preference = new AlfredPreference(
+                    ownerId: $value->ownerId,
+                    type: $value->type,
+                    data: $value->data,
+                );
+
+                $this->preferences->put($key, $preference);
+            }
         } catch (\Throwable) {
             $this->preferences = new Collection();
         }
@@ -79,10 +107,11 @@ class AlfredPreferenceManager
         // Create all the preferences in the collection that we have available
         foreach (AlfredPreferenceType::cases() as $type) {
             if (!$this->preferences->has($type->value)) {
-                $preference = new AlfredPreference();
-                $preference->owner_id = $this->authenticationChecker->getId();
-                $preference->type = $type;
-                $preference->data = [];
+                $preference = new AlfredPreference(
+                    ownerId: $this->authenticationChecker->getId(),
+                    type: $type,
+                    data: [],
+                );
 
                 $this->preferences->put($type->value, $preference);
             }

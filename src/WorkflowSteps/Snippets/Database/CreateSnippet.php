@@ -10,15 +10,15 @@ class CreateSnippet extends AbstractCreateSnippet
 {
     protected function onSave(): bool
     {
-        $preference = $this->alfredPreferenceManager->snippets();
+        $preference = $this->preferenceManager->snippets();
         $preference->setData($this->getRequiredData('keyword'), $this->alfredData->getPhrase());
 
-        return $this->alfredPreferenceManager->save($preference);
+        return $this->preferenceManager->save($preference);
     }
 
     protected function onSaveTrigger(): AbstractPreparation
     {
-        $preference = $this->alfredPreferenceManager->snippets();
+        $preference = $this->preferenceManager->snippets();
 
         return (new SnippetSync())
             ->data($preference->data);

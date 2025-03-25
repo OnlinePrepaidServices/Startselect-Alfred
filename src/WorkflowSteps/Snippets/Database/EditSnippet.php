@@ -15,7 +15,7 @@ class EditSnippet extends AbstractEditSnippet
 
     protected function hasSnippets(): bool
     {
-        if (!$this->alfredPreferenceManager->snippets()->data) {
+        if (!$this->preferenceManager->snippets()->data) {
             return false;
         }
 
@@ -24,7 +24,7 @@ class EditSnippet extends AbstractEditSnippet
 
     protected function getSnippets(): array
     {
-        return $this->alfredPreferenceManager->snippets()->data;
+        return $this->preferenceManager->snippets()->data;
     }
 
     protected function findSnippet(): ?string
@@ -34,10 +34,10 @@ class EditSnippet extends AbstractEditSnippet
 
     protected function onEdit(array &$snippets): bool
     {
-        $preference = $this->alfredPreferenceManager->snippets();
+        $preference = $this->preferenceManager->snippets();
         $preference->setData($this->getRequiredData('keyword'), $this->alfredData->getPhrase());
 
-        return $this->alfredPreferenceManager->save($preference);
+        return $this->preferenceManager->save($preference);
     }
 
     protected function onEditTrigger(array $snippets): AbstractPreparation
