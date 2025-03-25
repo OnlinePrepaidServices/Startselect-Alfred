@@ -134,6 +134,7 @@ abstract class EditSnippet extends AbstractWorkflowStep
         }
 
         return $this->getResponse()
+            ->notification("Snippet with keyword `{$this->getRequiredData('keyword')}` was updated!")
             ->trigger($this->onEditTrigger($snippets));
     }
 }
