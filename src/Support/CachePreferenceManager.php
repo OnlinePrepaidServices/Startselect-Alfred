@@ -9,7 +9,7 @@ use Startselect\Alfred\Contracts\PreferenceManager;
 use Startselect\Alfred\Enums\AlfredPreferenceType;
 use Startselect\Alfred\Support\AlfredPreference as AlfredPreference;
 
-class DatabasePreferenceManager implements PreferenceManager
+class CachePreferenceManager implements PreferenceManager
 {
     protected ?Collection $preferences = null;
 
