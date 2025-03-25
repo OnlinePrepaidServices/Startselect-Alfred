@@ -40,17 +40,19 @@ class DefaultPreferenceManager implements PreferenceManager
         try {
             // Find existing preference in DB
             $model = AlfredPreferenceModel::query()
-                ->where('owner_id', $this->authenticationChecker->getId())
+                ->where('owner_id', $preference->ownerId)
                 ->where('type', $preference->type)
                 ->first();
 
             if ($model) {
+                $model->data = $preference->data;
+
                 return $model->save();
             }
 
             // Create new record in DB
             $model = new AlfredPreferenceModel();
-            $model->owner_id = $this->authenticationChecker->getId();
+            $model->owner_id = $preference->ownerId;
             $model->type = $preference->type;
             $model->data = $preference->data;
 
@@ -86,22 +88,19 @@ class DefaultPreferenceManager implements PreferenceManager
             // Get all known preferences from the DB
             $preferences = AlfredPreferenceModel::query()
                 ->where('owner_id', $this->authenticationChecker->getId())
-                ->get()
-                ->mapWithKeys(function (AlfredPreference $preference) {
-                    return [$preference->type->value => $preference];
-                });
+                ->get();
 
-            foreach ($preferences as $key => $value) {
+            foreach ($preferences as $modelPreference) {
                 $preference = new AlfredPreference(
-                    ownerId: $value->ownerId,
-                    type: $value->type,
-                    data: $value->data,
+                    ownerId: $modelPreference->owner_id,
+                    type: $modelPreference->type,
+                    data: $modelPreference->data,
                 );
 
-                $this->preferences->put($key, $preference);
+                $this->preferences->put($modelPreference->type->value, $preference);
             }
         } catch (\Throwable) {
-            $this->preferences = new Collection();
+            // Do nothing
         }
 
         // Create all the preferences in the collection that we have available
