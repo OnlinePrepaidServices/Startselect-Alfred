@@ -53,6 +53,7 @@ class CreateFavorite extends AbstractWorkflowStep
         }
 
         return $this->getResponse()
+            ->notification("Favorite with name `{$this->alfredData->getPhrase()}` was added!")
             ->trigger(
                 (new LocalStorage())
                     ->key('favorites')
@@ -60,7 +61,6 @@ class CreateFavorite extends AbstractWorkflowStep
                     ->data([
                         $this->alfredData->getPhrase() => $this->pageData->getUrl()->getFullUrl(true),
                     ])
-                    ->notification("Favorite with name `{$this->alfredData->getPhrase()}` was added!")
             );
     }
 }

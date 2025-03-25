@@ -1268,11 +1268,6 @@
                     event.preventDefault();
                 }
 
-                // Do we need to display a notification?
-                if (clipboard.notification) {
-                    this.displayNotification('success', clipboard.notification);
-                }
-
                 // Support clipboard API?
                 if (navigator.clipboard) {
                     navigator.clipboard.writeText(clipboard.text);
@@ -1352,11 +1347,6 @@
 
                 // Fill the given value for the element
                 element.value = field.value;
-
-                // Do we need to display a notification?
-                if (field.notification) {
-                    this.displayNotification('success', field.notification);
-                }
 
                 // Value is filled in field; Close Alfred!
                 this.resetAlfred();
@@ -1456,11 +1446,6 @@
 
                 // Save to local storage!
                 this.setLocalStorageData(localStorage.key, data, localStorage.number);
-
-                // Do we need to display a notification?
-                if (localStorage.notification) {
-                    this.displayNotification('success', localStorage.notification);
-                }
 
                 // Do we need to update something?
                 if (localStorage.key === 'snippets') {
@@ -1590,11 +1575,6 @@
 
                 // Sync snippets
                 this.snippets.items = snippetSync.data;
-
-                // Do we need to display a notification?
-                if (snippetSync.notification) {
-                    this.displayNotification('success', snippetSync.notification);
-                }
 
                 // Snippets synced; Close Alfred!
                 this.resetAlfred();

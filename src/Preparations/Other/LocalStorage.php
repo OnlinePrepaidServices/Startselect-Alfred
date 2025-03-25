@@ -10,14 +10,12 @@ class LocalStorage extends AbstractPreparation
     protected array $data = [];
     protected bool $merge = false;
     protected int $ttl = 0;
-    protected ?string $notification = null;
 
     protected array $returnableProperties = [
         'key',
         'data',
         'merge',
         'ttl',
-        'notification',
     ];
 
     /**
@@ -56,16 +54,6 @@ class LocalStorage extends AbstractPreparation
     public function ttl(int $ttl): static
     {
         $this->ttl = $ttl;
-
-        return $this;
-    }
-
-    /**
-     * The notification that is displayed once the local storage has been updated.
-     */
-    public function notification(string $notification): static
-    {
-        $this->notification = $notification;
 
         return $this;
     }

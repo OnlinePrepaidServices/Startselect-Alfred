@@ -8,12 +8,10 @@ class FillFieldValue extends AbstractPreparation
 {
     protected ?string $id = null;
     protected mixed $value = null;
-    protected ?string $notification = null;
 
     protected array $returnableProperties = [
         'id',
         'value',
-        'notification',
     ];
 
     /**
@@ -32,16 +30,6 @@ class FillFieldValue extends AbstractPreparation
     public function value(mixed $value): static
     {
         $this->value = $value;
-
-        return $this;
-    }
-
-    /**
-     * The notification that is displayed once the value of the HTML input is filled.
-     */
-    public function notification(string $notification): static
-    {
-        $this->notification = $notification;
 
         return $this;
     }

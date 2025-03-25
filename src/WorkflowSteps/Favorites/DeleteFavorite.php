@@ -75,11 +75,11 @@ class DeleteFavorite extends AbstractWorkflowStep
         unset($favorites[$this->getRequiredData('name')]);
 
         return $this->getResponse()
+            ->notification("Favorite with name `{$this->getRequiredData('name')}` was deleted!")
             ->trigger(
                 (new LocalStorage())
                     ->key('favorites')
                     ->data($favorites)
-                    ->notification("Favorite with name `{$this->getRequiredData('name')}` was deleted!")
             );
     }
 }
