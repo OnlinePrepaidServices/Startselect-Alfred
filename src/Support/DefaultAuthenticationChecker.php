@@ -17,7 +17,7 @@ class DefaultAuthenticationChecker implements AuthenticationChecker
         }
 
         // Check if the auth config's model setting, has an ID property
-        if (property_exists($authenticatedUser, 'id')) {
+        if (isset($authenticatedUser->id)) {
             return $authenticatedUser->id;
         }
 
