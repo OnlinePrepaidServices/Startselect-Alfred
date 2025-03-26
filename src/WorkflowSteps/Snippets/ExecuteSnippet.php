@@ -10,7 +10,7 @@ use Startselect\Alfred\Preparations\Other\Clipboard;
 use Startselect\Alfred\Preparations\Other\WorkflowStep;
 use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
-abstract class ExecuteSnippet extends AbstractWorkflowStep
+class ExecuteSnippet extends AbstractWorkflowStep
 {
     protected const METHOD_CHANGE_VARIABLES = 'changeVariables';
 
@@ -26,11 +26,6 @@ abstract class ExecuteSnippet extends AbstractWorkflowStep
         ],
     ];
 
-    abstract protected function handlesLocalStorage(): bool;
-    abstract protected function hasSnippets(): bool;
-    abstract protected function getSnippets(): array;
-    abstract protected function findSnippet(): ?string;
-
     public function register(ItemSet $itemSet): void
     {
         $itemSet->addItem(
@@ -42,9 +37,6 @@ abstract class ExecuteSnippet extends AbstractWorkflowStep
                     (new WorkflowStep())
                         ->class(static::class)
                         ->method(static::METHOD_INIT)
-                        ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
-                            $workflowStep->includeLocalStorageKeys(['snippets']);
-                        })
                 )
         );
     }
@@ -52,13 +44,13 @@ abstract class ExecuteSnippet extends AbstractWorkflowStep
     public function init(): Response
     {
         // Did we get any snippets?
-        if (!$this->hasSnippets()) {
+        if (!$this->preferenceManager->snippets()->data) {
             return $this->failure('You do not have any snippets.');
         }
 
         // Gather items
         $itemSet = new ItemSet();
-        foreach ($this->getSnippets() as $keyword => $snippet) {
+        foreach ($this->preferenceManager->snippets()->data as $keyword => $snippet) {
             $itemSet->addItem(
                 (new Item())
                     ->name($keyword)
@@ -67,9 +59,6 @@ abstract class ExecuteSnippet extends AbstractWorkflowStep
                         (new WorkflowStep())
                             ->class(static::class)
                             ->data(['keyword' => $keyword])
-                            ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
-                                $workflowStep->includeLocalStorageKeys(['snippets']);
-                            })
                     )
             );
         }
@@ -88,7 +77,7 @@ abstract class ExecuteSnippet extends AbstractWorkflowStep
         }
 
         // Find snippet to execute
-        $snippet = $this->findSnippet();
+        $snippet = $this->preferenceManager->snippets()->data[$this->getRequiredData('keyword')] ?? null;
         if (!$snippet) {
             return $this->failure();
         }

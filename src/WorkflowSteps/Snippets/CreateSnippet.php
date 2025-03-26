@@ -2,15 +2,15 @@
 
 namespace Startselect\Alfred\WorkflowSteps\Snippets;
 
-use Startselect\Alfred\Preparations\AbstractPreparation;
 use Startselect\Alfred\Preparations\Core\Action;
 use Startselect\Alfred\Preparations\Core\Item;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
+use Startselect\Alfred\Preparations\Other\SnippetSync;
 use Startselect\Alfred\Preparations\Other\WorkflowStep;
 use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
-abstract class CreateSnippet extends AbstractWorkflowStep
+class CreateSnippet extends AbstractWorkflowStep
 {
     public const HELP =
         'You are able to use placeholders, which can be replaced automatically when you use the
@@ -29,9 +29,6 @@ abstract class CreateSnippet extends AbstractWorkflowStep
             'keyword' => 'Missing keyword.',
         ],
     ];
-
-    abstract protected function onSave(): bool;
-    abstract protected function onSaveTrigger(): AbstractPreparation;
 
     public function register(ItemSet $itemSet): void
     {
@@ -71,13 +68,18 @@ abstract class CreateSnippet extends AbstractWorkflowStep
         }
 
         // Were we able to save it?
-        if (!$this->onSave()) {
+        $preference = $this->preferenceManager->snippets();
+        $preference->setData($this->getRequiredData('keyword'), $this->alfredData->getPhrase());
+        if (!$this->preferenceManager->save($preference)) {
             return $this->failure('Could not save the snippet.');
         }
 
         return $this->getResponse()
             ->notification("Snippet with keyword `{$this->getRequiredData('keyword')}` was added!")
-            ->trigger($this->onSaveTrigger());
+            ->trigger(
+                (new SnippetSync())
+                    ->data($preference->data)
+            );
     }
 
     private function getKeywordChoice(): Response

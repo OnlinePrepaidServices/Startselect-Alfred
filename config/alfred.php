@@ -9,11 +9,11 @@ return [
         CoreWorkflowSteps\Generic\FocusableFields::class,
         CoreWorkflowSteps\Routing\BasicRoutes::class,
         CoreWorkflowSteps\Routing\History::class,
-        CoreWorkflowSteps\Settings\Database\ManageSettings::class,
-        CoreWorkflowSteps\Snippets\Database\CreateSnippet::class,
-        CoreWorkflowSteps\Snippets\Database\DeleteSnippet::class,
-        CoreWorkflowSteps\Snippets\Database\EditSnippet::class,
-        CoreWorkflowSteps\Snippets\Database\ExecuteSnippet::class,
+        CoreWorkflowSteps\Settings\ManageSettings::class,
+        CoreWorkflowSteps\Snippets\CreateSnippet::class,
+        CoreWorkflowSteps\Snippets\DeleteSnippet::class,
+        CoreWorkflowSteps\Snippets\EditSnippet::class,
+        CoreWorkflowSteps\Snippets\ExecuteSnippet::class,
     ],
 
     // List of workflow steps that can be processed, once called upon by Alfred
@@ -26,7 +26,7 @@ return [
     'permissionChecker' => Startselect\Alfred\Support\DefaultPermissionChecker::class,
 
     // The preference manager that'll be used when getting the authenticated user's preferences
-    'preferenceManager' => Startselect\Alfred\Support\PreferenceManagers\DatabasePreferenceManager::class,
+    'preferenceManager' => Startselect\Alfred\Support\PreferenceManagers\LocalStoragePreferenceManager::class,
 
     // Alfred's initial tips
     'tips' => [],

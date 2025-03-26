@@ -2,15 +2,15 @@
 
 namespace Startselect\Alfred\WorkflowSteps\Snippets;
 
-use Startselect\Alfred\Preparations\AbstractPreparation;
 use Startselect\Alfred\Preparations\Core\Action;
 use Startselect\Alfred\Preparations\Core\Item;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
+use Startselect\Alfred\Preparations\Other\SnippetSync;
 use Startselect\Alfred\Preparations\Other\WorkflowStep;
 use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
-abstract class EditSnippet extends AbstractWorkflowStep
+class EditSnippet extends AbstractWorkflowStep
 {
     protected const METHOD_SAVE = 'save';
 
@@ -23,13 +23,6 @@ abstract class EditSnippet extends AbstractWorkflowStep
         ],
     ];
 
-    abstract protected function handlesLocalStorage(): bool;
-    abstract protected function hasSnippets(): bool;
-    abstract protected function getSnippets(): array;
-    abstract protected function findSnippet(): ?string;
-    abstract protected function onEdit(array &$snippets): bool;
-    abstract protected function onEditTrigger(array $snippets): AbstractPreparation;
-
     public function register(ItemSet $itemSet): void
     {
         $itemSet->addItem(
@@ -41,9 +34,6 @@ abstract class EditSnippet extends AbstractWorkflowStep
                     (new WorkflowStep())
                         ->class(static::class)
                         ->method(static::METHOD_INIT)
-                        ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
-                            $workflowStep->includeLocalStorageKeys(['snippets']);
-                        })
                 )
         );
     }
@@ -51,13 +41,13 @@ abstract class EditSnippet extends AbstractWorkflowStep
     public function init(): Response
     {
         // Did we get any snippets?
-        if (!$this->hasSnippets()) {
+        if (!$this->preferenceManager->snippets()->data) {
             return $this->failure('You do not have any snippets.');
         }
 
         // Gather items
         $itemSet = new ItemSet();
-        foreach ($this->getSnippets() as $keyword => $snippet) {
+        foreach ($this->preferenceManager->snippets()->data as $keyword => $snippet) {
             $itemSet->addItem(
                 (new Item())
                     ->name($keyword)
@@ -66,9 +56,6 @@ abstract class EditSnippet extends AbstractWorkflowStep
                         (new WorkflowStep())
                             ->class(static::class)
                             ->data(['keyword' => $keyword])
-                            ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
-                                $workflowStep->includeLocalStorageKeys(['snippets']);
-                            })
                     )
             );
         }
@@ -87,7 +74,7 @@ abstract class EditSnippet extends AbstractWorkflowStep
         }
 
         // Find snippet to edit
-        $snippet = $this->findSnippet();
+        $snippet = $this->preferenceManager->snippets()->data[$this->getRequiredData('keyword')] ?? null;
         if (!$snippet) {
             return $this->failure();
         }
@@ -125,16 +112,18 @@ abstract class EditSnippet extends AbstractWorkflowStep
             return $this->failure();
         }
 
-        // Keep track of the snippets
-        $snippets = $this->getSnippets();
-
         // Were we able to save it?
-        if (!$this->onEdit($snippets)) {
+        $preference = $this->preferenceManager->snippets();
+        $preference->setData($this->getRequiredData('keyword'), $this->alfredData->getPhrase());
+        if (!$this->preferenceManager->save($preference)) {
             return $this->failure('Could not update the snippet.');
         }
 
         return $this->getResponse()
             ->notification("Snippet with keyword `{$this->getRequiredData('keyword')}` was updated!")
-            ->trigger($this->onEditTrigger($snippets));
+            ->trigger(
+                (new SnippetSync())
+                    ->data($preference->data)
+            );
     }
 }

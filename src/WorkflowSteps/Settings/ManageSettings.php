@@ -3,16 +3,16 @@
 namespace Startselect\Alfred\WorkflowSteps\Settings;
 
 use Illuminate\Support\Facades\Config;
-use Startselect\Alfred\Preparations\AbstractPreparation;
 use Startselect\Alfred\Preparations\Core\Action;
 use Startselect\Alfred\Preparations\Core\Item;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
 use Startselect\Alfred\Preparations\ItemTypes\StatusItem;
 use Startselect\Alfred\Preparations\Other\WorkflowStep;
+use Startselect\Alfred\Preparations\PreparationFactory;
 use Startselect\Alfred\WorkflowSteps\AbstractWorkflowStep;
 
-abstract class ManageSettings extends AbstractWorkflowStep
+class ManageSettings extends AbstractWorkflowStep
 {
     protected const METHOD_CHANGE_VALUE = 'changeValue';
     protected const METHOD_SAVE_VALUE = 'saveValue';
@@ -52,12 +52,6 @@ abstract class ManageSettings extends AbstractWorkflowStep
         ],
     ];
 
-    abstract protected function handlesLocalStorage(): bool;
-    abstract protected function getSettings(): array;
-    abstract protected function onSave(mixed $value): bool;
-    abstract protected function onSaveTrigger(mixed $value): AbstractPreparation;
-    abstract protected function onToggleTrigger(): AbstractPreparation;
-
     public function register(ItemSet $itemSet): void
     {
         $itemSet->addItem(
@@ -69,9 +63,6 @@ abstract class ManageSettings extends AbstractWorkflowStep
                     (new WorkflowStep())
                         ->class(static::class)
                         ->method(static::METHOD_INIT)
-                        ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
-                            $workflowStep->includeLocalStorageKeys(['settings']);
-                        })
                 )
         );
     }
@@ -101,9 +92,6 @@ abstract class ManageSettings extends AbstractWorkflowStep
                             ->class(static::class)
                             ->method(static::METHOD_SAVE_VALUE)
                             ->data($this->getRequiredData())
-                            ->when($this->handlesLocalStorage(), function (WorkflowStep $workflowStep) {
-                                $workflowStep->includeLocalStorageKeys(['settings']);
-                            })
                     )
             );
     }
@@ -142,13 +130,15 @@ abstract class ManageSettings extends AbstractWorkflowStep
         }
 
         // Save the setting
-        if (!$this->onSave($value)) {
+        $preference = $this->preferenceManager->settings();
+        $preference->setData($this->getRequiredData('key'), $value);
+        if (!$this->preferenceManager->save($preference)) {
             return $this->failure('Could not save the setting.');
         }
 
         return $this->getResponse()
             ->notification('Alfred settings saved successfully.')
-            ->trigger($this->onSaveTrigger($value));
+            ->trigger(PreparationFactory::reloadState(2));
     }
 
     public function toggleValue(): Response
@@ -159,20 +149,22 @@ abstract class ManageSettings extends AbstractWorkflowStep
         }
 
         // Save the setting
-        if (!$this->onSave((bool) $this->getRequiredData('value'))) {
+        $preference = $this->preferenceManager->settings();
+        $preference->setData($this->getRequiredData('key'), (bool) $this->getRequiredData('value'));
+        if (!$this->preferenceManager->save($preference)) {
             return $this->failure('Could not save the setting.');
         }
 
         return $this->getResponse()
             ->notification('Alfred settings saved successfully.')
-            ->trigger($this->onToggleTrigger());
+            ->trigger(PreparationFactory::reloadState(1));
     }
 
     protected function getSettingsItemSet(): ItemSet
     {
         $itemSet = new ItemSet();
 
-        $settings = $this->getSettings();
+        $settings = $this->preferenceManager->settings()->data;
         $defaultSettings = Config::get('alfred.settings');
 
         foreach (static::MANAGEABLE_SETTINGS as $key => $manageableSetting) {
