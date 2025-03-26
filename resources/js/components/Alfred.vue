@@ -269,7 +269,7 @@
                 this.alfred.initiated = true;
 
                 // Alfred settings from local storage
-                this.setSettings(this.getLocalStorageData('settings') ?? {});
+                this.setSettings(initiateResponse?.settings ? {} : (this.getLocalStorageData('settings') ?? {}));
 
                 // Alfred snippets from DB or local storage
                 this.snippets.items = initiateResponse?.snippets
