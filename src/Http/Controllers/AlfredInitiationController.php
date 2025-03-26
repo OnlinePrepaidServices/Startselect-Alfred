@@ -20,22 +20,25 @@ class AlfredInitiationController extends Controller
     {
         // Update local storage preferences
         if ($preferenceManager instanceof LocalStoragePreferenceManager && $request->has('storage')) {
-            if ($request->get('storage.settings')) {
-                $preferenceManager->settings()->data = $request->get('storage.settings');
+            if ($request->has('storage.settings')) {
+                $preferenceManager->settings()->data = $request->input('storage.settings');
             }
-            if ($request->get('storage.snippets')) {
-                $preferenceManager->snippets()->data = $request->get('storage.snippets');
+            if ($request->has('storage.snippets')) {
+                $preferenceManager->snippets()->data = $request->input('storage.snippets');
             }
         }
 
         return new JsonResponse([
             'result' => $alfred->getRegisteredWorkflowSteps(
-                pageData: new PageData($request->get('page', [])),
+                pageData: new PageData($request->input('page', [])),
             )->toArray(),
             'settings' => $preferenceManager->settings()->data,
             'snippets' => $preferenceManager->snippets()->data,
             'storage' => $preferenceManager instanceof LocalStoragePreferenceManager
-                ? $preferenceManager->all()->toArray()
+                ? [
+                    'settings' => $preferenceManager->settings()->data,
+                    'snippets' => $preferenceManager->snippets()->data,
+                ]
                 : [],
         ]);
     }

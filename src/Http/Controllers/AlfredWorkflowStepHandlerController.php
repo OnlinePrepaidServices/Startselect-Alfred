@@ -24,21 +24,24 @@ class AlfredWorkflowStepHandlerController extends Controller
 
         // Update local storage preferences
         if ($preferenceManager instanceof LocalStoragePreferenceManager && $request->has('storage')) {
-            if ($request->get('storage.settings')) {
-                $preferenceManager->settings()->data = $request->get('storage.settings');
+            if ($request->has('storage.settings')) {
+                $preferenceManager->settings()->data = $request->input('storage.settings');
             }
-            if ($request->get('storage.snippets')) {
-                $preferenceManager->snippets()->data = $request->get('storage.snippets');
+            if ($request->has('storage.snippets')) {
+                $preferenceManager->snippets()->data = $request->input('storage.snippets');
             }
         }
 
         return new JsonResponse([
             'result' => $alfred->handleWorkflowStep(
-                alfredData: new AlfredData($request->get('alfred', [])),
-                pageData: new PageData($request->get('page', [])),
+                alfredData: new AlfredData($request->input('alfred', [])),
+                pageData: new PageData($request->input('page', [])),
             )->toArray(),
             'storage' => $preferenceManager instanceof LocalStoragePreferenceManager
-                ? $preferenceManager->all()->toArray()
+                ? [
+                    'settings' => $preferenceManager->settings()->data,
+                    'snippets' => $preferenceManager->snippets()->data,
+                ]
                 : [],
         ]);
     }
