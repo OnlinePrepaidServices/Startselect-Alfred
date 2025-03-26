@@ -5,11 +5,10 @@ namespace Startselect\Alfred\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Config;
 use Startselect\Alfred\Alfred;
 use Startselect\Alfred\Contracts\PreferenceManager;
+use Startselect\Alfred\Support\PreferenceManagers\LocalStoragePreferenceManager;
 use Startselect\Alfred\ValueObjects\PageData;
-use Startselect\Alfred\WorkflowSteps\Settings\LocalStorage\ManageSettings;
 
 class AlfredInitiationController extends Controller
 {
@@ -19,18 +18,25 @@ class AlfredInitiationController extends Controller
         PreferenceManager $preferenceManager,
     ): JsonResponse
     {
-        // Make sure the settings are not overwritten by LocalStorage
-        $settings = $preferenceManager->settings()->data;
-        if (!$settings) {
-            $settings = !in_array(ManageSettings::class, Config::get('alfred.registerWorkflowSteps', []));
+        // Update local storage preferences
+        if ($preferenceManager instanceof LocalStoragePreferenceManager && $request->has('storage')) {
+            if ($request->get('storage.settings')) {
+                $preferenceManager->settings()->data = $request->get('storage.settings');
+            }
+            if ($request->get('storage.snippets')) {
+                $preferenceManager->snippets()->data = $request->get('storage.snippets');
+            }
         }
 
         return new JsonResponse([
             'result' => $alfred->getRegisteredWorkflowSteps(
                 pageData: new PageData($request->get('page', [])),
             )->toArray(),
-            'settings' => $settings,
+            'settings' => $preferenceManager->settings()->data,
             'snippets' => $preferenceManager->snippets()->data,
+            'storage' => $preferenceManager instanceof LocalStoragePreferenceManager
+                ? $preferenceManager->all()->toArray()
+                : [],
         ]);
     }
 }

@@ -253,6 +253,7 @@
             initiateAlfred() {
                 axios.post('/alfred/initiate', {
                     page: this.getPageData(),
+                    storage: this.getStorageData(),
                 }).then(response => {
                     if (response.status === 200) {
                         this.initiatedAlfred(response.data);
@@ -268,13 +269,11 @@
             initiatedAlfred(initiateResponse) {
                 this.alfred.initiated = true;
 
-                // Alfred settings from local storage
-                this.setSettings(initiateResponse?.settings ? {} : (this.getLocalStorageData('settings') ?? {}));
+                // Alfred settings from preference manager
+                this.setSettings(initiateResponse?.settings ?? {});
 
-                // Alfred snippets from DB or local storage
-                this.snippets.items = initiateResponse?.snippets
-                    ? initiateResponse.snippets
-                    : this.getLocalStorageData('snippets') ?? {};
+                // Alfred snippets from preference manager
+                this.snippets.items = initiateResponse?.snippets ?? {};
 
                 // Handle initiation response
                 this.handleWorkflowStepResponse(initiateResponse);
@@ -773,6 +772,37 @@
                     },
                     focusableFields: this.getPageFocusableFields(),
                 };
+            },
+
+            /**
+             * Get storage data.
+             *
+             * @return {Object}
+             */
+            getStorageData() {
+                return {
+                    settings: this.getLocalStorageData('settings') ?? {},
+                    snippets: this.getLocalStorageData('snippets') ?? {},
+                };
+            },
+
+            /**
+             * Set storage data.
+             *
+             * @param {Object} storage
+             */
+            setStorageData(storage) {
+                if (storage?.settings || null) {
+                    this.setLocalStorageData('settings', storage.settings, 0);
+
+                    this.setSettings(storage.settings);
+                }
+
+                if (storage?.snippets || null) {
+                    this.setLocalStorageData('snippets', storage.snippets, 0);
+
+                    this.snippets.items = storage.snippets;
+                }
             },
 
             /**
@@ -1447,13 +1477,6 @@
                 // Save to local storage!
                 this.setLocalStorageData(localStorage.key, data, localStorage.number);
 
-                // Do we need to update something?
-                if (localStorage.key === 'snippets') {
-                    this.snippets.items = data;
-                } else if (localStorage.key === 'settings') {
-                    this.setSettings(data);
-                }
-
                 // Local storage updated; Close Alfred!
                 this.resetAlfred();
             },
@@ -1783,6 +1806,7 @@
                 axios.post('/alfred/handle-workflow-step', {
                     alfred: this.getAlfredData(workflowStep),
                     page: this.getPageData(),
+                    storage: this.getStorageData(),
                 }).then(
                     response => {
                         // No longer loading
@@ -1828,6 +1852,11 @@
                 // Display a notification?
                 if (response.result.notification) {
                     this.displayNotification(response.result.success ? 'success' : 'error', response.result.notification);
+                }
+
+                // Update the storage?
+                if (response.storage) {
+                    this.setStorageData(response.storage);
                 }
 
                 // Did our trigger succeed?
