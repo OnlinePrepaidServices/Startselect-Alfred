@@ -26,7 +26,7 @@ return [
     'permissionChecker' => Startselect\Alfred\Support\DefaultPermissionChecker::class,
 
     // The preference manager that'll be used when getting the authenticated user's preferences
-    'preferenceManager' => Startselect\Alfred\Support\DatabasePreferenceManager::class,
+    'preferenceManager' => Startselect\Alfred\Support\PreferenceManagers\DatabasePreferenceManager::class,
 
     // Alfred's initial tips
     'tips' => [],
