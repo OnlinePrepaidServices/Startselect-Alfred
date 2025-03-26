@@ -12,6 +12,7 @@ class CachePreferenceManager extends AbstractPreferenceManager
     public function save(AlfredPreference $preference): bool
     {
         try {
+            Cache::forget($this->getCacheKey($preference->type));
             Cache::rememberForever($this->getCacheKey($preference->type), function () use ($preference) {
                 return $preference;
             });
