@@ -12,11 +12,7 @@ use Startselect\Alfred\ValueObjects\PageData;
 
 class AlfredInitiationController extends Controller
 {
-    public function __invoke(
-        Request $request,
-        Alfred $alfred,
-        PreferenceManager $preferenceManager,
-    ): JsonResponse
+    public function __invoke(Request $request, Alfred $alfred, PreferenceManager $preferenceManager): JsonResponse
     {
         // Update local storage preferences
         if ($preferenceManager instanceof LocalStoragePreferenceManager && $request->has('storage')) {
