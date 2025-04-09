@@ -12,6 +12,14 @@ export default {
         },
     },
 
+    computed: {
+        isMacOs() {
+            let agent = window.navigator.userAgent || '';
+
+            return agent.includes('mac');
+        },
+    },
+
     data() {
         return {
             action: {
@@ -48,6 +56,12 @@ export default {
                 current: [],
                 filtered: [],
                 saved: [],
+            },
+            itemSettings: {
+                current: null,
+                recording: false,
+                shortcut: null,
+                visible: false,
             },
             tips: {
                 title: '',
@@ -135,13 +149,13 @@ export default {
         },
         'alfred.visible': function (visible) {
             if (visible) {
-                this.bindEvents();
+                this.bindEvents(false);
 
                 this.$nextTick(() => {
                     this.$refs.phraseInput.focus();
                 });
             } else {
-                this.unbindEvents();
+                this.unbindEvents(false);
             }
         },
         'alfred.loading': function () {
@@ -160,6 +174,27 @@ export default {
         },
         'items.saved': function () {
             if (this.alfred.visible) {
+                this.$nextTick(() => {
+                    this.$refs.phraseInput.focus();
+                });
+            }
+        },
+        'itemSettings.visible': function (visible) {
+            if (visible) {
+                // Unbind Alfred events
+                this.unbindEvents(false);
+                this.unbindEvents(true);
+
+                // Bind item settings events
+                this.bindItemSettingsEvents();
+            } else {
+                // Unbind item settings events
+                this.unbindItemSettingsEvents();
+
+                // Bind Alfred events again
+                this.bindEvents(false);
+                this.bindEvents(true);
+
                 this.$nextTick(() => {
                     this.$refs.phraseInput.focus();
                 });
@@ -279,9 +314,7 @@ export default {
             this.handleWorkflowStepResponse(initiateResponse);
 
             // Alfred is ready
-            document.addEventListener('keyup', this.triggerAlfredKeyboardEvent);
-            document.addEventListener('keyup', this.triggerSnippetKeyboardEvent);
-            document.addEventListener('keydown', this.triggerShortcutKeyboardEvent);
+            this.bindEvents(true);
         },
 
         /**
@@ -322,18 +355,54 @@ export default {
 
         /**
          * Bind events for Alfred.
+         *
+         * @param {boolean} afterInitiationEvents
          */
-        bindEvents() {
+        bindEvents(afterInitiationEvents) {
+            if (afterInitiationEvents) {
+                document.addEventListener('keyup', this.triggerAlfredKeyboardEvent);
+                document.addEventListener('keyup', this.triggerSnippetKeyboardEvent);
+                document.addEventListener('keydown', this.triggerShortcutKeyboardEvent);
+
+                return;
+            }
+
             document.addEventListener('click', this.triggerAlfredMouseEvent);
             document.addEventListener('keydown', this.triggerItemKeyboardEvent);
         },
 
         /**
          * Unbind events for Alfred.
+         *
+         * @param {boolean} afterInitiationEvents
          */
-        unbindEvents() {
+        unbindEvents(afterInitiationEvents) {
+            if (afterInitiationEvents) {
+                document.removeEventListener('keyup', this.triggerAlfredKeyboardEvent);
+                document.removeEventListener('keyup', this.triggerSnippetKeyboardEvent);
+                document.removeEventListener('keydown', this.triggerShortcutKeyboardEvent);
+
+                return;
+            }
+
             document.removeEventListener('click', this.triggerAlfredMouseEvent);
             document.removeEventListener('keydown', this.triggerItemKeyboardEvent);
+        },
+
+        /**
+         * Bind events for item settings.
+         */
+        bindItemSettingsEvents() {
+            document.addEventListener('keydown', this.triggerItemSettingsKeyboardEvent);
+            document.addEventListener('keydown', this.triggerItemSettingsRecordShortcutKeyboardEvent);
+        },
+
+        /**
+         * Unbind events for item settings.
+         */
+        unbindItemSettingsEvents() {
+            document.removeEventListener('keydown', this.triggerItemSettingsKeyboardEvent);
+            document.removeEventListener('keydown', this.triggerItemSettingsRecordShortcutKeyboardEvent);
         },
 
         /**
@@ -443,6 +512,51 @@ export default {
                     this.triggerAction(event);
                 }
             }
+
+            if ((event.ctrlKey || event.metaKey) && event.key === ',') {
+                let item = this.getFocusedItem();
+
+                if (item) {
+                    this.itemSettings.current = item;
+                    this.itemSettings.visible = true;
+                }
+            }
+        },
+
+        /**
+         * Trigger a keyboard event while changing item settings.
+         *
+         * @param {KeyboardEvent} event
+         */
+        triggerItemSettingsKeyboardEvent(event) {
+            if (event.key === 'Escape') {
+                this.itemSettings.visible = false;
+            }
+        },
+
+        /**
+         * Trigger a shortcut keyboard event.
+         *
+         * @param {KeyboardEvent} event
+         */
+        triggerItemSettingsRecordShortcutKeyboardEvent(event) {
+            // Ignore if we're not recording a shortcut
+            if (!this.itemSettings.recording) {
+                return;
+            }
+
+            const shortcut = this.getShortcutForEvent(event);
+
+            // Do we have a shortcut?
+            if (!shortcut) {
+                return;
+            }
+
+            // Show the shortcut that got recorded
+            this.itemSettings.shortcut = shortcut;
+
+            // Make sure we don't trigger other browser stuff based on this combination!
+            event.preventDefault();
         },
 
         /**
@@ -726,8 +840,8 @@ export default {
          */
         getPhrase() {
             return this.alfred.prefixed && this.alfred.prefix
-                    ? this.alfred.phrase.substring(this.alfred.prefix.length + 1)
-                    : this.alfred.phrase;
+                ? this.alfred.phrase.substring(this.alfred.prefix.length + 1)
+                : this.alfred.phrase;
         },
 
         /**
@@ -976,13 +1090,13 @@ export default {
         },
 
         /**
-         * Get the item by its shortcut.
+         * Get the shortcut for the pressed keys.
          *
          * @param {KeyboardEvent} event
          *
-         * @return {Object|null}
+         * @return {Array|null}
          */
-        getItemByShortcut(event) {
+        getShortcutForEvent(event) {
             // Did we only trigger one of the following keys?
             if (['Alt', 'Control', 'Meta', 'Shift'].indexOf(event.key) >= 0) {
                 return null;
@@ -1008,6 +1122,24 @@ export default {
                 shortcut.push(event.code.replace('Key', '').toLowerCase());
             } else if (event.key) {
                 shortcut.push(event.key.toLowerCase());
+            }
+
+            return shortcut;
+        },
+
+        /**
+         * Get the item by its shortcut.
+         *
+         * @param {KeyboardEvent} event
+         *
+         * @return {Object|null}
+         */
+        getItemByShortcut(event) {
+            const shortcut = this.getShortcutForEvent(event);
+
+            // Do we have a shortcut?
+            if (!shortcut) {
+                return null;
             }
 
             // Do we have an item available with this shortcut?
@@ -1963,6 +2095,27 @@ export default {
                 </ul>
             </div>
         </div>
+        <div class="alfred__settings" v-if="itemSettings.visible">
+            <div class="alfred__settings--header">
+                {{ itemSettings.current.name }}
+            </div>
+            <div class="alfred__settings--body">
+                <div class="alfred__setting">
+                    <div class="alfred__setting--label">
+                        Shortcut
+                    </div>
+                    <div class="alfred__setting--value">
+                        <ul v-if="itemSettings.shortcut">
+                            <li v-for="key in shortcut">{{ key }}</li>
+                        </ul>
+                    </div>
+                    <button @click="itemSettings.recording = !itemSettings.recording">
+                        <i class="fa fa-play" v-if="itemSettings.recording"></i>
+                        <i class="fa fa-stop" v-else></i>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="alfred__footer" v-if="alfred.footer">
             <div class="alfred__footer__section">
                 <span>{{ alfred.footer }}</span>
@@ -1970,17 +2123,23 @@ export default {
         </div>
         <div class="alfred__footer" v-else>
             <div class="alfred__footer__section">
+                <span>Navigate</span>
                 <span><i class="fas fa-arrow-up"></i></span>
                 <span><i class="fas fa-arrow-down"></i></span>
-                <span>to navigate</span>
             </div>
             <div class="alfred__footer__section">
+                <span>Select</span>
                 <span class="alfred__footer__button">enter</span>
-                <span>to select</span>
             </div>
             <div class="alfred__footer__section">
+                <span>Autocomplete</span>
                 <span class="alfred__footer__button">tab</span>
-                <span>to autocomplete</span>
+            </div>
+            <div class="alfred__footer__section" v-if="!items.saved.length">
+                <span>Settings</span>
+                <span class="alfred__footer__button" v-if="isMacOs">&#8984;</span>
+                <span class="alfred__footer__button" v-else>ctrl</span>
+                <span class="alfred__footer__button">,</span>
             </div>
         </div>
     </div>

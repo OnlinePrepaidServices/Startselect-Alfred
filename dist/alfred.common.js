@@ -9882,7 +9882,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=094bca06
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=409ea2e4
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10083,13 +10083,45 @@ var render = function render() {
     }), 0) : _vm._e(), item.prefix || null ? _c('span', {
       staticClass: "alfred__item__prefix"
     }, [_vm._v(" [" + _vm._s(item.prefix) + "] ")]) : _vm._e()]) : _vm._e()]);
-  }), 0)])]), _vm.alfred.footer ? _c('div', {
+  }), 0)])]), _vm.itemSettings.visible ? _c('div', {
+    staticClass: "alfred__settings"
+  }, [_c('div', {
+    staticClass: "alfred__settings--header"
+  }, [_vm._v(" " + _vm._s(_vm.itemSettings.current.name) + " ")]), _c('div', {
+    staticClass: "alfred__settings--body"
+  }, [_c('div', {
+    staticClass: "alfred__setting"
+  }, [_c('div', {
+    staticClass: "alfred__setting--label"
+  }, [_vm._v(" Shortcut ")]), _c('div', {
+    staticClass: "alfred__setting--value"
+  }, [_vm.itemSettings.shortcut ? _c('ul', _vm._l(_vm.shortcut, function (key) {
+    return _c('li', [_vm._v(_vm._s(key))]);
+  }), 0) : _vm._e()]), _c('button', {
+    on: {
+      "click": function ($event) {
+        _vm.itemSettings.recording = !_vm.itemSettings.recording;
+      }
+    }
+  }, [_vm.itemSettings.recording ? _c('i', {
+    staticClass: "fa fa-play"
+  }) : _c('i', {
+    staticClass: "fa fa-stop"
+  })])])])]) : _vm._e(), _vm.alfred.footer ? _c('div', {
     staticClass: "alfred__footer"
   }, [_c('div', {
     staticClass: "alfred__footer__section"
   }, [_c('span', [_vm._v(_vm._s(_vm.alfred.footer))])])]) : _c('div', {
     staticClass: "alfred__footer"
-  }, [_vm._m(1), _vm._m(2), _vm._m(3)])]) : _vm._e();
+  }, [_vm._m(1), _vm._m(2), _vm._m(3), !_vm.items.saved.length ? _c('div', {
+    staticClass: "alfred__footer__section"
+  }, [_c('span', [_vm._v("Settings")]), _vm.isMacOs ? _c('span', {
+    staticClass: "alfred__footer__button"
+  }, [_vm._v("⌘")]) : _c('span', {
+    staticClass: "alfred__footer__button"
+  }, [_vm._v("ctrl")]), _c('span', {
+    staticClass: "alfred__footer__button"
+  }, [_vm._v(",")])]) : _vm._e()])]) : _vm._e();
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -10104,30 +10136,30 @@ var staticRenderFns = [function () {
     _c = _vm._self._c;
   return _c('div', {
     staticClass: "alfred__footer__section"
-  }, [_c('span', [_c('i', {
+  }, [_c('span', [_vm._v("Navigate")]), _c('span', [_c('i', {
     staticClass: "fas fa-arrow-up"
   })]), _c('span', [_c('i', {
     staticClass: "fas fa-arrow-down"
-  })]), _c('span', [_vm._v("to navigate")])]);
+  })])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
     staticClass: "alfred__footer__section"
-  }, [_c('span', {
+  }, [_c('span', [_vm._v("Select")]), _c('span', {
     staticClass: "alfred__footer__button"
-  }, [_vm._v("enter")]), _c('span', [_vm._v("to select")])]);
+  }, [_vm._v("enter")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
     staticClass: "alfred__footer__section"
-  }, [_c('span', {
+  }, [_c('span', [_vm._v("Autocomplete")]), _c('span', {
     staticClass: "alfred__footer__button"
-  }, [_vm._v("tab")]), _c('span', [_vm._v("to autocomplete")])]);
+  }, [_vm._v("tab")])]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=094bca06
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=409ea2e4
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -13711,6 +13743,12 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       required: false
     }
   },
+  computed: {
+    isMacOs() {
+      let agent = window.navigator.userAgent || '';
+      return agent.includes('mac');
+    }
+  },
   data() {
     return {
       action: {
@@ -13747,6 +13785,12 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         current: [],
         filtered: [],
         saved: []
+      },
+      itemSettings: {
+        current: null,
+        recording: false,
+        shortcut: null,
+        visible: false
       },
       tips: {
         title: '',
@@ -13826,12 +13870,12 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
     },
     'alfred.visible': function (visible) {
       if (visible) {
-        this.bindEvents();
+        this.bindEvents(false);
         this.$nextTick(() => {
           this.$refs.phraseInput.focus();
         });
       } else {
-        this.unbindEvents();
+        this.unbindEvents(false);
       }
     },
     'alfred.loading': function () {
@@ -13850,6 +13894,26 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
     },
     'items.saved': function () {
       if (this.alfred.visible) {
+        this.$nextTick(() => {
+          this.$refs.phraseInput.focus();
+        });
+      }
+    },
+    'itemSettings.visible': function (visible) {
+      if (visible) {
+        // Unbind Alfred events
+        this.unbindEvents(false);
+        this.unbindEvents(true);
+
+        // Bind item settings events
+        this.bindItemSettingsEvents();
+      } else {
+        // Unbind item settings events
+        this.unbindItemSettingsEvents();
+
+        // Bind Alfred events again
+        this.bindEvents(false);
+        this.bindEvents(true);
         this.$nextTick(() => {
           this.$refs.phraseInput.focus();
         });
@@ -13960,9 +14024,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       this.handleWorkflowStepResponse(initiateResponse);
 
       // Alfred is ready
-      document.addEventListener('keyup', this.triggerAlfredKeyboardEvent);
-      document.addEventListener('keyup', this.triggerSnippetKeyboardEvent);
-      document.addEventListener('keydown', this.triggerShortcutKeyboardEvent);
+      this.bindEvents(true);
     },
     /**
      * Open Alfred.
@@ -13999,17 +14061,47 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
     },
     /**
      * Bind events for Alfred.
+     *
+     * @param {boolean} afterInitiationEvents
      */
-    bindEvents() {
+    bindEvents(afterInitiationEvents) {
+      if (afterInitiationEvents) {
+        document.addEventListener('keyup', this.triggerAlfredKeyboardEvent);
+        document.addEventListener('keyup', this.triggerSnippetKeyboardEvent);
+        document.addEventListener('keydown', this.triggerShortcutKeyboardEvent);
+        return;
+      }
       document.addEventListener('click', this.triggerAlfredMouseEvent);
       document.addEventListener('keydown', this.triggerItemKeyboardEvent);
     },
     /**
      * Unbind events for Alfred.
+     *
+     * @param {boolean} afterInitiationEvents
      */
-    unbindEvents() {
+    unbindEvents(afterInitiationEvents) {
+      if (afterInitiationEvents) {
+        document.removeEventListener('keyup', this.triggerAlfredKeyboardEvent);
+        document.removeEventListener('keyup', this.triggerSnippetKeyboardEvent);
+        document.removeEventListener('keydown', this.triggerShortcutKeyboardEvent);
+        return;
+      }
       document.removeEventListener('click', this.triggerAlfredMouseEvent);
       document.removeEventListener('keydown', this.triggerItemKeyboardEvent);
+    },
+    /**
+     * Bind events for item settings.
+     */
+    bindItemSettingsEvents() {
+      document.addEventListener('keydown', this.triggerItemSettingsKeyboardEvent);
+      document.addEventListener('keydown', this.triggerItemSettingsRecordShortcutKeyboardEvent);
+    },
+    /**
+     * Unbind events for item settings.
+     */
+    unbindItemSettingsEvents() {
+      document.removeEventListener('keydown', this.triggerItemSettingsKeyboardEvent);
+      document.removeEventListener('keydown', this.triggerItemSettingsRecordShortcutKeyboardEvent);
     },
     /**
      * Trigger Alfred's keyboard event.
@@ -14100,6 +14192,46 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
           this.triggerAction(event);
         }
       }
+      if ((event.ctrlKey || event.metaKey) && event.key === ',') {
+        let item = this.getFocusedItem();
+        if (item) {
+          this.itemSettings.current = item;
+          this.itemSettings.visible = true;
+        }
+      }
+    },
+    /**
+     * Trigger a keyboard event while changing item settings.
+     *
+     * @param {KeyboardEvent} event
+     */
+    triggerItemSettingsKeyboardEvent(event) {
+      if (event.key === 'Escape') {
+        this.itemSettings.visible = false;
+      }
+    },
+    /**
+     * Trigger a shortcut keyboard event.
+     *
+     * @param {KeyboardEvent} event
+     */
+    triggerItemSettingsRecordShortcutKeyboardEvent(event) {
+      // Ignore if we're not recording a shortcut
+      if (!this.itemSettings.recording) {
+        return;
+      }
+      const shortcut = this.getShortcutForEvent(event);
+
+      // Do we have a shortcut?
+      if (!shortcut) {
+        return;
+      }
+
+      // Show the shortcut that got recorded
+      this.itemSettings.shortcut = shortcut;
+
+      // Make sure we don't trigger other browser stuff based on this combination!
+      event.preventDefault();
     },
     /**
      * Trigger a shortcut keyboard event.
@@ -14569,13 +14701,13 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       return item.length ? item[0] : null;
     },
     /**
-     * Get the item by its shortcut.
+     * Get the shortcut for the pressed keys.
      *
      * @param {KeyboardEvent} event
      *
-     * @return {Object|null}
+     * @return {Array|null}
      */
-    getItemByShortcut(event) {
+    getShortcutForEvent(event) {
       // Did we only trigger one of the following keys?
       if (['Alt', 'Control', 'Meta', 'Shift'].indexOf(event.key) >= 0) {
         return null;
@@ -14601,6 +14733,22 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
         shortcut.push(event.code.replace('Key', '').toLowerCase());
       } else if (event.key) {
         shortcut.push(event.key.toLowerCase());
+      }
+      return shortcut;
+    },
+    /**
+     * Get the item by its shortcut.
+     *
+     * @param {KeyboardEvent} event
+     *
+     * @return {Object|null}
+     */
+    getItemByShortcut(event) {
+      const shortcut = this.getShortcutForEvent(event);
+
+      // Do we have a shortcut?
+      if (!shortcut) {
+        return null;
       }
 
       // Do we have an item available with this shortcut?
@@ -15382,10 +15530,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=094bca06&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=409ea2e4&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=094bca06&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=409ea2e4&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
