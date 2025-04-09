@@ -16,7 +16,7 @@ export default {
         isMacOs() {
             let agent = window.navigator.userAgent || '';
 
-            return agent.includes('mac');
+            return agent.toLowerCase().includes('mac');
         },
     },
 
@@ -517,7 +517,9 @@ export default {
                 let item = this.getFocusedItem();
 
                 if (item) {
-                    this.itemSettings.current = item;
+                    event.preventDefault();
+
+                    this.itemSettings.current = 'obj' in item ? item.obj : item;
                     this.itemSettings.visible = true;
                 }
             }
@@ -2096,24 +2098,34 @@ export default {
             </div>
         </div>
         <div class="alfred__settings" v-if="itemSettings.visible">
-            <div class="alfred__settings--header">
+            <div class="alfred__header">
                 {{ itemSettings.current.name }}
             </div>
-            <div class="alfred__settings--body">
-                <div class="alfred__setting">
-                    <div class="alfred__setting--label">
-                        Shortcut
-                    </div>
-                    <div class="alfred__setting--value">
-                        <ul v-if="itemSettings.shortcut">
-                            <li v-for="key in shortcut">{{ key }}</li>
-                        </ul>
-                    </div>
-                    <button @click="itemSettings.recording = !itemSettings.recording">
-                        <i class="fa fa-play" v-if="itemSettings.recording"></i>
-                        <i class="fa fa-stop" v-else></i>
-                    </button>
-                </div>
+            <div class="alfred__items">
+                <span class="alfred__items__title" v-show="items.title">{{ items.title }}</span>
+                <ul>
+                    <li>
+                        <span class="alfred__item__icon">
+                            <button @click="itemSettings.recording = !itemSettings.recording">
+                                <i class="fa fa-stop" v-if="itemSettings.recording"></i>
+                                <i class="fa fa-play" v-else></i>
+                            </button>
+                        </span>
+                        <div class="alfred__item__content">
+                            <span class="alfred__item__name">
+                                <span>Shortcut</span>
+                            </span>
+                            <span class="alfred__item__info">
+                                Record a shortcut for this item.
+                            </span>
+                        </div>
+                        <div class="alfred__item__details">
+                            <ul v-if="itemSettings.shortcut">
+                                <li v-for="button in itemSettings.shortcut">{{ button }}</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="alfred__footer" v-if="alfred.footer">
@@ -2418,6 +2430,16 @@ export default {
 }
 .alfred .fa, .alfred .fas {
     font-size: inherit !important;
+}
+.alfred__settings {
+    position: absolute;
+    right: 0;
+    width: 300px;
+    bottom: 0;
+    border-radius: 0.5rem;
+    background: #FFFFFF;
+    margin: 0.5rem;
+    border: 1px solid #22292f;
 }
 .alfred__footer {
     cursor: default;
