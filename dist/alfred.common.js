@@ -9882,7 +9882,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=21cce690
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=21d71f35
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10089,15 +10089,7 @@ var render = function render() {
     staticClass: "alfred__header"
   }, [_vm._v(" " + _vm._s(_vm.itemSettings.current.name) + " ")]), _c('div', {
     staticClass: "alfred__items"
-  }, [_c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.items.title,
-      expression: "items.title"
-    }],
-    staticClass: "alfred__items__title"
-  }, [_vm._v(_vm._s(_vm.items.title))]), _c('ul', [_c('li', [_c('span', {
+  }, [_c('ul', [_c('li', [_c('span', {
     staticClass: "alfred__item__icon"
   }, [_c('button', {
     on: {
@@ -10113,13 +10105,13 @@ var render = function render() {
     staticClass: "alfred__item__details"
   }, [_vm.itemSettings.shortcut ? _c('ul', _vm._l(_vm.itemSettings.shortcut, function (button) {
     return _c('li', [_vm._v(_vm._s(button))]);
-  }), 0) : _vm._e()])])])])]) : _vm._e(), _vm.alfred.footer ? _c('div', {
+  }), 0) : _vm._e()])])])]), _vm._m(2)]) : _vm._e(), _vm.alfred.footer ? _c('div', {
     staticClass: "alfred__footer"
   }, [_c('div', {
     staticClass: "alfred__footer__section"
   }, [_c('span', [_vm._v(_vm._s(_vm.alfred.footer))])])]) : _c('div', {
     staticClass: "alfred__footer"
-  }, [_vm._m(2), _vm._m(3), _vm._m(4), !_vm.items.saved.length ? _c('div', {
+  }, [_vm._m(3), _vm._m(4), _vm._m(5), !_vm.items.saved.length ? _c('div', {
     staticClass: "alfred__footer__section"
   }, [_c('span', [_vm._v("Settings")]), _vm.isMacOs ? _c('span', {
     staticClass: "alfred__footer__button"
@@ -10151,6 +10143,16 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
+    staticClass: "alfred__footer"
+  }, [_c('div', {
+    staticClass: "alfred__footer__section"
+  }, [_c('span', [_vm._v("Close")]), _c('span', {
+    staticClass: "alfred__footer__button"
+  }, [_vm._v("esc")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c('div', {
     staticClass: "alfred__footer__section"
   }, [_c('span', [_vm._v("Navigate")]), _c('span', [_c('i', {
     staticClass: "fas fa-arrow-up"
@@ -10175,7 +10177,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("tab")])]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=21cce690
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=21d71f35
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -14224,6 +14226,14 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
      */
     triggerItemSettingsKeyboardEvent(event) {
       if (event.key === 'Escape') {
+        // Unset the shortcut on the current item
+        if (this.itemSettings.recording) {
+          this.itemSettings.shortcut = null;
+          this.itemSettings.recording = false;
+          return;
+        }
+
+        // Close the item settings
         this.itemSettings.visible = false;
       }
     },
@@ -15547,10 +15557,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=21cce690&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=21d71f35&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=21cce690&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=21d71f35&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */

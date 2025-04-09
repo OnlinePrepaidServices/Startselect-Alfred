@@ -532,6 +532,15 @@ export default {
          */
         triggerItemSettingsKeyboardEvent(event) {
             if (event.key === 'Escape') {
+                // Unset the shortcut on the current item
+                if (this.itemSettings.recording) {
+                    this.itemSettings.shortcut = null;
+                    this.itemSettings.recording = false;
+
+                    return;
+                }
+
+                // Close the item settings
                 this.itemSettings.visible = false;
             }
         },
@@ -2102,7 +2111,6 @@ export default {
                 {{ itemSettings.current.name }}
             </div>
             <div class="alfred__items">
-                <span class="alfred__items__title" v-show="items.title">{{ items.title }}</span>
                 <ul>
                     <li>
                         <span class="alfred__item__icon">
@@ -2126,6 +2134,12 @@ export default {
                         </div>
                     </li>
                 </ul>
+            </div>
+            <div class="alfred__footer">
+                <div class="alfred__footer__section">
+                    <span>Close</span>
+                    <span class="alfred__footer__button">esc</span>
+                </div>
             </div>
         </div>
         <div class="alfred__footer" v-if="alfred.footer">
