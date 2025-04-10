@@ -187,6 +187,10 @@ export default {
 
                 // Bind item settings events
                 this.bindItemSettingsEvents();
+
+                this.$nextTick(() => {
+                    this.$refs.itemSettings.focus();
+                });
             } else {
                 // Unbind item settings events
                 this.unbindItemSettingsEvents();
@@ -393,6 +397,7 @@ export default {
          * Bind events for item settings.
          */
         bindItemSettingsEvents() {
+            document.addEventListener('click', this.triggerItemSettingsMouseEvent);
             document.addEventListener('keydown', this.triggerItemSettingsKeyboardEvent);
             document.addEventListener('keydown', this.triggerItemSettingsRecordShortcutKeyboardEvent);
         },
@@ -401,8 +406,43 @@ export default {
          * Unbind events for item settings.
          */
         unbindItemSettingsEvents() {
+            document.removeEventListener('click', this.triggerItemSettingsMouseEvent);
             document.removeEventListener('keydown', this.triggerItemSettingsKeyboardEvent);
             document.removeEventListener('keydown', this.triggerItemSettingsRecordShortcutKeyboardEvent);
+        },
+
+        /**
+         * Show item settings for current focused item.
+         *
+         * @param {KeyboardEvent} event
+         */
+        showItemSettings(event) {
+            // Only allow settings for registered items
+            if (this.items.saved.length) {
+                return;
+            }
+
+            let item = this.getFocusedItem();
+
+            if (item) {
+                // Don't trigger browser's settings
+                event.preventDefault();
+
+                this.itemSettings.current = 'obj' in item ? item.obj : item;
+                this.itemSettings.visible = true;
+            }
+        },
+
+        /**
+         * Hide item settings for current focused item.
+         */
+        hideItemSettings() {
+            // Reset item settings
+            this.itemSettings.current = null;
+            this.itemSettings.recording = false;
+
+            // Close the item settings
+            this.itemSettings.visible = false;
         },
 
         /**
@@ -514,14 +554,7 @@ export default {
             }
 
             if ((event.ctrlKey || event.metaKey) && event.key === ',') {
-                let item = this.getFocusedItem();
-
-                if (item) {
-                    event.preventDefault();
-
-                    this.itemSettings.current = 'obj' in item ? item.obj : item;
-                    this.itemSettings.visible = true;
-                }
+                this.showItemSettings(event);
             }
         },
 
@@ -540,8 +573,21 @@ export default {
                     return;
                 }
 
-                // Close the item settings
-                this.itemSettings.visible = false;
+                this.hideItemSettings();
+            }
+        },
+
+        /**
+         * Trigger a mouse event while changing item settings.
+         *
+         * @param {MouseEvent} event
+         */
+         triggerItemSettingsMouseEvent(event) {
+            // Close item settings when clicking outside its element
+            if (!this.$refs.itemSettings.contains(event.target)) {
+                event.stopPropagation();
+
+                this.hideItemSettings();
             }
         },
 
@@ -2106,7 +2152,7 @@ export default {
                 </ul>
             </div>
         </div>
-        <div class="alfred__settings" v-if="itemSettings.visible">
+        <div class="alfred__settings" ref="itemSettings" v-if="itemSettings.visible">
             <div class="alfred__header">
                 {{ itemSettings.current.name }}
             </div>
