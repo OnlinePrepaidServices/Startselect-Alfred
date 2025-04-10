@@ -188,8 +188,9 @@ export default {
                 // Bind item settings events
                 this.bindItemSettingsEvents();
 
+                // Unfocus phrase input
                 this.$nextTick(() => {
-                    this.$refs.itemSettings.focus();
+                    this.$refs.phraseInput.blur();
                 });
             } else {
                 // Unbind item settings events
@@ -199,6 +200,7 @@ export default {
                 this.bindEvents(false);
                 this.bindEvents(true);
 
+                // Focus phrase input again
                 this.$nextTick(() => {
                     this.$refs.phraseInput.focus();
                 });
@@ -417,6 +419,11 @@ export default {
          * @param {KeyboardEvent} event
          */
         showItemSettings(event) {
+            // Don't show item settings when already shown
+            if (this.itemSettings.visible) {
+                return;
+            }
+
             // Only allow settings for registered items
             if (this.items.saved.length) {
                 return;
@@ -437,6 +444,11 @@ export default {
          * Hide item settings for current focused item.
          */
         hideItemSettings() {
+            // Don't hide item settings when already hidden
+            if (!this.itemSettings.visible) {
+                return;
+            }
+
             // Reset item settings
             this.itemSettings.current = null;
             this.itemSettings.recording = false;
@@ -1578,6 +1590,9 @@ export default {
          * @param {MouseEvent|KeyboardEvent} event
          */
         triggerItem(item, event) {
+            // Hide item settings if currently shown
+            this.hideItemSettings();
+
             // Make sure this item is now focused
             let focusedItem = this.getFocusedItem();
             if (!focusedItem || focusedItem.id !== item.id) {
@@ -2118,7 +2133,7 @@ export default {
             <div class="alfred__items">
                 <span class="alfred__items__title" v-show="items.title">{{ items.title }}</span>
                 <ul ref="items" v-show="items.filtered.length">
-                    <li :class="item.focus ? 'alfred__item--focus' : ''" v-for="item in items.filtered" @click.capture="triggerItem(item, $event)" @click.capture.middle="triggerItem(item, $event)">
+                    <li :class="item.focus ? 'alfred__item--focus' : ''" v-for="item in items.filtered" @click="triggerItem(item, $event)" @click.middle="triggerItem(item, $event)">
                         <span class="alfred__item__icon" v-if="item.icon">
                             <i :class="['fas', 'fa-' + item.icon]"></i>
                         </span>
