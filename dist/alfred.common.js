@@ -9882,7 +9882,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=3ced3c9e
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=163f38dd
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10090,19 +10090,19 @@ var render = function render() {
     staticClass: "alfred__header"
   }, [_vm._v(" " + _vm._s(_vm.itemSettings.current.name) + " ")]), _c('div', {
     staticClass: "alfred__items"
-  }, [_c('ul', [_c('li', [_c('span', {
-    staticClass: "alfred__item__icon"
-  }, [_c('button', {
+  }, [_c('ul', [_c('li', {
     on: {
       "click": function ($event) {
         _vm.itemSettings.recording = !_vm.itemSettings.recording;
       }
     }
+  }, [_c('span', {
+    staticClass: "alfred__item__icon"
   }, [_vm.itemSettings.recording ? _c('i', {
     staticClass: "fa fa-stop"
   }) : _c('i', {
     staticClass: "fa fa-play"
-  })])]), _vm._m(1), _c('div', {
+  })]), _vm._m(1), _c('div', {
     staticClass: "alfred__item__details"
   }, [_vm.itemSettings.shortcut ? _c('ul', _vm._l(_vm.itemSettings.shortcut, function (button) {
     return _c('li', [_vm._v(_vm._s(button))]);
@@ -10178,7 +10178,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("tab")])]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=3ced3c9e
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=163f38dd
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -14150,7 +14150,13 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       if (item) {
         // Don't trigger browser's settings
         event.preventDefault();
-        this.itemSettings.current = 'obj' in item ? item.obj : item;
+
+        // Make sure we have the correct item
+        if ('obj' in item) {
+          item = item.obj;
+        }
+        this.itemSettings.current = item;
+        this.itemSettings.shortcut = item.shortcut;
         this.itemSettings.visible = true;
       }
     },
@@ -14162,6 +14168,14 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       if (!this.itemSettings.visible) {
         return;
       }
+
+      // Update shortcut for the current item
+      this.items.filtered = this.items.filtered.map(filteredItem => {
+        if (filteredItem.id === this.itemSettings.current.id) {
+          filteredItem.shortcut = this.itemSettings.shortcut;
+        }
+        return filteredItem;
+      });
 
       // Reset item settings
       this.itemSettings.current = null;
@@ -14277,6 +14291,9 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
           return;
         }
         this.hideItemSettings();
+      }
+      if (event.key === 'Enter') {
+        this.itemSettings.recording = !itemSettings.recording;
       }
     },
     /**
@@ -15614,10 +15631,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=3ced3c9e&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=163f38dd&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=3ced3c9e&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=163f38dd&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */

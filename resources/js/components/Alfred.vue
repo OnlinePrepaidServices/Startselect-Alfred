@@ -435,7 +435,13 @@ export default {
                 // Don't trigger browser's settings
                 event.preventDefault();
 
-                this.itemSettings.current = 'obj' in item ? item.obj : item;
+                // Make sure we have the correct item
+                if ('obj' in item) {
+                    item = item.obj;
+                }
+
+                this.itemSettings.current = item;
+                this.itemSettings.shortcut = item.shortcut;
                 this.itemSettings.visible = true;
             }
         },
@@ -448,6 +454,15 @@ export default {
             if (!this.itemSettings.visible) {
                 return;
             }
+
+            // Update shortcut for the current item
+            this.items.filtered = this.items.filtered.map(filteredItem => {
+                if (filteredItem.id === this.itemSettings.current.id) {
+                    filteredItem.shortcut = this.itemSettings.shortcut;
+                }
+
+                return filteredItem;
+            });
 
             // Reset item settings
             this.itemSettings.current = null;
@@ -586,6 +601,10 @@ export default {
                 }
 
                 this.hideItemSettings();
+            }
+
+            if (event.key === 'Enter') {
+                this.itemSettings.recording = !itemSettings.recording;
             }
         },
 
@@ -2173,12 +2192,10 @@ export default {
             </div>
             <div class="alfred__items">
                 <ul>
-                    <li>
+                    <li @click="itemSettings.recording = !itemSettings.recording">
                         <span class="alfred__item__icon">
-                            <button @click="itemSettings.recording = !itemSettings.recording">
-                                <i class="fa fa-stop" v-if="itemSettings.recording"></i>
-                                <i class="fa fa-play" v-else></i>
-                            </button>
+                            <i class="fa fa-stop" v-if="itemSettings.recording"></i>
+                            <i class="fa fa-play" v-else></i>
                         </span>
                         <div class="alfred__item__content">
                             <span class="alfred__item__name">
