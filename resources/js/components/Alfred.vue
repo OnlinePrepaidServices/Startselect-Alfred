@@ -456,8 +456,15 @@ export default {
             }
 
             // Update shortcut for the current item
+            this.items.current = this.items.current.map(item => {
+                if (item === this.itemSettings.current) {
+                    item.shortcut = this.itemSettings.shortcut;
+                }
+
+                return item;
+            });
             this.items.filtered = this.items.filtered.map(filteredItem => {
-                if (filteredItem.id === this.itemSettings.current.id) {
+                if (('obj' in filteredItem && filteredItem.obj === this.itemSettings.current) || filteredItem === this.itemSettings.current) {
                     filteredItem.shortcut = this.itemSettings.shortcut;
                 }
 
@@ -604,7 +611,7 @@ export default {
             }
 
             if (event.key === 'Enter') {
-                this.itemSettings.recording = !itemSettings.recording;
+                this.itemSettings.recording = !this.itemSettings.recording;
             }
         },
 
