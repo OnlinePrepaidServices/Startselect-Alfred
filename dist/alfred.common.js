@@ -9882,7 +9882,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=305d0ffc
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=template&id=5817608f
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -10104,9 +10104,19 @@ var render = function render() {
     staticClass: "fa fa-play"
   })]), _vm._m(1), _c('div', {
     staticClass: "alfred__item__details"
-  }, [_vm.itemSettings.shortcut ? _c('ul', _vm._l(_vm.itemSettings.shortcut, function (button) {
+  }, [_vm.itemSettings.current.shortcut ? _c('ul', _vm._l(_vm.itemSettings.current.shortcut, function (button) {
     return _c('li', [_vm._v(_vm._s(button))]);
-  }), 0) : _vm._e()])])])]), _vm._m(2)]) : _vm._e(), _vm.alfred.footer ? _c('div', {
+  }), 0) : _vm._e()])])])]), _c('div', {
+    staticClass: "alfred__footer"
+  }, [_vm.itemSettings.recording ? _c('div', {
+    staticClass: "alfred__footer__section"
+  }, [_c('span', [_vm._v("Remove shortcut")]), _c('span', {
+    staticClass: "alfred__footer__button"
+  }, [_vm._v("esc")])]) : _c('div', {
+    staticClass: "alfred__footer__section"
+  }, [_c('span', [_vm._v("Record")]), _c('span', {
+    staticClass: "alfred__footer__button"
+  }, [_vm._v("enter")])]), _vm._m(2)])]) : _vm._e(), _vm.alfred.footer ? _c('div', {
     staticClass: "alfred__footer"
   }, [_c('div', {
     staticClass: "alfred__footer__section"
@@ -10144,12 +10154,10 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
-    staticClass: "alfred__footer"
-  }, [_c('div', {
     staticClass: "alfred__footer__section"
   }, [_c('span', [_vm._v("Close")]), _c('span', {
     staticClass: "alfred__footer__button"
-  }, [_vm._v("esc")])])]);
+  }, [_vm._v("esc")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -10178,7 +10186,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("tab")])]);
 }];
 
-;// ./resources/js/components/Alfred.vue?vue&type=template&id=305d0ffc
+;// ./resources/js/components/Alfred.vue?vue&type=template&id=5817608f
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(4114);
@@ -13808,7 +13816,6 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       itemSettings: {
         current: null,
         recording: false,
-        shortcut: null,
         visible: false
       },
       tips: {
@@ -14150,13 +14157,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       if (item) {
         // Don't trigger browser's settings
         event.preventDefault();
-
-        // Make sure we have the correct item
-        if ('obj' in item) {
-          item = item.obj;
-        }
-        this.itemSettings.current = item;
-        this.itemSettings.shortcut = item.shortcut;
+        this.itemSettings.current = 'obj' in item ? item.obj : item;
         this.itemSettings.visible = true;
       }
     },
@@ -14172,16 +14173,19 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       // Update shortcut for the current item
       this.items.current = this.items.current.map(item => {
         if (item === this.itemSettings.current) {
-          item.shortcut = this.itemSettings.shortcut;
+          item.shortcut = this.itemSettings.current.shortcut;
         }
         return item;
       });
       this.items.filtered = this.items.filtered.map(filteredItem => {
         if ('obj' in filteredItem && filteredItem.obj === this.itemSettings.current || filteredItem === this.itemSettings.current) {
-          filteredItem.shortcut = this.itemSettings.shortcut;
+          filteredItem.shortcut = this.itemSettings.current.shortcut;
         }
         return filteredItem;
       });
+
+      // Save item settings
+      this.saveItemSettings();
 
       // Reset item settings
       this.itemSettings.current = null;
@@ -14189,6 +14193,19 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 
       // Close the item settings
       this.itemSettings.visible = false;
+    },
+    saveItemSettings() {
+      lib_axios.post('/alfred/save-item-settings', {
+        item: this.itemSettings.current
+      }).then(response => {
+        // Did our request succeed?
+        if (response.status !== 200) {
+          return this.displayMessage('error', 'Could not save item settings.');
+        }
+        this.displayMessage('success', 'Item settings saved successfully.');
+      }, () => {
+        this.displayMessage('error', 'Could not save item settings.');
+      });
     },
     /**
      * Trigger Alfred's keyboard event.
@@ -14292,7 +14309,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       if (event.key === 'Escape') {
         // Unset the shortcut on the current item
         if (this.itemSettings.recording) {
-          this.itemSettings.shortcut = null;
+          this.itemSettings.current.shortcut = null;
           this.itemSettings.recording = false;
           return;
         }
@@ -14332,7 +14349,7 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
       }
 
       // Show the shortcut that got recorded
-      this.itemSettings.shortcut = shortcut;
+      this.itemSettings.current.shortcut = shortcut;
 
       // Make sure we don't trigger other browser stuff based on this combination!
       event.preventDefault();
@@ -15637,10 +15654,10 @@ var sweetalert2_all_default = /*#__PURE__*/__webpack_require__.n(sweetalert2_all
 });
 ;// ./resources/js/components/Alfred.vue?vue&type=script&lang=js
  /* harmony default export */ var components_Alfredvue_type_script_lang_js = (Alfredvue_type_script_lang_js); 
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=305d0ffc&prod&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./resources/js/components/Alfred.vue?vue&type=style&index=0&id=5817608f&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=305d0ffc&prod&lang=css
+;// ./resources/js/components/Alfred.vue?vue&type=style&index=0&id=5817608f&prod&lang=css
 
 ;// ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
