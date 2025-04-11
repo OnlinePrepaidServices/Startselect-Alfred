@@ -60,7 +60,6 @@ export default {
             itemSettings: {
                 current: null,
                 recording: false,
-                shortcut: null,
                 visible: false,
             },
             tips: {
@@ -435,13 +434,7 @@ export default {
                 // Don't trigger browser's settings
                 event.preventDefault();
 
-                // Make sure we have the correct item
-                if ('obj' in item) {
-                    item = item.obj;
-                }
-
-                this.itemSettings.current = item;
-                this.itemSettings.shortcut = item.shortcut;
+                this.itemSettings.current = 'obj' in item ? item.obj : item;
                 this.itemSettings.visible = true;
             }
         },
@@ -458,18 +451,21 @@ export default {
             // Update shortcut for the current item
             this.items.current = this.items.current.map(item => {
                 if (item === this.itemSettings.current) {
-                    item.shortcut = this.itemSettings.shortcut;
+                    item.shortcut = this.itemSettings.current.shortcut;
                 }
 
                 return item;
             });
             this.items.filtered = this.items.filtered.map(filteredItem => {
                 if (('obj' in filteredItem && filteredItem.obj === this.itemSettings.current) || filteredItem === this.itemSettings.current) {
-                    filteredItem.shortcut = this.itemSettings.shortcut;
+                    filteredItem.shortcut = this.itemSettings.current.shortcut;
                 }
 
                 return filteredItem;
             });
+
+            // Save item settings
+            this.saveItemSettings();
 
             // Reset item settings
             this.itemSettings.current = null;
@@ -477,6 +473,24 @@ export default {
 
             // Close the item settings
             this.itemSettings.visible = false;
+        },
+
+        saveItemSettings() {
+            axios.post('/alfred/save-item-settings', {
+                item: this.itemSettings.current,
+            }).then(
+                response => {
+                    // Did our request succeed?
+                    if (response.status !== 200) {
+                        return this.displayMessage('error', 'Could not save item settings.');
+                    }
+
+                    this.displayMessage('success', 'Item settings saved successfully.');
+                },
+                () => {
+                    this.displayMessage('error', 'Could not save item settings.');
+                }
+            );
         },
 
         /**
@@ -601,7 +615,7 @@ export default {
             if (event.key === 'Escape') {
                 // Unset the shortcut on the current item
                 if (this.itemSettings.recording) {
-                    this.itemSettings.shortcut = null;
+                    this.itemSettings.current.shortcut = null;
                     this.itemSettings.recording = false;
 
                     return;
@@ -648,7 +662,7 @@ export default {
             }
 
             // Show the shortcut that got recorded
-            this.itemSettings.shortcut = shortcut;
+            this.itemSettings.current.shortcut = shortcut;
 
             // Make sure we don't trigger other browser stuff based on this combination!
             event.preventDefault();
@@ -2213,8 +2227,8 @@ export default {
                             </span>
                         </div>
                         <div class="alfred__item__details">
-                            <ul v-if="itemSettings.shortcut">
-                                <li v-for="button in itemSettings.shortcut">{{ button }}</li>
+                            <ul v-if="itemSettings.current.shortcut">
+                                <li v-for="button in itemSettings.current.shortcut">{{ button }}</li>
                             </ul>
                         </div>
                     </li>
