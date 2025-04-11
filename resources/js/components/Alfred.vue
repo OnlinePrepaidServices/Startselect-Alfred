@@ -2235,6 +2235,14 @@ export default {
                 </ul>
             </div>
             <div class="alfred__footer">
+                <div class="alfred__footer__section" v-if="itemSettings.recording">
+                    <span>Remove shortcut</span>
+                    <span class="alfred__footer__button">esc</span>
+                </div>
+                <div class="alfred__footer__section" v-else>
+                    <span>Record</span>
+                    <span class="alfred__footer__button">enter</span>
+                </div>
                 <div class="alfred__footer__section">
                     <span>Close</span>
                     <span class="alfred__footer__button">esc</span>
