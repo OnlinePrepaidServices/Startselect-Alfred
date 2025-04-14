@@ -2245,12 +2245,18 @@ export default {
                     </li>
                 </ul>
             </div>
-            <div class="alfred__footer">
-                <div class="alfred__footer__section" v-if="itemSettings.recording">
+            <div class="alfred__footer" v-if="itemSettings.recording">
+                <div class="alfred__footer__section">
+                    <span>Stop recording</span>
+                    <span class="alfred__footer__button">enter</span>
+                </div>
+                <div class="alfred__footer__section">
                     <span>Remove shortcut</span>
                     <span class="alfred__footer__button">esc</span>
                 </div>
-                <div class="alfred__footer__section" v-else>
+            </div>
+            <div class="alfred__footer" v-else>
+                <div class="alfred__footer__section">
                     <span>Record</span>
                     <span class="alfred__footer__button">enter</span>
                 </div>
