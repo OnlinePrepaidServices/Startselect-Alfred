@@ -483,7 +483,7 @@ export default {
                 response => {
                     // Did we save successfully?
                     if (response.data.success !== true) {
-                        return this.displayMessage('error', 'Could not save item settings.');
+                        return this.displayNotification('error', 'Could not save item settings.');
                     }
 
                     // Update the storage?
@@ -491,10 +491,10 @@ export default {
                         this.setStorageData(response.data.storage);
                     }
 
-                    this.displayMessage('success', 'Item settings saved successfully.');
+                    this.displayNotification('success', 'Item settings saved successfully.');
                 },
                 () => {
-                    this.displayMessage('error', 'Could not save item settings.');
+                    this.displayNotification('error', 'Could not save item settings.');
                 }
             );
         },
