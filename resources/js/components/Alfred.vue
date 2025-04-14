@@ -491,7 +491,7 @@ export default {
                         this.setStorageData(response.data.storage);
                     }
 
-                    this.displayNotification('success', 'Item settings saved successfully.');
+                    this.displayNotification('success', 'Item settings saved.');
                 },
                 () => {
                     this.displayNotification('error', 'Could not save item settings.');
