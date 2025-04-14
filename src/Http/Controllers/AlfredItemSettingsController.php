@@ -17,7 +17,7 @@ class AlfredItemSettingsController extends Controller
         $request->validate([
             'item' => ['required'],
             'item.name' => ['required'],
-            'item.shortcut' => ['required', 'array'],
+            'item.shortcut' => ['nullable', 'array'],
         ]);
 
         // Sync data with the preference manager
