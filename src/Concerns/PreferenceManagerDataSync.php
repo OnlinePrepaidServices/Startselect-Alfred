@@ -24,6 +24,9 @@ trait PreferenceManagerDataSync
         }
 
         // Update preferences
+        if ($request->has('storage.itemSettings')) {
+            $preferenceManager->itemSettings()->data = $request->input('storage.itemSettings');
+        }
         if ($request->has('storage.settings')) {
             $preferenceManager->settings()->data = $request->input('storage.settings');
         }
@@ -40,6 +43,7 @@ trait PreferenceManagerDataSync
         }
 
         return [
+            'itemSettings' => $preferenceManager->itemSettings()->data,
             'settings' => $preferenceManager->settings()->data,
             'snippets' => $preferenceManager->snippets()->data,
         ];

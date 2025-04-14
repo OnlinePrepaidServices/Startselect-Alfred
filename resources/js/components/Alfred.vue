@@ -478,11 +478,17 @@ export default {
         saveItemSettings() {
             axios.post('/alfred/save-item-settings', {
                 item: this.itemSettings.current,
+                storage: this.getStorageData(),
             }).then(
                 response => {
-                    // Did our request succeed?
-                    if (response.status !== 200) {
+                    // Did we save successfully?
+                    if (response.data.success !== true) {
                         return this.displayMessage('error', 'Could not save item settings.');
+                    }
+
+                    // Update the storage?
+                    if (response.data.storage) {
+                        this.setStorageData(response.data.storage);
                     }
 
                     this.displayMessage('success', 'Item settings saved successfully.');
@@ -1004,6 +1010,7 @@ export default {
          */
         getStorageData() {
             return {
+                itemSettings: this.getLocalStorageData('item-settings') ?? {},
                 settings: this.getLocalStorageData('settings') ?? {},
                 snippets: this.getLocalStorageData('snippets') ?? {},
             };
@@ -1015,6 +1022,10 @@ export default {
          * @param {Object} storage
          */
         setStorageData(storage) {
+            if (storage?.itemSettings || null) {
+                this.setLocalStorageData('item-settings', storage.itemSettings, 0);
+            }
+
             if (storage?.settings || null) {
                 this.setLocalStorageData('settings', storage.settings, 0);
 
