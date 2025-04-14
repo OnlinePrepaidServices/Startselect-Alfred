@@ -2208,7 +2208,9 @@ export default {
                                 <span class="alfred__item__details__status" :style="{ color: item.color }">{{ item.status }}</span>
                             </span>
                             <ul v-if="item.shortcut">
-                                <li v-for="button in item.shortcut">{{ button }}</li>
+                                <li v-for="button in item.shortcut">
+                                    {{ button === 'ctrl' && isMacOs ? '&#8984;' : button }}
+                                </li>
                             </ul>
                             <span class="alfred__item__prefix" v-if="item.prefix || null">
                                 [{{ item.prefix }}]
@@ -2239,7 +2241,9 @@ export default {
                         </div>
                         <div class="alfred__item__details">
                             <ul v-if="itemSettings.current.shortcut">
-                                <li v-for="button in itemSettings.current.shortcut">{{ button }}</li>
+                                <li v-for="button in itemSettings.current.shortcut">
+                                    {{ button === 'ctrl' && isMacOs ? '&#8984;' : button }}
+                                </li>
                             </ul>
                         </div>
                     </li>
