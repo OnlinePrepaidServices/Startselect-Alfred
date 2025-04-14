@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\App;
 use Startselect\Alfred\Concerns\AlfredState;
 use Startselect\Alfred\Contracts\PreferenceManager;
 use Startselect\Alfred\Preparations\AbstractPreparation;
-use Startselect\Alfred\Support\AlfredPreference;
 
 class ItemSet extends AbstractPreparation
 {
