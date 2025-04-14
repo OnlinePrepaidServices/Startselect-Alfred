@@ -153,7 +153,7 @@ class ItemSet extends AbstractPreparation
         }
 
         // Update the item with the settings
-        if (isset($itemSettingInformation['shortcut'])) {
+        if (array_key_exists('shortcut', $itemSettingInformation)) {
             $item['shortcut'] = $itemSettingInformation['shortcut'];
         }
 
