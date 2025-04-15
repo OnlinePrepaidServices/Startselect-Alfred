@@ -22,10 +22,6 @@ class History extends AbstractWorkflowStep
                 ->name('History')
                 ->info('Navigate to a page you have recently visited.')
                 ->icon('clock-rotate-left')
-                ->shortcut([
-                    Item::KEY_CONTROL,
-                    'H',
-                ])
                 ->trigger($this->getHistory())
         );
     }
