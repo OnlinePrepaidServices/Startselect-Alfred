@@ -2399,7 +2399,7 @@ export default {
     background-color: #31c185;
     color: #ffffff;
 }
-.alfred__search__extended > button i {
+.alfred__search__extended > button > svg {
     font-size: 0.875rem;
     font-weight: inherit !important;
 }
@@ -2494,7 +2494,7 @@ export default {
     color: #22292f;
     font-size: 0.95rem;
 }
-.alfred__item__name i {
+.alfred__item__name > svg {
     color: #cc3e29;
     margin-left: 0.25rem;
 }
