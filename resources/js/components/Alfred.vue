@@ -2146,7 +2146,7 @@ export default {
         <div class="alfred__header" v-if="alfred.title">
             <span>{{ alfred.title }}</span>
             <span @click="displayHelp()" v-if="alfred.help">
-                <i class="fas fa-question-circle"></i>
+                <font-awesome-icon :icon="['fas', 'circle-question']" />
             </span>
         </div>
         <div class="alfred__container">
@@ -2156,7 +2156,7 @@ export default {
                     <div class="alfred__search__extended">
                         <span class="alfred__loader alfred__search__extended__loader" v-show="alfred.loading"></span>
                         <button @click="triggerAction($event)">
-                            <i class="fa fa-check"></i>
+                            <font-awesome-icon :icon="['fas', 'check']" />
                         </button>
                     </div>
                 </div>
@@ -2175,7 +2175,7 @@ export default {
                 <ul>
                     <li v-for="tip in tips.current">
                         <span class="alfred__tip__icon">
-                            <i class="fas fa-search"></i>
+                            <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
                         </span>
                         <span class="alfred__tip__name" v-html="tip"></span>
                     </li>
@@ -2186,15 +2186,15 @@ export default {
                 <ul ref="items" v-show="items.filtered.length">
                     <li :class="item.focus ? 'alfred__item--focus' : ''" v-for="item in items.filtered" @click="triggerItem(item, $event)" @click.middle="triggerItem(item, $event)">
                         <span class="alfred__item__icon" v-if="item.icon">
-                            <i :class="['fas', 'fa-' + item.icon]"></i>
+                            <font-awesome-icon :icon="['fas', item.icon]" />
                         </span>
                         <div class="alfred__item__content">
                             <span class="alfred__item__name">
                                 <span v-html="item.name"></span>
                                 <span class="alfred__item__usage" :title="'Used ' + item.usage + ' times'" v-if="item.usage > 0">
-                                    <i class="fas fa-star"></i> {{ item.usage }}
+                                    <font-awesome-icon :icon="['fas', 'star']" /> {{ item.usage }}
                                 </span>
-                                <i class="fas fa-exclamation-circle" v-if="item.warn"></i>
+                                <font-awesome-icon :icon="['fas', 'circle-exclamation']" v-if="item.warn" />
                             </span>
                             <span class="alfred__item__info" v-html="item.info"></span>
                         </div>
@@ -2228,8 +2228,8 @@ export default {
                 <ul>
                     <li @click="itemSettings.recording = !itemSettings.recording">
                         <span class="alfred__item__icon">
-                            <i class="fa fa-stop" v-if="itemSettings.recording"></i>
-                            <i class="fa fa-play" v-else></i>
+                            <font-awesome-icon :icon="['fas', 'stop']" v-if="itemSettings.recording" />
+                            <font-awesome-icon :icon="['fas', 'play']" v-else />
                         </span>
                         <div class="alfred__item__content">
                             <span class="alfred__item__name">
@@ -2278,8 +2278,8 @@ export default {
         <div class="alfred__footer" v-else>
             <div class="alfred__footer__section">
                 <span>Navigate</span>
-                <span><i class="fas fa-arrow-up"></i></span>
-                <span><i class="fas fa-arrow-down"></i></span>
+                <span><font-awesome-icon :icon="['fas', 'arrow-up']" /></span>
+                <span><font-awesome-icon :icon="['fas', 'arrow-down']" /></span>
             </div>
             <div class="alfred__footer__section">
                 <span>Select</span>
@@ -2399,7 +2399,7 @@ export default {
     background-color: #31c185;
     color: #ffffff;
 }
-.alfred__search__extended > button > i {
+.alfred__search__extended > button i {
     font-size: 0.875rem;
     font-weight: inherit !important;
 }
@@ -2494,7 +2494,7 @@ export default {
     color: #22292f;
     font-size: 0.95rem;
 }
-.alfred__item__name > i {
+.alfred__item__name i {
     color: #cc3e29;
     margin-left: 0.25rem;
 }
