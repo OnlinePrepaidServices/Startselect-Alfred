@@ -1,7 +1,15 @@
+import { library } from '@fortawesome/fontawesome-svg-core'; // Import the fontawesome core
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'; // Import the FontAwesomeIcon component
+import { fas } from '@fortawesome/free-solid-svg-icons'; // Import the entire solid icon set
+
+library.add(fas); // Add the icons to the library so we can use it in our app
+
 import Alfred from "./components/Alfred.vue";
 
 const AlfredApp = {
     install(Vue) {
+        Vue.component('font-awesome-icon', FontAwesomeIcon);
+
         // Let's register our component globally
         // https://vuejs.org/v2/guide/components-registration.html
         Vue.component("alfred", Alfred);

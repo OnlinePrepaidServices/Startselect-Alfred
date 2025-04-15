@@ -19,10 +19,6 @@ class CreateFavorite extends AbstractWorkflowStep
                 ->name('Create favorite')
                 ->info('A new favorite based on the current URL.')
                 ->icon('star')
-                ->shortcut([
-                    Item::KEY_CONTROL,
-                    'B',
-                ])
                 ->trigger(
                     (new WorkflowStep())
                         ->class(static::class)

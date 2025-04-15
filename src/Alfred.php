@@ -20,7 +20,8 @@ class Alfred
 
     public function getRegisteredWorkflowSteps(PageData $pageData): Response
     {
-        $itemSet = new ItemSet();
+        $itemSet = (new ItemSet())
+            ->updateItemsWithItemSettings(true);
 
         foreach ($this->workflowStepProvider->register() as $workflowStep) {
             // Prepare the workflow step with given data

@@ -23,6 +23,11 @@ interface PreferenceManager
     public function snippets(): AlfredPreference;
 
     /**
+     * Get settings based on the registered items for the authenticated user.
+     */
+    public function itemSettings(): AlfredPreference;
+
+    /**
      * Save an Alfred preference.
      */
     public function save(AlfredPreference $preference): bool;

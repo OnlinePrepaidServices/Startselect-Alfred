@@ -2,7 +2,9 @@
 
 namespace Startselect\Alfred\Preparations\Core;
 
+use Illuminate\Support\Facades\App;
 use Startselect\Alfred\Concerns\AlfredState;
+use Startselect\Alfred\Contracts\PreferenceManager;
 use Startselect\Alfred\Preparations\AbstractPreparation;
 
 class ItemSet extends AbstractPreparation
@@ -12,6 +14,7 @@ class ItemSet extends AbstractPreparation
     protected ?array $items = null;
     protected bool $sortItems = true;
     protected bool $reverseSorting = false;
+    protected bool $updateItemsWithItemSettings = false;
 
     protected array $validationProperties = [
         'items',
@@ -71,6 +74,16 @@ class ItemSet extends AbstractPreparation
     }
 
     /**
+     * Whether item information can be updated by the item settings.
+     */
+    public function updateItemsWithItemSettings(bool $updateItemsWithItemSettings): static
+    {
+        $this->updateItemsWithItemSettings = $updateItemsWithItemSettings;
+
+        return $this;
+    }
+
+    /**
      * Get the items.
      *
      * @return array<Item>|null
@@ -81,10 +94,14 @@ class ItemSet extends AbstractPreparation
             return null;
         }
 
+        /** @var PreferenceManager $preferenceManager */
+        $preferenceManager = App::make(PreferenceManager::class);
+        $itemSettings = $preferenceManager->itemSettings()->data;
+
         $items = [];
         foreach ($this->items as $item) {
             if ($item instanceof Item && $item->isValid()) {
-                $items[] = $item->toArray();
+                $items[] = $this->updateItemWithItemSettings($item->toArray(), $itemSettings);
             }
         }
 
@@ -118,6 +135,29 @@ class ItemSet extends AbstractPreparation
         });
 
         return $items;
+    }
+
+    protected function updateItemWithItemSettings(array $item, array $itemSettings): array
+    {
+        // Do we have to update the item?
+        if (!$this->updateItemsWithItemSettings) {
+            return $item;
+        }
+
+        // Find settings for this item
+        $itemSettingInformation = $itemSettings[$item['name']] ?? null;
+
+        // Do we have settings for this item?
+        if (!$itemSettingInformation) {
+            return $item;
+        }
+
+        // Update the item with the settings
+        if (array_key_exists('shortcut', $itemSettingInformation)) {
+            $item['shortcut'] = $itemSettingInformation['shortcut'];
+        }
+
+        return $item;
     }
 
     public function toArray(): array

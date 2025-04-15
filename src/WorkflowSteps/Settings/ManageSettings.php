@@ -58,7 +58,7 @@ class ManageSettings extends AbstractWorkflowStep
             (new Item())
                 ->name('Manage settings')
                 ->info('Change an Alfred setting.')
-                ->icon('cog')
+                ->icon('gear')
                 ->trigger(
                     (new WorkflowStep())
                         ->class(static::class)

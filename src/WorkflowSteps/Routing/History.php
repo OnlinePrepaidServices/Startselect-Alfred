@@ -2,6 +2,9 @@
 
 namespace Startselect\Alfred\WorkflowSteps\Routing;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 use Startselect\Alfred\Preparations\Core\Item;
 use Startselect\Alfred\Preparations\Core\ItemSet;
 use Startselect\Alfred\Preparations\Core\Response;
@@ -18,11 +21,7 @@ class History extends AbstractWorkflowStep
             (new Item())
                 ->name('History')
                 ->info('Navigate to a page you have recently visited.')
-                ->icon('history')
-                ->shortcut([
-                    Item::KEY_CONTROL,
-                    'H',
-                ])
+                ->icon('clock-rotate-left')
                 ->trigger($this->getHistory())
         );
     }
@@ -43,7 +42,7 @@ class History extends AbstractWorkflowStep
             ->sort(false, true);
 
         // Do we have history items?
-        $currentHistory = session()->get('alfred.history');
+        $currentHistory = Session::get('alfred.history');
         if (!$currentHistory) {
             return $itemSet;
         }
@@ -65,13 +64,13 @@ class History extends AbstractWorkflowStep
     public static function addPageToHistory(?string $pageTitle = null, ?string $defaultTitle = null): void
     {
         // Get current history
-        $currentHistory = session()->get('alfred.history');
+        $currentHistory = Session::get('alfred.history');
 
         // Get page title by URL?
         if (!$pageTitle || $pageTitle === $defaultTitle) {
             // Base the title on the URL path
             $titleParts = [];
-            foreach (explode('/', request()->path()) as $urlPart) {
+            foreach (explode('/', Request::path()) as $urlPart) {
                 if ($urlPart) {
                     $titleParts[] = ucfirst(str_replace('-', ' ', $urlPart));
                 }
@@ -88,8 +87,8 @@ class History extends AbstractWorkflowStep
         // Add it!
         $currentHistory[$pageTitle] = [
             'name' => $pageTitle,
-            'info' => 'Seen: ' . now()->format('M j, Y @ g:i A'),
-            'url' => request()->fullUrl(),
+            'info' => 'Seen: ' . Carbon::now()->format('M j, Y @ g:i A'),
+            'url' => Request::fullUrl(),
         ];
 
         // Do we have more than the max results available?
@@ -98,6 +97,6 @@ class History extends AbstractWorkflowStep
             $currentHistory = array_slice($currentHistory, $totalHistory - static::MAX_HISTORY_RESULTS, null, true);
         }
 
-        session()->put('alfred.history', $currentHistory);
+        Session::put('alfred.history', $currentHistory);
     }
 }
