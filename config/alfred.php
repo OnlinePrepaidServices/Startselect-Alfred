@@ -37,6 +37,13 @@ return [
         // Note: either needs to be inputs containing that class or a container with a label and form input.
         'focusableFieldsClasses' => [],
 
+        // Alfred's helper settings
+        'displayHelper' => true,
+        'helperMessages' => [
+            'Can I help you?',
+            'What is on your mind?',
+        ],
+
         // Alfred's tips settings
         'displayTips' => true,
 
@@ -58,6 +65,7 @@ return [
         // Alfred's timeouts in seconds
         'timeouts' => [
             'action' => 1.2,
+            'helper' => 5,
             'messages' => 2.2,
         ],
     ],

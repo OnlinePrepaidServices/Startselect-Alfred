@@ -13,6 +13,17 @@ export default {
     },
 
     computed: {
+        helperMessage() {
+            if (this.helper.messages.length) {
+                setTimeout(() => {
+                    this.helperMessage();
+                }, this.helper.timeout);
+
+                return this.helper.messages[Math.floor(Math.random() * this.helper.messages.length)];
+            }
+
+            return '';
+        },
         isMacOs() {
             let agent = window.navigator.userAgent || '';
 
@@ -50,6 +61,15 @@ export default {
                 title: '',
                 triggered: null,
                 visible: false,
+            },
+            helper: {
+                messages: [
+                    'Can I help you?',
+                    'What can I do for you?',
+                    'What are you searching for?',
+                ],
+                timeout: 5000,
+                visible: true,
             },
             items: {
                 title: '',
@@ -212,18 +232,16 @@ export default {
 
         // Initiate settings
         this.action.timeout = this.getSetting(settingsMap.TIMEOUT_ACTION, 1.2) * 1000; // Seconds to milliseconds
+        this.helper.timeout = this.getSetting(settingsMap.TIMEOUT_HELPER, 5) * 1000; // Seconds to milliseconds
+        this.helper.visible = this.getSetting(settingsMap.DISPLAY_HELPER, true);
         this.messages.timeout = this.getSetting(settingsMap.TIMEOUT_MESSAGES, 2.2) * 1000; // Seconds to milliseconds
 
-        /**
-         * Listen to global Alfred workflow step triggers.
-         */
+        // Listen to global Alfred workflow step triggers
         this.$root.$alfred.listener.$on(`alfredTriggerWorkflowStep`, (workflowStep) => {
             this.handleGlobalWorkflowStepTrigger(workflowStep);
         });
 
-        /**
-         * Listen to global Alfred warned workflow step triggers.
-         */
+        // Listen to global Alfred warned workflow step triggers
         this.$root.$alfred.listener.$on(`alfredTriggerWarnedWorkflowStep`, (workflowStep) => {
             Swal.fire({
                 title: 'Are you sure you want to do this?',
@@ -2142,6 +2160,12 @@ export default {
 </script>
 
 <template>
+    <div class="alfred-helper" v-if="helper.visible">
+        <div class="alfred-helper__popup" v-text="helperMessage"></div>
+        <div class="alfred-helper__icon">
+            <font-awesome-icon :icon="['fas', 'headset']" />
+        </div>
+    </div>
     <div class="alfred" v-if="alfred.visible">
         <div class="alfred__header" v-if="alfred.title">
             <span>{{ alfred.title }}</span>
@@ -2300,6 +2324,46 @@ export default {
 </template>
 
 <style>
+.alfred-helper {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 999;
+    cursor: pointer;
+    user-select: none;
+}
+.alfred-helper__popup {
+    background: white;
+    border-radius: 20px;
+    padding: 10px 16px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-size: 16px;
+    animation: alfredHelperPopIn 0.4s ease forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+.alfred-helper__icon {
+    background-color: #0078D4;
+    color: white;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+@keyframes alfredHelperPopIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 .alfred {
     position: fixed;
     left: 0;

@@ -1,9 +1,12 @@
 export default {
     FOCUSABLE_FIELDS_CLASSES: 'focusableFieldsClasses',
+    DISPLAY_HELPER: 'displayHelper',
     DISPLAY_TIPS: 'displayTips',
+    HELPER_MESSAGES: 'helperMessages',
     REMEMBER_POPULAR_ITEMS: 'rememberPopularItems',
     MAX_POPULAR_ITEMS_ON_INIT: 'maxPopularItemsOnInit',
     TIMEOUT_ACTION: 'timeouts.action',
+    TIMEOUT_HELPER: 'timeouts.helper',
     TIMEOUT_MESSAGES: 'timeouts.messages',
     TITLE_ITEMS_EMPTY: 'defaultValues.titleItemsEmpty',
     TITLE_ITEMS_FALLBACK: 'defaultValues.titleItemsFallback',
