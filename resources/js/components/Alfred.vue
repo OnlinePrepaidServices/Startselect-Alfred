@@ -2173,12 +2173,6 @@ export default {
 </script>
 
 <template>
-    <div class="alfred-helper" v-if="helper.visible" @click.prevent="openAlfred()">
-        <div class="alfred-helper__popup" v-text="helper.message"></div>
-        <div class="alfred-helper__icon">
-            <font-awesome-icon :icon="['fas', 'headset']" />
-        </div>
-    </div>
     <div class="alfred" v-if="alfred.visible">
         <div class="alfred__header" v-if="alfred.title">
             <span>{{ alfred.title }}</span>
@@ -2332,6 +2326,12 @@ export default {
                 <span class="alfred__footer__button" v-else>ctrl</span>
                 <span class="alfred__footer__button">,</span>
             </div>
+        </div>
+    </div>
+    <div class="alfred-helper" v-if="helper.visible" @click.prevent="openAlfred()">
+        <div class="alfred-helper__popup" v-text="helper.message"></div>
+        <div class="alfred-helper__icon">
+            <font-awesome-icon :icon="['fas', 'headset']" />
         </div>
     </div>
 </template>
