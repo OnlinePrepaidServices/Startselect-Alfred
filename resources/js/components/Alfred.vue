@@ -2173,165 +2173,167 @@ export default {
 </script>
 
 <template>
-    <div class="alfred" v-if="alfred.visible">
-        <div class="alfred__header" v-if="alfred.title">
-            <span>{{ alfred.title }}</span>
-            <span @click="displayHelp()" v-if="alfred.help">
-                <font-awesome-icon :icon="['fas', 'circle-question']" />
-            </span>
-        </div>
-        <div class="alfred__container">
-            <div class="alfred__search">
-                <div v-if="action.active && action.extendedPhrase">
-                    <textarea name="phrase" ref="phraseInput" v-model="alfred.phrase" :placeholder="alfred.placeholder"></textarea>
-                    <div class="alfred__search__extended">
-                        <span class="alfred__loader alfred__search__extended__loader" v-show="alfred.loading"></span>
-                        <button @click="triggerAction($event)">
-                            <font-awesome-icon :icon="['fas', 'check']" />
-                        </button>
+    <div>
+        <div class="alfred" v-if="alfred.visible">
+            <div class="alfred__header" v-if="alfred.title">
+                <span>{{ alfred.title }}</span>
+                <span @click="displayHelp()" v-if="alfred.help">
+                    <font-awesome-icon :icon="['fas', 'circle-question']" />
+                </span>
+            </div>
+            <div class="alfred__container">
+                <div class="alfred__search">
+                    <div v-if="action.active && action.extendedPhrase">
+                        <textarea name="phrase" ref="phraseInput" v-model="alfred.phrase" :placeholder="alfred.placeholder"></textarea>
+                        <div class="alfred__search__extended">
+                            <span class="alfred__loader alfred__search__extended__loader" v-show="alfred.loading"></span>
+                            <button @click="triggerAction($event)">
+                                <font-awesome-icon :icon="['fas', 'check']" />
+                            </button>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <input type="text" name="phrase" value="" ref="phraseInput" v-model="alfred.phrase" :placeholder="alfred.placeholder" autocomplete="off" autocapitalize="off" spellcheck="false">
+                        <span class="alfred__loader alfred__search__loader" v-show="alfred.loading"></span>
                     </div>
                 </div>
-                <div v-else>
-                    <input type="text" name="phrase" value="" ref="phraseInput" v-model="alfred.phrase" :placeholder="alfred.placeholder" autocomplete="off" autocapitalize="off" spellcheck="false">
-                    <span class="alfred__loader alfred__search__loader" v-show="alfred.loading"></span>
+                <div class="alfred__messages">
+                    <ul v-show="messages.current.length">
+                        <li :class="message.type === 'success' ? 'alfred__message--success' : 'alfred__message--error'" v-for="message in messages.current" v-html="message.text"></li>
+                    </ul>
+                </div>
+                <div class="alfred__tips" v-show="tips.current.length && !getPhrase()">
+                    <span class="alfred__tips__title">{{ tips.title }}</span>
+                    <ul>
+                        <li v-for="tip in tips.current">
+                            <span class="alfred__tip__icon">
+                                <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+                            </span>
+                            <span class="alfred__tip__name" v-html="tip"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="alfred__items">
+                    <span class="alfred__items__title" v-show="items.title">{{ items.title }}</span>
+                    <ul ref="items" v-show="items.filtered.length">
+                        <li :class="item.focus ? 'alfred__item--focus' : ''" v-for="item in items.filtered" @click="triggerItem(item, $event)" @click.middle="triggerItem(item, $event)">
+                            <span class="alfred__item__icon" v-if="item.icon">
+                                <font-awesome-icon :icon="['fas', item.icon]" />
+                            </span>
+                            <div class="alfred__item__content">
+                                <span class="alfred__item__name">
+                                    <span v-html="item.name"></span>
+                                    <span class="alfred__item__usage" :title="'Used ' + item.usage + ' times'" v-if="item.usage > 0">
+                                        <font-awesome-icon :icon="['fas', 'star']" /> {{ item.usage }}
+                                    </span>
+                                    <font-awesome-icon :icon="['fas', 'circle-exclamation']" v-if="item.warn" />
+                                </span>
+                                <span class="alfred__item__info" v-html="item.info"></span>
+                            </div>
+                            <div class="alfred__item__details" v-if="item.type !== 'FallbackItem' && (item.shortcut || item.prefix || item.type === 'StatusItem' || item.type === 'ImageItem')">
+                                <span v-if="item.type === 'ImageItem'">
+                                    <span class="alfred__item__details__image">
+                                        <img :src="item.image" alt="">
+                                    </span>
+                                </span>
+                                <span v-if="item.type === 'StatusItem'">
+                                    <span class="alfred__item__details__status" :style="{ color: item.color }">{{ item.status }}</span>
+                                </span>
+                                <ul v-if="item.shortcut">
+                                    <li v-for="button in item.shortcut">
+                                        {{ button === 'ctrl' && isMacOs ? '&#8984;' : button }}
+                                    </li>
+                                </ul>
+                                <span class="alfred__item__prefix" v-if="item.prefix || null">
+                                    [{{ item.prefix }}]
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="alfred__messages">
-                <ul v-show="messages.current.length">
-                    <li :class="message.type === 'success' ? 'alfred__message--success' : 'alfred__message--error'" v-for="message in messages.current" v-html="message.text"></li>
-                </ul>
-            </div>
-            <div class="alfred__tips" v-show="tips.current.length && !getPhrase()">
-                <span class="alfred__tips__title">{{ tips.title }}</span>
-                <ul>
-                    <li v-for="tip in tips.current">
-                        <span class="alfred__tip__icon">
-                            <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
-                        </span>
-                        <span class="alfred__tip__name" v-html="tip"></span>
-                    </li>
-                </ul>
-            </div>
-            <div class="alfred__items">
-                <span class="alfred__items__title" v-show="items.title">{{ items.title }}</span>
-                <ul ref="items" v-show="items.filtered.length">
-                    <li :class="item.focus ? 'alfred__item--focus' : ''" v-for="item in items.filtered" @click="triggerItem(item, $event)" @click.middle="triggerItem(item, $event)">
-                        <span class="alfred__item__icon" v-if="item.icon">
-                            <font-awesome-icon :icon="['fas', item.icon]" />
-                        </span>
-                        <div class="alfred__item__content">
-                            <span class="alfred__item__name">
-                                <span v-html="item.name"></span>
-                                <span class="alfred__item__usage" :title="'Used ' + item.usage + ' times'" v-if="item.usage > 0">
-                                    <font-awesome-icon :icon="['fas', 'star']" /> {{ item.usage }}
-                                </span>
-                                <font-awesome-icon :icon="['fas', 'circle-exclamation']" v-if="item.warn" />
-                            </span>
-                            <span class="alfred__item__info" v-html="item.info"></span>
-                        </div>
-                        <div class="alfred__item__details" v-if="item.type !== 'FallbackItem' && (item.shortcut || item.prefix || item.type === 'StatusItem' || item.type === 'ImageItem')">
-                            <span v-if="item.type === 'ImageItem'">
-                                <span class="alfred__item__details__image">
-                                    <img :src="item.image" alt="">
-                                </span>
-                            </span>
-                            <span v-if="item.type === 'StatusItem'">
-                                <span class="alfred__item__details__status" :style="{ color: item.color }">{{ item.status }}</span>
-                            </span>
-                            <ul v-if="item.shortcut">
-                                <li v-for="button in item.shortcut">
-                                    {{ button === 'ctrl' && isMacOs ? '&#8984;' : button }}
-                                </li>
-                            </ul>
-                            <span class="alfred__item__prefix" v-if="item.prefix || null">
-                                [{{ item.prefix }}]
-                            </span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="alfred__settings" ref="itemSettings" v-if="itemSettings.visible">
-            <div class="alfred__header">
-                {{ itemSettings.current.name }}
-            </div>
-            <div class="alfred__items">
-                <ul>
-                    <li @click="itemSettings.recording = !itemSettings.recording">
-                        <span class="alfred__item__icon">
-                            <font-awesome-icon :icon="['fas', 'stop']" v-if="itemSettings.recording" />
-                            <font-awesome-icon :icon="['fas', 'play']" v-else />
-                        </span>
-                        <div class="alfred__item__content">
-                            <span class="alfred__item__name">
-                                <span>Shortcut</span>
-                            </span>
-                            <span class="alfred__item__info">
-                                Record a shortcut for this item.
-                            </span>
-                        </div>
-                        <div class="alfred__item__details">
-                            <ul v-if="itemSettings.current.shortcut">
-                                <li v-for="button in itemSettings.current.shortcut">
-                                    {{ button === 'ctrl' && isMacOs ? '&#8984;' : button }}
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="alfred__footer" v-if="itemSettings.recording">
-                <div class="alfred__footer__section">
-                    <span>Stop recording</span>
-                    <span class="alfred__footer__button">enter</span>
+            <div class="alfred__settings" ref="itemSettings" v-if="itemSettings.visible">
+                <div class="alfred__header">
+                    {{ itemSettings.current.name }}
                 </div>
+                <div class="alfred__items">
+                    <ul>
+                        <li @click="itemSettings.recording = !itemSettings.recording">
+                            <span class="alfred__item__icon">
+                                <font-awesome-icon :icon="['fas', 'stop']" v-if="itemSettings.recording" />
+                                <font-awesome-icon :icon="['fas', 'play']" v-else />
+                            </span>
+                            <div class="alfred__item__content">
+                                <span class="alfred__item__name">
+                                    <span>Shortcut</span>
+                                </span>
+                                <span class="alfred__item__info">
+                                    Record a shortcut for this item.
+                                </span>
+                            </div>
+                            <div class="alfred__item__details">
+                                <ul v-if="itemSettings.current.shortcut">
+                                    <li v-for="button in itemSettings.current.shortcut">
+                                        {{ button === 'ctrl' && isMacOs ? '&#8984;' : button }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="alfred__footer" v-if="itemSettings.recording">
+                    <div class="alfred__footer__section">
+                        <span>Stop recording</span>
+                        <span class="alfred__footer__button">enter</span>
+                    </div>
+                    <div class="alfred__footer__section">
+                        <span>Remove shortcut</span>
+                        <span class="alfred__footer__button">esc</span>
+                    </div>
+                </div>
+                <div class="alfred__footer" v-else>
+                    <div class="alfred__footer__section">
+                        <span>Record</span>
+                        <span class="alfred__footer__button">enter</span>
+                    </div>
+                    <div class="alfred__footer__section">
+                        <span>Close</span>
+                        <span class="alfred__footer__button">esc</span>
+                    </div>
+                </div>
+            </div>
+            <div class="alfred__footer" v-if="alfred.footer">
                 <div class="alfred__footer__section">
-                    <span>Remove shortcut</span>
-                    <span class="alfred__footer__button">esc</span>
+                    <span>{{ alfred.footer }}</span>
                 </div>
             </div>
             <div class="alfred__footer" v-else>
                 <div class="alfred__footer__section">
-                    <span>Record</span>
+                    <span>Navigate</span>
+                    <span><font-awesome-icon :icon="['fas', 'arrow-up']" /></span>
+                    <span><font-awesome-icon :icon="['fas', 'arrow-down']" /></span>
+                </div>
+                <div class="alfred__footer__section">
+                    <span>Select</span>
                     <span class="alfred__footer__button">enter</span>
                 </div>
                 <div class="alfred__footer__section">
-                    <span>Close</span>
-                    <span class="alfred__footer__button">esc</span>
+                    <span>Autocomplete</span>
+                    <span class="alfred__footer__button">tab</span>
+                </div>
+                <div class="alfred__footer__section" v-if="!items.saved.length">
+                    <span>Settings</span>
+                    <span class="alfred__footer__button" v-if="isMacOs">&#8984;</span>
+                    <span class="alfred__footer__button" v-else>ctrl</span>
+                    <span class="alfred__footer__button">,</span>
                 </div>
             </div>
         </div>
-        <div class="alfred__footer" v-if="alfred.footer">
-            <div class="alfred__footer__section">
-                <span>{{ alfred.footer }}</span>
+        <div class="alfred-helper" v-if="helper.visible" @click.prevent="openAlfred()">
+            <div class="alfred-helper__popup" v-text="helper.message"></div>
+            <div class="alfred-helper__icon">
+                <font-awesome-icon :icon="['fas', 'headset']" />
             </div>
-        </div>
-        <div class="alfred__footer" v-else>
-            <div class="alfred__footer__section">
-                <span>Navigate</span>
-                <span><font-awesome-icon :icon="['fas', 'arrow-up']" /></span>
-                <span><font-awesome-icon :icon="['fas', 'arrow-down']" /></span>
-            </div>
-            <div class="alfred__footer__section">
-                <span>Select</span>
-                <span class="alfred__footer__button">enter</span>
-            </div>
-            <div class="alfred__footer__section">
-                <span>Autocomplete</span>
-                <span class="alfred__footer__button">tab</span>
-            </div>
-            <div class="alfred__footer__section" v-if="!items.saved.length">
-                <span>Settings</span>
-                <span class="alfred__footer__button" v-if="isMacOs">&#8984;</span>
-                <span class="alfred__footer__button" v-else>ctrl</span>
-                <span class="alfred__footer__button">,</span>
-            </div>
-        </div>
-    </div>
-    <div class="alfred-helper" v-if="helper.visible" @click.prevent="openAlfred()">
-        <div class="alfred-helper__popup" v-text="helper.message"></div>
-        <div class="alfred-helper__icon">
-            <font-awesome-icon :icon="['fas', 'headset']" />
         </div>
     </div>
 </template>
@@ -2359,7 +2361,7 @@ export default {
     transform: translateY(10px);
 }
 .alfred-helper__icon {
-    background-color: #0078D4;
+    background-color: #3975c8;
     color: white;
     border-radius: 50%;
     width: 48px;
