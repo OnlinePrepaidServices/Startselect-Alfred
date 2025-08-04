@@ -13,17 +13,6 @@ export default {
     },
 
     computed: {
-        helperMessage() {
-            if (this.helper.messages.length) {
-                setTimeout(() => {
-                    this.helperMessage();
-                }, this.helper.timeout);
-
-                return this.helper.messages[Math.floor(Math.random() * this.helper.messages.length)];
-            }
-
-            return '';
-        },
         isMacOs() {
             let agent = window.navigator.userAgent || '';
 
@@ -63,12 +52,13 @@ export default {
                 visible: false,
             },
             helper: {
+                message: '',
                 messages: [
                     'Can I help you?',
                     'What can I do for you?',
                     'What are you searching for?',
                 ],
-                timeout: 5000,
+                timeout: 6000,
                 visible: true,
             },
             items: {
@@ -232,8 +222,7 @@ export default {
 
         // Initiate settings
         this.action.timeout = this.getSetting(settingsMap.TIMEOUT_ACTION, 1.2) * 1000; // Seconds to milliseconds
-        this.helper.timeout = this.getSetting(settingsMap.TIMEOUT_HELPER, 5) * 1000; // Seconds to milliseconds
-        this.helper.visible = this.getSetting(settingsMap.DISPLAY_HELPER, true);
+        this.helper.timeout = this.getSetting(settingsMap.TIMEOUT_HELPER, 6) * 1000; // Seconds to milliseconds
         this.messages.timeout = this.getSetting(settingsMap.TIMEOUT_MESSAGES, 2.2) * 1000; // Seconds to milliseconds
 
         // Listen to global Alfred workflow step triggers
@@ -332,6 +321,14 @@ export default {
 
             // Alfred snippets from preference manager
             this.snippets.items = initiateResponse?.snippets ?? {};
+
+            // Do we need to show the helper messages?
+            this.helper.visible = this.getSetting(settingsMap.DISPLAY_HELPER, true);
+            if (this.helper.visible) {
+                this.helper.messages = this.getSetting(settingsMap.HELPER_MESSAGES, this.helper.messages);
+
+                this.handleHelperMessage();
+            }
 
             // Handle initiation response
             this.handleWorkflowStepResponse(initiateResponse);
@@ -1893,6 +1890,19 @@ export default {
         },
 
         /**
+         * Handle the helper messages.
+         */
+        handleHelperMessage() {
+            let index = 0;
+
+            setInterval(() => {
+                index = (index + 1) % this.helper.messages.length;
+
+                this.helper.message = this.helper.messages[index];
+            }, this.helper.timeout);
+        },
+
+        /**
          * Handle global (views / JS) workflow step triggers.
          *
          * @param {Object} workflowStep
@@ -2161,7 +2171,7 @@ export default {
 
 <template>
     <div class="alfred-helper" v-if="helper.visible">
-        <div class="alfred-helper__popup" v-text="helperMessage"></div>
+        <div class="alfred-helper__popup" v-text="helper.message"></div>
         <div class="alfred-helper__icon">
             <font-awesome-icon :icon="['fas', 'headset']" />
         </div>
