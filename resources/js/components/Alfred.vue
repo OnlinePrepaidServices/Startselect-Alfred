@@ -2170,7 +2170,7 @@ export default {
 </script>
 
 <template>
-    <div class="alfred-helper" v-if="helper.visible">
+    <div class="alfred-helper" v-if="helper.visible" @click="openAlfred()">
         <div class="alfred-helper__popup" v-text="helper.message"></div>
         <div class="alfred-helper__icon">
             <font-awesome-icon :icon="['fas', 'headset']" />
