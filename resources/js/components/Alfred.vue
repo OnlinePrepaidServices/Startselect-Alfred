@@ -324,10 +324,13 @@ export default {
 
             // Do we need to show the helper messages?
             this.helper.visible = this.getSetting(settingsMap.DISPLAY_HELPER, true);
-            if (this.helper.visible) {
-                this.helper.messages = this.getSetting(settingsMap.HELPER_MESSAGES, this.helper.messages);
+            this.helper.messages = this.getSetting(settingsMap.HELPER_MESSAGES, this.helper.messages);
+            if (this.helper.visible && this.helper.messages.length) {
+                this.helper.message = this.helper.messages[0];
 
                 this.handleHelperMessage();
+            } else if (!this.helper.messages.length) {
+                this.helper.visible = false;
             }
 
             // Handle initiation response
@@ -2170,7 +2173,7 @@ export default {
 </script>
 
 <template>
-    <div class="alfred-helper" v-if="helper.visible" @click="openAlfred()">
+    <div class="alfred-helper" v-if="helper.visible" @click.prevent="openAlfred()">
         <div class="alfred-helper__popup" v-text="helper.message"></div>
         <div class="alfred-helper__icon">
             <font-awesome-icon :icon="['fas', 'headset']" />
