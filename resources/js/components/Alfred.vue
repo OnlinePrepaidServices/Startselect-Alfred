@@ -342,6 +342,8 @@ export default {
         openAlfred() {
             if (!this.alfred.visible) {
                 this.alfred.visible = true;
+
+                this.closeHelper();
             }
         },
 
@@ -373,7 +375,7 @@ export default {
         },
 
         /**
-         * Show helper.
+         * Show helper to support one using Alfred.
          */
         showHelper() {
             if (!this.helper.visible && this.helper.messages.length) {
@@ -392,12 +394,17 @@ export default {
         },
 
         /**
-         * Close helper.
+         * Close helper and show Alfred.
          */
         closeHelper() {
             if (this.helper.visible) {
                 this.helper.visible = false;
-                clearInterval(this.helper.timer);
+
+                if (this.helper.timer) {
+                    clearInterval(this.helper.timer);
+                }
+
+                this.openAlfred();
             }
         },
 
@@ -2341,7 +2348,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="alfred-helper" v-if="helper.visible" @click.prevent="openAlfred() && closeHelper()">
+        <div class="alfred-helper" v-if="helper.visible" @click="closeHelper()">
             <div class="alfred-helper__popup" v-html="helper.message"></div>
             <div class="alfred-helper__icon">
                 <font-awesome-icon :icon="['fas', 'robot']" />
