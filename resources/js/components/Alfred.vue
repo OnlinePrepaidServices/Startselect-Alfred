@@ -59,7 +59,8 @@ export default {
                     'What are you searching for?',
                 ],
                 timeout: 6000,
-                visible: true,
+                timer: null,
+                visible: false,
             },
             items: {
                 title: '',
@@ -323,14 +324,9 @@ export default {
             this.snippets.items = initiateResponse?.snippets ?? {};
 
             // Do we need to show the helper messages?
-            this.helper.visible = this.getSetting(settingsMap.DISPLAY_HELPER, true);
             this.helper.messages = this.getSetting(settingsMap.HELPER_MESSAGES, this.helper.messages);
-            if (this.helper.visible && this.helper.messages.length) {
-                this.helper.message = this.helper.messages[0];
-
-                this.handleHelperMessage();
-            } else if (!this.helper.messages.length) {
-                this.helper.visible = false;
+            if (this.helper.messages.length && this.getSetting(settingsMap.DISPLAY_HELPER, true)) {
+                this.showHelper();
             }
 
             // Handle initiation response
@@ -374,6 +370,35 @@ export default {
             // Close Alfred and re-filter so everything is reset
             this.closeAlfred();
             this.filterItems();
+        },
+
+        /**
+         * Show helper.
+         */
+        showHelper() {
+            if (!this.helper.visible && this.helper.messages.length) {
+                // Show the first message
+                this.helper.message = this.helper.messages[0];
+                this.helper.visible = true;
+
+                let index = 0;
+
+                this.helper.timer = setInterval(() => {
+                    index = (index + 1) % this.helper.messages.length;
+
+                    this.helper.message = this.helper.messages[index];
+                }, this.helper.timeout);
+            }
+        },
+
+        /**
+         * Close helper.
+         */
+        closeHelper() {
+            if (this.helper.visible) {
+                this.helper.visible = false;
+                clearInterval(this.helper.timer);
+            }
         },
 
         /**
@@ -1893,19 +1918,6 @@ export default {
         },
 
         /**
-         * Handle the helper messages.
-         */
-        handleHelperMessage() {
-            let index = 0;
-
-            setInterval(() => {
-                index = (index + 1) % this.helper.messages.length;
-
-                this.helper.message = this.helper.messages[index];
-            }, this.helper.timeout);
-        },
-
-        /**
          * Handle global (views / JS) workflow step triggers.
          *
          * @param {Object} workflowStep
@@ -2329,10 +2341,10 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="alfred-helper" v-if="helper.visible" @click.prevent="openAlfred()">
-            <div class="alfred-helper__popup" v-text="helper.message"></div>
+        <div class="alfred-helper" v-if="helper.visible" @click.prevent="openAlfred() && closeHelper()">
+            <div class="alfred-helper__popup" v-html="helper.message"></div>
             <div class="alfred-helper__icon">
-                <font-awesome-icon :icon="['fas', 'headset']" />
+                <font-awesome-icon :icon="['fas', 'robot']" />
             </div>
         </div>
     </div>
