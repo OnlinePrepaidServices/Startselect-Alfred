@@ -52,12 +52,11 @@ export default {
                 visible: false,
             },
             helper: {
-                message: '',
-                messages: [
-                    'Can I help you?',
-                    'What can I do for you?',
-                    'What are you searching for?',
-                ],
+                current: {
+                    message: '',
+                    phrase: '',
+                },
+                messages: [],
                 timeout: 6000,
                 timer: null,
                 visible: false,
@@ -380,7 +379,8 @@ export default {
         showHelper() {
             if (!this.helper.visible && this.helper.messages.length) {
                 // Show the first message
-                this.helper.message = this.helper.messages[0];
+                this.helper.current.message = this.helper.messages[0]?.message ?? '';
+                this.helper.current.phrase = this.helper.messages[0]?.phrase ?? '';
                 this.helper.visible = true;
 
                 let index = 0;
@@ -388,7 +388,8 @@ export default {
                 this.helper.timer = setInterval(() => {
                     index = (index + 1) % this.helper.messages.length;
 
-                    this.helper.message = this.helper.messages[index];
+                    this.helper.current.message = this.helper.messages[index]?.message ?? '';
+                    this.helper.current.phrase = this.helper.messages[index]?.phrase ?? '';
                 }, this.helper.timeout);
             }
         },
@@ -398,10 +399,20 @@ export default {
          */
         closeHelper() {
             if (this.helper.visible) {
+                // Reset helper
                 this.helper.visible = false;
 
                 if (this.helper.timer) {
                     clearInterval(this.helper.timer);
+                }
+
+                // Show typing effect of phrase
+                if (this.helper.current.phrase) {
+                    for (let index = 1; index < this.helper.current.phrase.length; index++) {
+                        setTimeout(() => {
+                            this.alfred.phrase += this.helper.current.phrase[index] || '';
+                        }, 50);
+                    }
                 }
 
                 this.openAlfred();
@@ -2349,7 +2360,7 @@ export default {
             </div>
         </div>
         <div class="alfred-helper" v-if="helper.visible" @click="closeHelper()">
-            <div class="alfred-helper__popup" v-html="helper.message"></div>
+            <div class="alfred-helper__popup" v-html="helper.current.message"></div>
             <div class="alfred-helper__icon">
                 <font-awesome-icon :icon="['fas', 'wand-sparkles']" />
             </div>

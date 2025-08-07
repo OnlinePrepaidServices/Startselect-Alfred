@@ -40,8 +40,14 @@ return [
         // Alfred's helper settings
         'displayHelper' => true,
         'helperMessages' => [
-            'Can I help you?',
-            'What is on your mind?',
+            [
+                'message' => 'Want to quickly <strong>create</strong> something new? Try <strong>new [your thought]</strong>.',
+                'phrase' => 'new ',
+            ],
+            [
+                'message' => 'Want to see an <strong>overview</strong> page? Try <strong>index [your thought]</strong>.',
+                'phrase' => 'index ',
+            ],
         ],
 
         // Alfred's tips settings
