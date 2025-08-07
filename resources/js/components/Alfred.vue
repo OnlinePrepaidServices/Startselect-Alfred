@@ -57,6 +57,7 @@ export default {
                     phrase: '',
                 },
                 messages: [],
+                style: 'default',
                 timeout: 6000,
                 timer: null,
                 visible: false,
@@ -323,6 +324,7 @@ export default {
             this.snippets.items = initiateResponse?.snippets ?? {};
 
             // Do we need to show the helper messages?
+            this.helper.style = this.getSetting(settingsMap.HELPER_STYLE, 'default');
             this.helper.messages = this.getSetting(settingsMap.HELPER_MESSAGES, this.helper.messages);
             if (this.helper.messages.length && this.getSetting(settingsMap.DISPLAY_HELPER, true)) {
                 this.showHelper();
@@ -378,15 +380,17 @@ export default {
          */
         showHelper() {
             if (!this.helper.visible && this.helper.messages.length) {
+                let index = helper.style === 'random' ? Math.floor(Math.random() * this.helper.messages.length) : 0;
+
                 // Show the first message
-                this.helper.current.message = this.helper.messages[0]?.message ?? '';
-                this.helper.current.phrase = this.helper.messages[0]?.phrase ?? '';
+                this.helper.current.message = this.helper.messages[index]?.message ?? '';
+                this.helper.current.phrase = this.helper.messages[index]?.phrase ?? '';
                 this.helper.visible = true;
 
-                let index = 0;
-
                 this.helper.timer = setInterval(() => {
-                    index = (index + 1) % this.helper.messages.length;
+                    index = helper.style == 'random'
+                        ? Math.floor(Math.random() * this.helper.messages.length)
+                        : (index + 1) % this.helper.messages.length;
 
                     this.helper.current.message = this.helper.messages[index]?.message ?? '';
                     this.helper.current.phrase = this.helper.messages[index]?.phrase ?? '';
