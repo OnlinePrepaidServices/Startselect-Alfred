@@ -2364,7 +2364,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="alfred-helper" v-if="helper.visible" @click="closeHelper()">
+        <div class="alfred-helper" v-if="helper.visible" @click.stop.prevent="closeHelper()">
             <div class="alfred-helper__popup" v-html="helper.current.message"></div>
             <div class="alfred-helper__icon">
                 <font-awesome-icon :icon="['fas', 'wand-sparkles']" />
