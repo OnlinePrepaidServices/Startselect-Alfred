@@ -406,16 +406,21 @@ export default {
                     clearInterval(this.helper.timer);
                 }
 
+                this.openAlfred();
+
                 // Show typing effect of phrase
                 if (this.helper.current.phrase) {
-                    for (let index = 1; index < this.helper.current.phrase.length; index++) {
-                        setTimeout(() => {
-                            this.alfred.phrase += this.helper.current.phrase[index] || '';
-                        }, 50);
-                    }
-                }
+                    let index = 0;
 
-                this.openAlfred();
+                    this.helper.timer = setInterval(() => {
+                        if (index < this.helper.current.phrase.length) {
+                            this.alfred.phrase += this.helper.current.phrase[index];
+                            index++;
+                        } else {
+                            clearInterval(this.helper.timer);
+                        }
+                    }, 50);
+                }
             }
         },
 
