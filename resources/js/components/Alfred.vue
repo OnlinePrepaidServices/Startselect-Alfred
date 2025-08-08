@@ -400,8 +400,10 @@ export default {
 
         /**
          * Close helper and show Alfred.
+         *
+         * @param {boolean} [helperClicked=false]
          */
-        closeHelper() {
+        closeHelper(helperClicked = false) {
             if (this.helper.visible) {
                 // Reset helper
                 this.helper.visible = false;
@@ -411,6 +413,11 @@ export default {
                 }
 
                 this.openAlfred();
+
+                // If we didn't click the helper, we're done!
+                if (!helperClicked) {
+                    return;
+                }
 
                 // Show typing effect of phrase
                 if (this.helper.current.phrase) {
@@ -2368,7 +2375,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="alfred-helper" v-if="helper.visible" @click.stop.prevent="closeHelper()">
+        <div class="alfred-helper" v-if="helper.visible" @click.stop.prevent="closeHelper(true)">
             <div class="alfred-helper__popup" v-html="helper.current.message"></div>
             <div class="alfred-helper__icon">
                 <font-awesome-icon :icon="['fas', 'wand-sparkles']" />
