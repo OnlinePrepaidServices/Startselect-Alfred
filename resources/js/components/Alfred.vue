@@ -380,7 +380,7 @@ export default {
          */
         showHelper() {
             if (!this.helper.visible && this.helper.messages.length) {
-                let index = helper.style === 'random' ? Math.floor(Math.random() * this.helper.messages.length) : 0;
+                let index = this.helper.style === 'random' ? Math.floor(Math.random() * this.helper.messages.length) : 0;
 
                 // Show the first message
                 this.helper.current.message = this.helper.messages[index]?.message ?? '';
@@ -388,7 +388,7 @@ export default {
                 this.helper.visible = true;
 
                 this.helper.timer = setInterval(() => {
-                    index = helper.style == 'random'
+                    index = this.helper.style == 'random'
                         ? Math.floor(Math.random() * this.helper.messages.length)
                         : (index + 1) % this.helper.messages.length;
 
