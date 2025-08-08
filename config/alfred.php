@@ -39,6 +39,7 @@ return [
 
         // Alfred's helper settings
         'displayHelper' => true,
+        'helperStyle' => 'default', // 'default' or 'random'
         'helperMessages' => [
             [
                 'message' => 'Want to quickly <strong>create</strong> something new? Try <strong>new [your thought]</strong>.',

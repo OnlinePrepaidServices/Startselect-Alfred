@@ -28,6 +28,15 @@ class ManageSettings extends AbstractWorkflowStep
             'info' => 'Shows a list of tips, when available, above the items in Alfred.',
             'type' => 'boolean',
         ],
+        'helperStyle' => [
+            'name' => 'Helper style',
+            'info' => 'The way the helper rotates in the available messages.',
+            'type' => 'array',
+            'options' => [
+                'default',
+                'random',
+            ],
+        ],
         'rememberPopularItems' => [
             'name' => 'Remember popular items',
             'info' => 'Keep track of which items you use most and show them when opening Alfred.',
@@ -174,6 +183,34 @@ class ManageSettings extends AbstractWorkflowStep
 
         foreach (static::MANAGEABLE_SETTINGS as $key => $manageableSetting) {
             match ($manageableSetting['type']) {
+                'array' => $itemSet->addItem(
+                    (new StatusItem())
+                        ->name($manageableSetting['name'])
+                        ->info($manageableSetting['info'])
+                        ->status($settings[$key] ?? $defaultSettings[$key])
+                        ->color('#22292f')
+                        ->trigger(
+                            (new ItemSet())
+                                ->title($manageableSetting['name'])
+                                ->placeholder('Filter by options..')
+                                ->addItems(
+                                    array_map(
+                                        fn($option) => (new Item())
+                                            ->name($option)
+                                            ->trigger(
+                                                (new WorkflowStep())
+                                                    ->class(static::class)
+                                                    ->method(static::METHOD_TOGGLE_VALUE)
+                                                    ->data([
+                                                        'key' => $key,
+                                                        'value' => $option,
+                                                    ])
+                                            ),
+                                        $manageableSetting['options']
+                                    )
+                                )
+                        )
+                ),
                 'boolean' => $itemSet->addItem(
                     (new StatusItem())
                         ->name($manageableSetting['name'])
