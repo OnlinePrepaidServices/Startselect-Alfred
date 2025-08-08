@@ -16,6 +16,7 @@ class ManageSettings extends AbstractWorkflowStep
 {
     protected const METHOD_CHANGE_VALUE = 'changeValue';
     protected const METHOD_SAVE_VALUE = 'saveValue';
+    protected const METHOD_SAVE_CHOICE_VALUE = 'saveChoiceValue';
     protected const METHOD_TOGGLE_VALUE = 'toggleValue';
     protected const MANAGEABLE_SETTINGS = [
         'displayHelper' => [
@@ -59,6 +60,10 @@ class ManageSettings extends AbstractWorkflowStep
         ],
         self::METHOD_SAVE_VALUE => [
             'key' => 'Missing setting key.',
+        ],
+        self::METHOD_SAVE_CHOICE_VALUE => [
+            'key' => 'Missing setting key.',
+            'value' => 'Missing setting value.',
         ],
         self::METHOD_TOGGLE_VALUE => [
             'key' => 'Missing setting key.',
@@ -155,6 +160,26 @@ class ManageSettings extends AbstractWorkflowStep
             ->trigger(PreparationFactory::reloadState(2));
     }
 
+    public function saveChoiceValue(): Response
+    {
+        // Did we get the necessary data?
+        if (!$this->isRequiredDataPresent(static::METHOD_SAVE_CHOICE_VALUE)) {
+            return $this->failure();
+        }
+
+        // Save the setting
+        $preference = $this->preferenceManager->settings();
+        $preference->setData($this->getRequiredData('key'), $this->getRequiredData('value'));
+        if (!$this->preferenceManager->save($preference)) {
+            return $this->failure('Could not save the setting.');
+        }
+
+        return $this->getResponse()
+            ->notification('Alfred settings saved successfully.')
+            ->trigger(PreparationFactory::reloadState(2));
+
+    }
+
     public function toggleValue(): Response
     {
         // Did we get the necessary data?
@@ -200,7 +225,7 @@ class ManageSettings extends AbstractWorkflowStep
                                             ->trigger(
                                                 (new WorkflowStep())
                                                     ->class(static::class)
-                                                    ->method(static::METHOD_TOGGLE_VALUE)
+                                                    ->method(static::METHOD_SAVE_CHOICE_VALUE)
                                                     ->data([
                                                         'key' => $key,
                                                         'value' => $option,
